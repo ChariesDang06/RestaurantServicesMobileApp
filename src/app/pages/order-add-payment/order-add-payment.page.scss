@@ -1,0 +1,119 @@
+.container {
+    background-color: var(--second-color);
+    // width: 100%;
+    // height: 1000px;
+    margin: 1rem;
+    border-radius: .5rem;
+    padding: 1rem;
+
+}
+
+.back-button {
+
+    color: var(--white-primary);
+    font-size: 20px;
+    justify-content: start;
+    text-transform: initial;
+
+    ion-icon {
+        margin-right: 1rem;
+        color: var(--white-primary);
+    }
+
+}
+
+ion-content {
+    // --background:white;
+    color: var(--white-primary);
+}
+
+hr {
+    border-top: 1px solid var(--green-primary);
+}
+
+input {
+    width: 100%;
+    background-color: var(--third-color);
+    caret-color: var(--green-primary);
+    color: var(--white-primary);
+
+    font-size: 14px;
+    padding: 1rem;
+    border-radius: .5rem;
+    border: none;
+    margin-bottom: 1rem;
+
+
+}
+
+input:focus {
+    outline: none;
+}
+
+input::placeholder {
+    color: var(--sub-color);
+}
+
+.input-with-icon {
+    background-color: var(--third-color);
+    padding: 0 1rem;
+    border-radius: .5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    ion-icon {
+        font-size: 2rem;
+        color: var(--green-primary);
+    }
+
+    input {
+        margin: 0;
+    }
+
+}
+
+.row-container {
+    display: flex;
+    flex-direction: row;
+
+    h2 {
+        font-size: 12px;
+    }
+
+}
+
+.date-input {
+    margin-right: 2rem;
+}
+
+.submit-button {
+    position: absolute;
+    bottom: 0%;
+    --background: var(--green-primary);
+    height: 2.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem 0 1rem;
+}
+
+.safe-text {
+    margin-top: 1rem;
+    font-size: 10px;
+    color: var(--white-primary);
+
+    ion-icon {
+        color: var(--green-primary);
+        padding-right: .5rem;
+    }
+}
+
+.sub-save-text {
+    font-size: 10px;
+
+    a {
+        color: var(--green-primary);
+    }
+}

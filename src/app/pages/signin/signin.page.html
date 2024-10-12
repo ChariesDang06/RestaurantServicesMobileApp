@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <app-navbar></app-navbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="background-image">
+  <div class="title-container">
+    <ion-label class="title">Đăng ký</ion-label>
+  </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col class="form">
+        <form [formGroup]="signInForm">
+          <ion-label>Tên người dùng</ion-label>
+          <ion-item>
+            <ion-input
+              [clearInput]="true"
+              formControlName="userName"
+              type="text"
+            >
+            </ion-input>
+          </ion-item>
+
+          <ion-label>Mật khẩu</ion-label>
+          <ion-item>
+            <ion-input type="password" formControlName="password"> </ion-input>
+          </ion-item>
+
+          <ion-label>Nhập lại mật khẩu</ion-label>
+          <ion-item>
+            <ion-input type="password" formControlName="passwordRecheck">
+            </ion-input>
+          </ion-item>
+
+          <ion-label>Số điện thoại</ion-label>
+          <ion-item>
+            <ion-input type="text" formControlName="phone"> </ion-input>
+          </ion-item>
+
+          <ion-label>Email</ion-label>
+          <ion-item>
+            <ion-input type="text" formControlName="email"> </ion-input>
+          </ion-item>
+
+          <ion-label>Địa chỉ</ion-label>
+          <ion-item>
+            <ion-input type="text" formControlName="address"> </ion-input>
+          </ion-item>
+          <ion-button expand="block">Đăng ký</ion-button>
+        </form>
+
+        <ion-label style="display: block; text-align: center"
+          >Đã có tài khoản? <span>Đăng nhập</span></ion-label
+        >
+        <ion-label style="display: block; text-align: center"
+          ><span>-----</span>Hoặc tiếp tục với<span>-----</span></ion-label
+        >
+        <div class="fastLogIn">
+          <div class="login-option">
+            <ion-img
+              src="https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/logo%2Fgoogle%20logo.png?alt=media&token=b412d3ed-560e-4c1d-aa18-fe7eb0a74814"
+              style="width: 35px"
+            ></ion-img>
+            <ion-label>Google</ion-label>
+          </div>
+          <div class="login-option">
+            <ion-img
+              src="https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/logo%2Ffb%20logo.png?alt=media&token=9067fb74-6fff-4dfb-a33a-d77a86b4bfad"
+              style="width: 30px"
+            ></ion-img>
+            <ion-label>Facebook</ion-label>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

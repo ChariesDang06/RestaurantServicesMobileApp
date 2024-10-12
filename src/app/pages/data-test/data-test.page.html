@@ -1,0 +1,35 @@
+<!-- src/app/restaurant-test/restaurant-test.component.html -->
+
+<div>
+  <h1>Restaurant Test</h1>
+
+  <h2>All Restaurants</h2>
+  <ul>
+    <li *ngFor="let restaurant of restaurants">
+      {{ restaurant.address }} ({{ restaurant.phone }}) {{ restaurant.mapHTML }}
+    </li>
+  </ul>
+
+  <h2>Get Restaurant by ID</h2>
+  <input [(ngModel)]="restaurantId" placeholder="Enter Restaurant ID" />
+  <button (click)="getRestaurantById()">Get by ID</button>
+
+  <h2>Create New Restaurant</h2>
+  <input [(ngModel)]="newRestaurant.address" placeholder="Address" />
+  <input [(ngModel)]="newRestaurant.phone" placeholder="Phone" />
+  <button (click)="createRestaurant()">Create Restaurant</button>
+
+  <h2>Update Restaurant</h2>
+  <input
+    [(ngModel)]="restaurantId"
+    placeholder="Enter Restaurant ID to Update"
+  />
+  <button (click)="updateRestaurant()">Update Restaurant</button>
+
+  <h2>Delete Restaurant</h2>
+  <input
+    [(ngModel)]="restaurantId"
+    placeholder="Enter Restaurant ID to Delete"
+  />
+  <button (click)="deleteRestaurant()">Delete Restaurant</button>
+</div>

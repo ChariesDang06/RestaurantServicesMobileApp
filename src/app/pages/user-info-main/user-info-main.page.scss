@@ -1,0 +1,209 @@
+ion-toolbar {
+    --background-color: #2B2B2B;
+}
+
+ion-content {
+    background-color: #2B2B2B;
+}
+
+.personal-content {
+    --background: #2B2B2B;
+    /* Ghi đè màu nền */
+}
+
+.personal-container {
+    text-align: center;
+}
+
+.avatar-container {
+    position: relative;
+    /* Để định vị biểu tượng máy ảnh */
+    display: inline-block;
+    /* Để avatar không bị kéo dài */
+}
+
+.avatar {
+    width: 100px;
+    border-radius: 50%;
+    margin-top: 16px;
+    border: 4px solid #14C458;
+    /* Viền xanh lá cho avatar */
+}
+
+.camera-icon {
+    position: absolute;
+    /* Để biểu tượng máy ảnh được định vị */
+    bottom: 0;
+    /* Đặt nó ở dưới cùng */
+    right: 0;
+    /* Đặt nó bên phải */
+    background-color: #616161cf;
+    /* Nền trắng cho biểu tượng máy ảnh */
+    border-radius: 50%;
+    /* Bo tròn nền */
+    padding: 4px;
+    /* Khoảng cách giữa biểu tượng và viền */
+    font-size: 24px;
+    /* Kích thước biểu tượng */
+    color: #14C458;
+    /* Màu biểu tượng */
+
+}
+
+.buttons-container ion-button {
+    display: flex;
+    /* Sử dụng flex để căn giữa */
+    justify-content: space-between;
+    /* Căn giữa nội dung */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+    padding-top: 12px;
+    /* Điều chỉnh padding để tránh căng giữa */
+    width: 100%;
+    /* Đảm bảo chiều dài của nút là 100% */
+    --activated-opacity: 1;
+    /* Đặt độ mờ về 1 để không có hiệu ứng nhấn */
+}
+
+.buttons-container ion-button:active,
+.buttons-container ion-button:focus {
+    --background: #616161;
+    /* Đặt màu nền khi nhấn */
+    --color: white;
+    /* Đặt màu chữ khi nhấn */
+    --highlighted-opacity: 0;
+    /* Đặt độ mờ của hiệu ứng nhấn về 0 để không hiển thị */
+    --border-color: transparent;
+    /* Loại bỏ màu border khi nhấn */
+    opacity: 1;
+    /* Đảm bảo không có hiệu ứng mờ */
+}
+
+.buttons-container ion-button::-webkit-focus-ring-color {
+    color: transparent;
+    /* Để ẩn màu nhấn */
+}
+
+.custom-button {
+    position: relative;
+    /* Để định vị nội dung bên trong */
+    justify-content: flex-start;
+    /* Căn trái để chữ nằm đầu */
+}
+
+.button-text {
+    margin-right: 8px;
+    /* Khoảng cách giữa chữ và biểu tượng */
+}
+
+span {
+    text-transform: none;
+}
+
+ion-icon[name="chevron-forward"] {
+    margin-left: auto;
+    /* Đẩy biểu tượng sang bên phải */
+}
+
+/* Ghi đè lớp translucent của iOS */
+.header-translucent-ios ion-toolbar {
+    --opacity: 1 !important;
+    /* Ghi đè giá trị opacity */
+    --background: #2B2B2B !important;
+    /* Ghi đè màu nền */
+    backdrop-filter: none !important;
+    /* Vô hiệu hóa backdrop-filter */
+    -webkit-backdrop-filter: none !important;
+    /* Vô hiệu hóa -webkit-backdrop-filter */
+}
+
+/* Ghi đè màu cho biểu tượng mũi tên */
+ion-icon {
+    color: #14C458;
+    /* Màu xanh lá */
+}
+
+/* Ghi đè màu nền của toolbar */
+.custom-toolbar {
+    --background: #2B2B2B;
+    /* Đổi màu nền toolbar */
+    --color: white;
+    /* Đổi màu chữ */
+    padding: 0;
+    /* Đặt padding về 0 để không làm ảnh hưởng đến chiều cao */
+    position: relative;
+    /* Để định vị phần tử con */
+}
+
+/* Thêm viền dưới cho toolbar */
+.toolbar-border {
+    height: 2px;
+    /* Chiều cao của viền */
+    width: 90%;
+    /* Chiều dài 80% */
+    background-color: #14C458;
+    /* Màu viền */
+    position: absolute;
+    /* Định vị tuyệt đối */
+    left: 50%;
+    /* Căn giữa */
+    transform: translateX(-50%);
+    /* Đưa phần tử về giữa */
+    bottom: 0;
+    /* Đặt nó ở dưới cùng của toolbar */
+}
+
+
+.personal-container {
+    text-align: center;
+}
+
+.divider {
+    border-top: 3px solid #14C458;
+    margin: 0;
+}
+
+.avatar {
+    width: 100px;
+    border-radius: 50%;
+    margin-top: 16px;
+}
+
+.text-white {
+    color: white;
+}
+
+.text-gold {
+    color: gold;
+}
+
+.buttons-container {
+    margin: 16px 0;
+}
+
+.custom-button {
+    --background: #616161;
+    /* Ghi đè màu nền */
+    --color: white;
+    /* Ghi đè màu chữ */
+    --border-radius: 5px !important;
+    /* Bo tròn góc của nút */
+    --border-color: transparent;
+    /* Gỡ bỏ border nếu cần */
+    border-radius: 5px !important;
+    /* Thêm bo tròn góc nếu cần */
+}
+
+.buttons-container ion-button {
+    --border-radius: 5px !important;
+    /* Ghi đè lại bo góc cho nút */
+}
+
+.logout-button {
+    margin-top: 10%;
+    width: 100%;
+    --background: red;
+    --color: white;
+    --border-radius: 5px !important;
+    border-radius: 5px !important;
+}

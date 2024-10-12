@@ -1,0 +1,215 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-align-items-center">
+      <!-- Cột chứa hình ảnh -->
+      <ion-col class="image-container">
+        <img
+          src="/assets/homepageimg/vec7.svg"
+          alt="Mô tả hình ảnh"
+          class="svg-image"
+        />
+        <img
+          src="/assets/homepageimg/banhmi.png"
+          alt="Mô tả hình chồng"
+          class="overlay-image"
+        />
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Phần chữ và nút -->
+  <div class="content-wrapper">
+    <div class="text-content">
+      <h1>
+        Độc lập tự do <br />
+        Ăn no gòy ngủ!
+      </h1>
+      <h4>Giòn tan, thơm lừng, ngon tuyệt!</h4>
+    </div>
+    <div class="button-container">
+      <div class="ship-icon-container">
+        <img src="/assets/homepageimg/shipicon.png" alt="Ship Icon" />
+      </div>
+      <ion-button size="large" class="action-button order-button">
+        <span>Đặt hàng</span>
+        <ion-icon
+          name="chevron-forward-outline"
+          style="background-color: #14c458"
+        ></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="button-container">
+      <div class="store-icon-container">
+        <img src="/assets/homepageimg/storeicon.png" alt="Store Icon" />
+      </div>
+      <ion-button size="large" class="action-button table-button">
+        <span>Đặt bàn</span>
+        <ion-icon
+          name="chevron-forward-outline"
+          style="background-color: #2b2b2b"
+        ></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+  <div class="qc">
+    <h5>Giảm ngay <span class="highlight">15%</span></h5>
+    <p>Cho khai vị khi đặt bàn</p>
+  </div>
+  <div class="spectial-content">
+    <h5>- NHỮNG MÓN ĂN ĐẶC BIỆT -</h5>
+    <p>
+      Mỗi món ăn tại quán chúng tôi đều được chế biến từ những nguyên liệu tươi
+      ngon nhất, mang đến hương vị tuyệt vời và ấn tượng khó quên.
+    </p>
+    <p>
+      Hương vị đẳng cấp, phục vụ chu đáo, tiện lợi vượt trội – trải nghiệm ẩm
+      thực tinh tế.
+    </p>
+  </div>
+  <div class="boder">
+    <swiper-container
+      [slidesPerView]="1"
+      [loop]="true"
+      pagination="{type:'bullet'}"
+      effect="block"
+    >
+      <swiper-slide>
+        <img src="/assets/homepageimg/slide1.png" alt="Image 1" />
+      </swiper-slide>
+      <swiper-slide>
+        <img src="/assets/homepageimg/slide1.png" alt="Image 1" />
+      </swiper-slide>
+      <swiper-slide>
+        <img src="/assets/homepageimg/slide1.png" alt="Image 1" />
+      </swiper-slide>
+      <swiper-slide>
+        <img src="/assets/homepageimg/slide1.png" alt="Image 1" />
+      </swiper-slide>
+    </swiper-container>
+  </div>
+  <div class="image-row">
+    <img
+      src="/assets/homepageimg/slide1.png"
+      alt="Image 1"
+      class="horizontal-image"
+    />
+    <img
+      src="/assets/homepageimg/slide1.png"
+      alt="Image 2"
+      class="horizontal-image"
+    />
+  </div>
+  <div class="spectial-content">
+    <h5>- NHÀ HÀNG CỦA CHÚNG TÔI -</h5>
+    <p>
+      Ánh sáng dịu nhẹ từ đèn treo cùng cách bố trí nội thất chu đáo mang đến
+      bầu không khí ấm cúng, lý tưởng cho những bữa tiệc sum họp hay những buổi
+      hẹn lãng mạn.
+    </p>
+  </div>
+  <div class="boder-sketch">
+    <swiper-container
+      [slidesPerView]="1"
+      [loop]="true"
+      pagination="{type:'bullet'}"
+      effect="block"
+    >
+      <swiper-slide>
+        <img src="/assets/homepageimg/slide1.png" alt="Image 1" />
+      </swiper-slide>
+      <swiper-slide>
+        <img src="/assets/homepageimg/slide1.png" alt="Image 1" />
+      </swiper-slide>
+      <swiper-slide>
+        <img src="/assets/homepageimg/slide1.png" alt="Image 1" />
+      </swiper-slide>
+      <swiper-slide>
+        <img src="/assets/homepageimg/slide1.png" alt="Image 1" />
+      </swiper-slide>
+    </swiper-container>
+  </div>
+  <div class="spectial-content">
+    <h5>- VỀ CHÚNG TÔI -</h5>
+  </div>
+  <div class="chefbanner">
+    <img src="/assets/homepageimg/asiachef.png" alt="Image 1" />
+  </div>
+  <div class="aboutus-content">
+    <p class="bold-text">
+      Những người đầu bếp tuyệt vời là những nghệ nhân của sự đam mê và sáng
+      tạo.
+    </p>
+    <p>
+      Tỉ mỉ trong từng khâu chuẩn bị, chọn lựa nguyên liệu tươi ngon nhất, và
+      kết hợp hương vị một cách tinh tế để tạo ra những món ăn độc đáo.
+    </p>
+
+    <!-- Đường phân cách -->
+    <div class="divider"></div>
+
+    <p class="bold-text">
+      Thương hiệu tuyệt vời khẳng định đẳng cấp qua từng chi tiết.
+    </p>
+    <p>
+      Sự sáng tạo không ngừng và chú trọng đến từng chi tiết nhỏ đã giúp thương
+      hiệu này xây dựng lòng tin và sự yêu mến từ khách hàng. Với mỗi món ăn, họ
+      không chỉ mang đến hương vị tuyệt hảo.
+    </p>
+  </div>
+
+  <div class="spectial-content">
+    <h5>- KHÁCH HÀNG CỦA CHÚNG TÔI NÓI GÌ -</h5>
+  </div>
+  <swiper-container
+    slides-per-view="1.25"
+    loop="true"
+    [keyboard]="{ enabled: true, onlyInViewport: true, pageUpDown: true }"
+    class="mySwiper"
+  >
+    <swiper-slide>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="logo-wechat" class="custom-icon"></ion-icon>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="card-content">
+          "Không gian nhà hàng thoải mái và tinh tế"
+        </ion-card-content>
+      </ion-card>
+    </swiper-slide>
+
+    <swiper-slide>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="logo-wechat" class="custom-icon"></ion-icon>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="card-content">
+          "Nhân viên phục vụ nhiệt tình, Toy rất hài lòng và sẽ ghé lại."
+        </ion-card-content>
+      </ion-card>
+    </swiper-slide>
+
+    <swiper-slide>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="logo-wechat" class="custom-icon"></ion-icon>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="card-content">
+          "Món ăn được trình bày đẹp mắt, hương vị ngon "
+        </ion-card-content>
+      </ion-card>
+    </swiper-slide>
+  </swiper-container>
+</ion-content>

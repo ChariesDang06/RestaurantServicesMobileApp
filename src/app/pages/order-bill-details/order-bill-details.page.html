@@ -1,0 +1,66 @@
+<ion-header *ngIf="isMobile">
+  <ion-toolbar>
+    <ion-title>order-bill-details</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="container">
+    <ion-button fill="clear" class="back-button">
+      <ion-icon name="arrow-back-outline"></ion-icon> Quay lại
+    </ion-button>
+    <hr />
+    <h2>Giao đến</h2>
+    <ion-button fill="clear" expand="full">
+      <div>
+        <ion-icon name="location"></ion-icon>
+        <p>Số 1 Phù Đổng Thiên Vương</p>
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </div>
+    </ion-button>
+    <input
+      type="text"
+      placeholder="Thêm chi tiết địa chỉ và chỉ dẫn giao hàng"
+    />
+    <hr />
+    <div class="addorder-row">
+      <h2>Đơn hàng</h2>
+      <ion-button fill="clear">Thêm món</ion-button>
+    </div>
+    <ion-list>
+      <app-order-bill
+        *ngFor="let item of listOrderBill"
+        [image]="item.image"
+        [name]="item.name"
+        [price]="item.price"
+        [total]="item.total"
+      ></app-order-bill>
+    </ion-list>
+    <div class="total-price">
+      <p>Tổng tạm tính</p>
+      <p class="price">{{getTotalPrice()|number:'1.0-0'}}đ</p>
+    </div>
+    <div class="total-price">
+      <p>Phí giao hàng</p>
+      <p class="price">{{shipCost|number:'1.0-0'}}đ</p>
+    </div>
+    <hr />
+    <h2>Phương thức thanh toán</h2>
+    <ion-button fill="clear" expand="full">
+      <div class="credit-container">
+        <div>
+          <ion-icon name="card-outline"></ion-icon>
+          <p>{{maskNumber(creditCardNumber)}}</p>
+        </div>
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </div>
+    </ion-button>
+    <hr />
+    <h2>Mã giảm giá</h2>
+    <input type="text" />
+  </div>
+  <div class="end-total-price">
+    <p>Tổng cộng</p>
+    <p class="price">{{getTotalPrice()+shipCost|number:'1.0-0'}}đ</p>
+  </div>
+  <ion-button class="submit-button" expand="block">Đặt đơn </ion-button>
+</ion-content>

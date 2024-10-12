@@ -1,0 +1,160 @@
+.container {
+    background-color: var(--second-color);
+    // width: 100%;
+    // height: 1000px;
+    margin: 1rem;
+    border-radius: .5rem;
+    padding: 1rem;
+
+}
+
+ion-content {
+    // --background:white;
+    color: var(--white-primary);
+}
+
+ion-button {
+
+    color: var(--white-primary);
+    font-size: 20px;
+    justify-content: start;
+    text-transform: initial;
+
+    ion-icon {
+        margin-right: 1rem;
+    }
+
+}
+
+img {
+    width: 110%;
+    border: 1px solid var(--black-primary); // Solid border with specified color
+    border-radius: 8px; // Optional: round the corners
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); // O
+}
+
+hr {
+    border-top: 1px solid var(--green-primary);
+}
+
+p {
+    font-size: 10px;
+}
+
+ion-list {
+
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+
+    ion-item {
+        --background: transparent;
+        color: var(--white-primary);
+        overflow-y: auto;
+
+        div {
+            display: flex;
+            flex-direction: row;
+            border-bottom: 1px solid var(--third-color);
+            width: 100%;
+            padding-bottom: .5rem;
+        }
+
+        ion-label {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            justify-content: space-between;
+
+            p {
+                color: var(--white-primary);
+                padding-left: 1rem;
+                font-size: 14px;
+            }
+
+        }
+    }
+}
+
+ion-checkbox {
+    --checkbox-background-checked: var(--green-primary);
+    --checkmark-color: transparent;
+    --border-color-checked: transparent;
+}
+
+ion-checkbox::part(container) {
+    border-radius: 6px;
+    border: 2px solid var(--white-primary);
+    --border-color-checked: var(--green-primary);
+}
+
+.sub-note {
+    font-size: 10px;
+    color: var(--red-primary);
+}
+
+.increase-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 1rem 4rem 3rem 4rem;
+
+    ion-button {
+        --background: var(--green-primary);
+        display: flex;
+        /* Ensure flexbox layout */
+        justify-content: center;
+        /* Center horizontally */
+        align-items: center;
+        /* Center vertically */
+        padding: 0;
+        /* Remove any padding around the icon */
+        height: 40px;
+        /* Set a fixed height (adjust as needed) */
+        width: 40px;
+
+        ion-icon {
+            font-size: 20px;
+            /* Adjust the icon size if needed */
+            color: #fff
+        }
+    }
+
+}
+
+
+ion-button.add-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    border-radius: 50%;
+    /* Circular button */
+    --background: var(--green-primary);
+    /* Optional background color */
+}
+
+ion-button.add-btn ion-icon {
+    font-size: 20px;
+    /* Icon size */
+    color: #fff;
+    /* Icon color */
+    margin: 0;
+    /* Ensure no extra margins */
+    padding: 0;
+    /* Reset padding */
+    font-weight: bold;
+}
+
+.submit-button {
+    --background: var(--green-primary);
+    height: 2.5rem;
+    // width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0 1.5rem 2rem 1.5rem;
+}

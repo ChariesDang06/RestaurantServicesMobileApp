@@ -1,0 +1,158 @@
+<ion-content>
+  <app-navbar class="navbar"></app-navbar>
+  <ion-grid class="main-body">
+    <ion-col>
+      <ion-button fill="clear" color="dark" class="back-button">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+        Quay lại
+      </ion-button>
+      <app-banner-promo></app-banner-promo>
+      <p class="map-title">SƠ ĐỒ <span>NHÀ HÀNG</span></p>
+      <ion-row class="divider"></ion-row>
+      <ion-card class="restaurant-map">
+        <ion-img
+          class="map-image"
+          [src]="selectedMap.src"
+          alt="Selected map"
+        ></ion-img>
+        <ion-select
+          class="map-button"
+          [placeholder]="mapName"
+          (ionChange)="onMapChange($event)"
+        >
+          <ion-select-option *ngFor="let map of maps" [value]="map">
+            {{ map.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-card>
+      <ion-row class="selectionContainer">
+        <ion-item class="selectionItemL">
+          <ion-select placeholder="Mã bàn" (ionChange)="onMapChange($event)">
+            <ion-select-option *ngFor="let table of tables" [value]="table">
+              {{ table.name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="selectionItemL">
+          <ion-select placeholder="Ngày giờ" (ionChange)="onMapChange($event)">
+            <ion-datetime presentation="month-year"></ion-datetime>
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="selectionItemS">
+          <ion-select placeholder="6" (ionChange)="onMapChange($event)">
+            <ion-select-option *ngFor="let table of tables" [value]="table">
+              {{ table.name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-row>
+      <ion-row>
+        <p class="description">
+          "Đảm bảo không gian rộng rãi và tiện nghi cho 6 người. Vị trí này lý
+          tưởng cho các buổi gặp gỡ thân mật, hội họp hoặc làm việc nhóm."
+        </p>
+      </ion-row>
+      <ion-row>
+        <ion-item class="noteField">
+          <ion-textarea placeholder="Ghi chú cho nhà hàng..."></ion-textarea>
+        </ion-item>
+      </ion-row>
+      <ion-row class="customerInfor">
+        <ion-text class="inforTitle">Họ và tên</ion-text>
+        <ion-textarea class="inforInput"> </ion-textarea>
+      </ion-row>
+
+      <ion-row class="customerInfor">
+        <ion-text class="inforTitle">Số điện thoại</ion-text>
+        <ion-textarea class="inforInput"> </ion-textarea>
+      </ion-row>
+
+      <ion-row class="customerInfor">
+        <ion-text class="inforTitle">Email</ion-text>
+        <ion-textarea class="inforInput"> </ion-textarea>
+      </ion-row>
+
+      <ion-row class="divider"></ion-row>
+      <ion-row class="policyCheck">
+        <ion-checkbox labelPlacement="end"
+          >Nhận mail thông báo về các ưu đãi của chúng tôi</ion-checkbox
+        >
+      </ion-row>
+      <ion-row class="policy-section">
+        <ion-col>
+          <ion-text> Chính sách hủy bàn: </ion-text>
+        </ion-col>
+        <ion-col size="8">
+          <ion-text>
+            Trong trường hợp bạn cần hủy hay thay đổi, xin vui lòng thông báo ít
+            nhất 24 giờ trước giờ hẹn.
+          </ion-text>
+        </ion-col>
+        <p class="policy-note">
+          Sau khi đến hạn đặt, bàn của bạn chỉ có thể giữ trong thời gian 15
+          phút nếu quá thời gian quy định nhà hàng xin hủy bàn của bạn.
+        </p>
+      </ion-row>
+
+      <ion-row class="divider"></ion-row>
+
+      <ion-row>
+        <ion-col size="7">
+          <ion-button class="bigButt" fill="clear" expand="block"
+            >Đặt món</ion-button
+          >
+        </ion-col>
+        <ion-col size="5">
+          <ion-button class="smallButt" fill="clear" expand="block"
+            >Xác nhận</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-grid>
+</ion-content>
+
+<!--
+  
+
+
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-checkbox slot="start"></ion-checkbox>
+        <ion-label>Nhận mail thông báo về các ưu đãi của chúng tôi</ion-label>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-title>Chính sách hủy bàn:</ion-title>
+      <p class="policy-text">
+        Trong trường hợp bạn cần hủy hay thay đổi, xin vui lòng thông báo ít nhất 24 giờ trước giờ hẹn.
+      </p>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <p class="policy-note">
+        Sau khi đến hạn đặt, bàn của bạn chỉ có thể giữ trong thời gian 15 phút nếu quá thời gian quy định nhà hàng xin hủy bàn của bạn.
+      </p>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-item-divider color="danger"></ion-item-divider>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-button expand="block" fill="outline">Đặt món</ion-button>
+      <ion-button expand="block">Xác nhận</ion-button>
+    </ion-col>
+  </ion-row> -->

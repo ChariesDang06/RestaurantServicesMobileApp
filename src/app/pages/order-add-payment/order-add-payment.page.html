@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>order-bill-add-payment</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="container">
+    <ion-button fill="clear" class="back-button">
+      <ion-icon name="arrow-back-outline"></ion-icon> Thêm thẻ
+    </ion-button>
+    <hr />
+    <div class="input-container">
+      <h2>Số thẻ</h2>
+      <div class="input-with-icon">
+        <ion-icon name="card-outline"></ion-icon
+        ><input placeholder="Số thẻ" type="text" />
+      </div>
+    </div>
+    <div class="row-container">
+      <div class="date-input">
+        <h2>Ngày hết hạn</h2>
+        <div class="input-with-icon">
+          <input
+            id="monthYearInput"
+            type="text"
+            placeholder="MM/YY"
+            maxlength="5"
+            (input)="formatMMYY($event)"
+            [(ngModel)]="monthYear"
+          />
+        </div>
+      </div>
+      <div>
+        <h2>CVV</h2>
+        <div class="input-with-icon">
+          <input placeholder="CVV" type="text" />
+        </div>
+      </div>
+    </div>
+    <div class="safe-text">
+      <ion-icon name="shield-checkmark-outline"></ion-icon>Thông tin thẻ của bạn
+      sẽ dược lưu một cách bảo mật
+    </div>
+    <p class="sub-save-text">
+      Thẻ của bạn cần có một khoản tiền nhỏ để đảm bảo thẻ hợp lệ và vẫn hoạt
+      động. Số tiền đó sẽ được tự động hoàn lại thẻ của bạn sau đó. Bằng cách
+      thêm thẻ, bạn đã đọc và đồng ý với <a>điều khoản điều kiện</a> của chúng
+      tôi.
+    </p>
+  </div>
+
+  <ion-button class="submit-button" expand="block">Liên kết </ion-button>
+</ion-content>

@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header [translucent]="true" style="background-color: black">
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Trang cá nhân</ion-title>
+    <div class="toolbar-border"></div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content
+  [fullscreen]="true"
+  class="personal-content"
+  style="background-color: #2b2b2b"
+>
+  <div class="personal-container">
+    <div class="avatar-container">
+      <img src="/assets/userpageimg/avt.jpg" alt="Avatar" class="avatar" />
+      <ion-icon name="camera" class="camera-icon"></ion-icon>
+      <!-- Biểu tượng máy ảnh -->
+    </div>
+    <h2 class="text-white">Tên người dùng</h2>
+    <h4 class="text-gold">Khách hàng hạng vàng</h4>
+
+    <div class="buttons-container"></div>
+    <app-voucher></app-voucher>
+    <app-voucher></app-voucher>
+    <app-voucher></app-voucher>
+    <div class="divider"></div>
+    <i> bạn đã xem hết tất cả thẻ voucher </i>
+  </div>
+</ion-content>

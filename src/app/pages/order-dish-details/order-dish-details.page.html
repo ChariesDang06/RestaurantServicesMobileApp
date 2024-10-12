@@ -1,0 +1,67 @@
+<ion-header *ngIf="isMobile">
+  <ion-toolbar>
+    <ion-title>order-bill-details</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="container">
+    <ion-button fill="clear">
+      <ion-icon name="arrow-back-outline"></ion-icon> Quay lại
+    </ion-button>
+    <hr />
+    <img src="/assets/images/food-banner.png" />
+    <h1>Gỏi cuốn tôm thịt</h1>
+    <hr />
+    <h2>Mô tả</h2>
+    <p>
+      Một phần gỏi cuốn tôm thịt cao cấp là sự hòa quyện tinh tế giữa tôm tươi
+      ngọt, thịt heo mềm và rau sống giòn mát. Lớp bánh tráng mỏng mịn bọc lấy
+      nhân bên trong, tạo nên cuốn gỏi chắc tay, thanh nhẹ và hấp dẫn.<br /><br />
+      Khi chấm vào nước mắm chua ngọt hoặc sốt bơ đậu phộng béo ngậy, từng hương
+      vị như bùng nổ trên đầu lưỡi. Vị tươi mới của tôm, thịt, rau kết hợp cùng
+      nước chấm đậm đà.
+    </p>
+    <hr />
+    <div class="form-container">
+      <ion-list>
+        <ion-item *ngFor="let option of optionList">
+          <div>
+            <ion-checkbox
+              slot="start"
+              [checked]="option.isChecked"
+              (ionChange)="toggleOption(option)"
+              class="custom-checkbox"
+            ></ion-checkbox>
+            <ion-label
+              ><p>{{ option.name }}</p>
+              <p>{{ option.price | number: '1.0-0' }}đ</p></ion-label
+            >
+          </div>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+  <div class="container">
+    <h2>Thêm ghi chú</h2>
+    <hr />
+    <ion-input
+      [(ngModel)]="note"
+      placeholder="Vui lòng nhập ghi chú của bạn tại đây"
+    ></ion-input>
+    <p class="sub-note">
+      Việc thực hiện yêu cầu còn tùy thuộc vào khả năng của quán
+    </p>
+  </div>
+
+  <div class="increase-container">
+    <ion-button shape="round" size="small" class="add-btn"
+      ><ion-icon slot="icon-only" name="remove-outline"></ion-icon></ion-button
+    >{{increase}}
+    <ion-button shape="round" size="small" class="add-btn">
+      <ion-icon slot="icon-only" name="add"></ion-icon>
+    </ion-button>
+  </div>
+  <ion-button class="submit-button" expand="block"
+    >Thêm vào giỏ hàng
+  </ion-button>
+</ion-content>

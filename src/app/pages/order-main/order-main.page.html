@@ -1,0 +1,72 @@
+<ion-header *ngIf="isMobile">
+  <ion-toolbar>
+    <ion-title>order-bill-details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">login</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <!-- <p>test</p> -->
+  <ion-card>
+    <div class="user-inf-card">
+      <ion-card-header>
+        <ion-card-title>Thông tin khách hàng</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="info-div">
+          <ion-icon class="icon-info" name="calendar-outline"></ion-icon>
+          <span> 17 - 10 - 2024 | 12:15 PM</span>
+          <br />
+        </div>
+        <div class="info-div">
+          <ion-icon class="icon-info" name="people-outline"></ion-icon>
+          <span> 17 - 10 - 2024 | 12:15 PM</span>
+        </div>
+        <div class="info-div">
+          <ion-icon name="location-outline" class="icon-info"></ion-icon>
+          <span> Số 1 Phù Đổng Thiên Vương</span>
+        </div>
+      </ion-card-content>
+    </div>
+  </ion-card>
+  <hr />
+  <div class="navbar-container">
+    <a
+      *ngFor="let category of categoryList; let i = index"
+      class="navbar-item"
+      [class.active]="i === selectedIndex"
+      (click)="selectCategory(i)"
+    >
+      {{ category }}</a
+    >
+  </div>
+  <p class="selected-category">{{categoryList[selectedIndex]}}</p>
+  <ion-grid class="grid-item">
+    <ion-row>
+      <ion-col class="list-menu-item" size="6" *ngFor="let item of menuList">
+        <app-order-dish
+          [ID]="item.ID"
+          [name]="item.name"
+          [image]="item.image"
+          [sortDescription]="item.sortDescription"
+          [price]="item.price"
+        >
+        </app-order-dish
+      ></ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="submit-container">
+    <ion-button class="submit-button" expand="block"
+      ><div class="submit-button-text">
+        <p>Giỏ hàng: {{selectedIndex}}</p>
+        <div>
+          <p>{{menuList[0].price | number : "1.0-0" }}đ</p>
+        </div>
+      </div>
+    </ion-button>
+  </div>
+</ion-content>

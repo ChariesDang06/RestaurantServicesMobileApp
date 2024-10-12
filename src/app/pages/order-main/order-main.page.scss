@@ -1,0 +1,176 @@
+.user-inf-card {
+    background-image: url('/assets/images/background_info.png');
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat;
+    color: var(--white-primary);
+    border-radius: 20px;
+}
+
+ion-card {
+    background-color: transparent;
+}
+
+ion-card-title {
+    color: (var(--white-primary));
+    text-align: center;
+    font-weight: bold;
+
+}
+
+ion-card-content {
+    padding-left: 1rem;
+}
+
+.icon-info {
+    color: var(--red-primary);
+    font-size: 1.5rem;
+}
+
+.info-div {
+    padding-left: 10%;
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+    /* Vertically centers the icon and text */
+}
+
+.info-div span {
+    padding-left: 10px;
+}
+
+hr {
+    border-top: 1px solid var(--green-primary);
+}
+
+.navbar-container {
+    display: flex;
+    overflow-x: auto;
+    /* Enable horizontal scroll if items overflow */
+    white-space: nowrap;
+    /* Prevent items from wrapping to the next line */
+    // border-bottom: 2px solid #ddd;
+    /* Line to resemble a navbar */
+    padding: 10px 0;
+    gap: 10px;
+    /* Space between the navbar items */
+    // background-color: white;
+    /* Set the navbar background to white */
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scrolling on iOS and Android */
+    scrollbar-width: thin;
+    /* Thinner scrollbar for Firefox */
+    scrollbar-color: #ccc transparent;
+    /* Firefox: thumb color and track color */
+}
+
+.navbar-container::-webkit-scrollbar {
+    height: 3px;
+    /* Height of the scrollbar */
+}
+
+.navbar-container::-webkit-scrollbar-thumb {
+    background-color: var(--white-primary);
+    /* Thumb color */
+    border-radius: 2px;
+    /* Round edges for the thumb */
+}
+
+.navbar-container::-webkit-scrollbar-track {
+    background-color: transparent;
+    /* Track color */
+}
+
+.navbar-item {
+    flex-shrink: 0;
+    /* Prevent items from shrinking */
+    padding: 10px 20px;
+    background-color: transparent;
+    color: var(--white-primary);
+    // font-size: 100px;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+    /* Ensure the text stays on a single line */
+    font-size: 14px;
+    transition: color 0.3s ease;
+    // font-size: 10px;
+    /* Underline effect */
+}
+
+.grid-item {
+    padding-bottom: 6rem;
+}
+
+.navbar-item.active {
+    color: var(--green-primary);
+    /* Active item color */
+    /* Underline active item */
+}
+
+.selected-category {
+    margin-left: 1rem;
+    font-size: 20px;
+}
+
+.list-menu-item {
+    padding: 0px;
+}
+
+.submit-container {
+    position: fixed;
+    bottom: 0%;
+    width: 100%;
+    background-color: var(--second-color);
+    --border-radius: 40px;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    /* Căn giữa theo chiều ngang */
+    align-items: center;
+    // position: fixed;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+}
+
+/* Specifically targeting the shadow DOM parts */
+
+.submit-button {
+    --background: var(--green-primary);
+    height: 2.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem 0 1rem;
+}
+
+.submit-button-text {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    text-transform: initial;
+    color: var(--white-primary);
+    /* Custom background color */
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.submit-button-text div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.bottom-ion-toolbar {
+
+    --background: transparent;
+    --ion-background-color: transparent;
+    --ion-background-color-rgb: 0, 0, 0, 0;
+    /* For better control */
+    backdrop-filter: blur(10px);
+    /* Optional: for a glass effect */
+}

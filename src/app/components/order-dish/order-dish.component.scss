@@ -1,0 +1,99 @@
+ion-card-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--white-primary);
+}
+
+ion-card {
+    background-color: transparent;
+}
+
+ion-card-subtitle p {
+    margin: 0 1rem;
+    color: var(--white-primary);
+}
+
+ion-card-content {
+    font-size: 10px;
+}
+
+.sub-container {
+    padding-top: 5rem;
+    // background-color: red;
+}
+
+.custom-image {
+    position: absolute;
+    top: 0%;
+    z-index: 1;
+}
+
+.main-container {
+    padding-top: 4rem;
+    background-color: var(--second-color);
+    border-radius: 1.5rem;
+}
+
+// ion-card-subtitle .positive-order {
+//   color: var(--green-primary);
+//   margin-right: 0;
+//   text-align: left;
+//   /* Ensures this style takes precedence */
+// }
+
+// ion-card-subtitle .transparent-order {
+//   color: var(--white-primary);
+
+//   /* Ensures this style takes precedence */
+// }
+// .add-btn{
+//     --background: var(--green-primary);
+//         // margin: 0 1rem 1rem 0;
+//         margin-right: 1rem;
+//         margin-bottom: 10%;
+// }
+// .margin-row{
+//   text-transform:initial;
+
+// }
+// .col-button{
+//   text-align: end;
+// }
+
+ion-card-subtitle .positive-order {
+    color: var(--green-primary);
+    margin-right: 0;
+    text-align: left;
+}
+
+ion-card-subtitle .transparent-order {
+    color: var(--white-primary);
+}
+
+.add-btn {
+    --background: var(--green-primary);
+    margin-right: 1rem;
+    margin-bottom: 0;
+    /* Remove margin-bottom to prevent unnecessary spacing */
+}
+
+.margin-row {
+    text-transform: initial;
+    align-items: center;
+    /* Ensure items in the row are vertically centered */
+    display: flex;
+    /* Ensure the row behaves like a flex container */
+}
+
+.col-button {
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
+    /* Ensures the button is on the right */
+    align-items: center;
+    /* Ensures the button is vertically aligned */
+}
+
+.ion-align-self-center {
+    width: 80%;
+}

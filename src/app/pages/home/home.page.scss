@@ -1,0 +1,419 @@
+img {
+    max-width: none;
+}
+
+p {
+    font-size: 12px;
+}
+
+ion-content {
+    overflow-x: hidden;
+    /* Ngăn cuộn ngang */
+}
+
+ion-content::part(scroll) {
+    margin: 0;
+    overflow: auto;
+    /* Cho phép cuộn dọc */
+}
+
+ion-grid {
+    padding: 0;
+    max-width: 100%;
+    /* Giới hạn chiều rộng lưới */
+    overflow: hidden;
+    /* Ngăn cuộn */
+}
+
+ion-col {
+    max-width: 100%;
+    /* Giới hạn chiều rộng cột */
+    overflow: hidden;
+    /* Ngăn cuộn */
+    padding: 0;
+    height: 30vh;
+    position: relative;
+    /* Đặt relative để hỗ trợ absolute positioning bên trong */
+}
+
+.image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.svg-image {
+    width: 150%;
+    height: auto;
+    transform: translateX(0%) translateY(-40%);
+}
+
+.overlay-image {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-33%, -50%);
+    width: 120%;
+    height: auto;
+    z-index: 1;
+}
+
+/* Style cho container chứa nút */
+/* Style cho container chứa nút */
+.button-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 60px;
+    /* Tăng khoảng cách giữa các nút */
+    height: 120px;
+    /* Tăng chiều cao để phù hợp với icon lớn hơn */
+}
+
+/* Cập nhật style cho .action-button */
+
+/* Style mới cho container chứa icon */
+.icon-container {
+    position: absolute;
+    left: -30px;
+    /* Di chuyển icon sang trái để nó lấn ra ngoài nút nhiều hơn */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+/* Style cho container chứa nút */
+.button-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 20px;
+    /* Khoảng cách giữa các nút */
+}
+
+/* Style mới cho container chứa icon */
+.ship-icon-container {
+    position: absolute;
+    left: 5%;
+    top: 50%;
+    transform: translate(-10%, -40%);
+    z-index: 2;
+}
+
+.ship-icon-container img {
+    height: 160px;
+    width: 100%;
+}
+
+.store-icon-container {
+    position: absolute;
+    left: 5%;
+    top: 50%;
+    transform: translate(-5%, -20%);
+    width: 200px;
+    height: 200px;
+    /* Điều chỉnh chiều cao cho icon store */
+    z-index: 2;
+}
+
+.store-icon-container img {
+    height: 50%;
+    width: 80%;
+}
+
+/* Style cho hình ảnh trong icon container */
+/* Điều chỉnh vị trí của text trong nút */
+.action-button span {
+    margin-left: 15%;
+    /* Đẩy text sang phải để tránh bị che bởi icon */
+    position: relative;
+    z-index: 1;
+    text-transform: none;
+    font-size: 20px;
+}
+
+/* Điều chỉnh vị trí của icon mũi tên */
+.action-button ion-icon[name="chevron-forward-outline"] {
+    padding: 6%;
+
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+
+h1 {
+    margin-top: 10px;
+    font-size: 48px;
+}
+
+.content-wrapper {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.text-content {
+    width: 90%;
+    text-align: center;
+    padding-bottom: 20px;
+    /* Khoảng cách từ dưới lên cho phần chữ */
+    position: relative;
+    z-index: 2;
+    /* Đặt z-index cao hơn để hiển thị trên hình ảnh */
+}
+
+.action-button {
+    font-size: 1.4em;
+    --border-radius: 50px;
+    --color: white;
+    padding: 10px 20px;
+    width: 100%;
+    height: 120px;
+    position: relative;
+    overflow: visible;
+}
+
+.order-button {
+
+    --background: #2B2B2B;
+    /* Màu nền cho nút 'Đặt bàn' */
+    --border-color: #2B2B2B;
+    /* Màu viền cho nút 'Đặt bàn' */
+}
+
+.table-button {
+    --background: #14C458;
+    /* Màu nền cho nút 'Đặt hàng' */
+    --border-color: #14C458;
+    /* Màu viền cho nút 'Đặt hàng' */
+}
+
+.action-button ion-icon {
+    margin-left: 10px;
+    /* Khoảng cách giữa chữ và icon */
+}
+
+/* quảng cáo */
+.qc {
+    margin-top: 10px;
+    padding: 15px 30px 10px 30px;
+    width: 100%;
+    height: auto;
+    background-color: red;
+}
+
+.qc h5 {
+    font-size: 1em;
+    display: inline;
+    /* Để cho chữ "Giảm ngay" và "15%" nằm cùng dòng */
+}
+
+.highlight {
+    font-size: 1.25em;
+    /* Điều chỉnh kích thước chữ cho "15%" */
+    font-weight: bold;
+    /* Tùy chọn: làm cho chữ nổi bật hơn */
+}
+
+.spectial-content {
+    text-align: center;
+    /* Căn giữa nội dung văn bản */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+    /* Đảm bảo div được căn giữa */
+    padding: 0 20px;
+}
+
+.spectial-content h5 {
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+/* Tùy chỉnh chung cho swiper-container */
+/* Định dạng cho phần border bao quanh slide */
+.boder {
+    border-radius: 20px;
+    border: 4px solid red;
+    width: 90%;
+    margin: 0 auto;
+    /* Căn giữa theo chiều ngang */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    /* Đảm bảo padding không làm thay đổi kích thước */
+}
+
+/* Tùy chỉnh chung cho swiper-container */
+swiper-container {
+    width: 100%;
+    /* Chiếm toàn bộ chiều rộng trong khung */
+    height: 100%;
+}
+
+swiper-slide {
+    display: flex;
+    justify-content: center;
+    /* Căn giữa nội dung ngang */
+    align-items: center;
+    /* Căn giữa nội dung dọc */
+}
+
+swiper-slide img {
+    border-radius: 16px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    /* Đảm bảo hình ảnh không bị biến dạng */
+}
+
+/* Tùy chỉnh pagination (các chấm nhỏ) */
+.swiper-pagination-bullet {
+    opacity: 0.6;
+}
+
+.swiper-pagination-bullet-active {
+    background: white;
+    /* Màu sắc cho chấm đang hoạt động */
+    opacity: 1;
+}
+
+.image-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    /* Đảm bảo chiều rộng của các hình ngang bằng với slide */
+    margin: 10px auto;
+    /* Căn giữa theo chiều ngang và thêm khoảng cách bên trên */
+}
+
+.horizontal-image {
+    width: 48%;
+    /* Chiều rộng mỗi hình chiếm gần 50% để tạo khoảng trống giữa 2 hình */
+    border: 4px solid red;
+    /* Đường viền đỏ */
+    border-radius: 10px;
+    /* Đường bo viền nếu cần */
+}
+
+.boder-sketch {
+    border-bottom: 4px solid green;
+    border-top: 4px solid green;
+    width: 100%;
+    margin: 0 auto;
+    /* Căn giữa theo chiều ngang */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    /* Đảm bảo padding không làm thay đổi kích thước */
+}
+
+.boder-sketch img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    /* Đảm bảo hình ảnh không bị biến dạng */
+    border-radius: 0;
+    /* Đường bo viền nếu cần */
+}
+
+.chefbanner {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    /* Căn giữa theo chiều ngang */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+}
+
+.chefbanner img {
+    max-width: 100%;
+    /* Đảm bảo hình ảnh không vượt quá chiều rộng container */
+    height: auto;
+    /* Giữ tỷ lệ của hình ảnh */
+}
+
+.aboutus-content {
+    margin: 10px 20px 0 20px;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+/* Đường phân cách tùy chỉnh */
+.divider {
+    width: 20%;
+    /* Bằng 1/5 chiều rộng văn bản */
+    height: 4px;
+    /* Chiều cao của đường */
+    background-color: white;
+    /* Màu của đường */
+
+}
+
+.mySwiper {
+    width: 100%;
+    height: 200px;
+    /* Hoặc kích thước tùy chỉnh */
+}
+
+/* Tùy chỉnh cho các nút điều hướng */
+.mySwiper ion-card {
+    background-color: #2B2B2B;
+}
+
+.mySwiper ion-card ion-card-title,
+.mySwiper ion-card ion-card-content {
+    text-align: center;
+}
+
+.custom-icon {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    /* Để làm cho biểu tượng tròn */
+    padding: 10px;
+    /* Để tạo khoảng cách cho biểu tượng */
+    display: inline-block;
+    /* Sử dụng inline-block để có thể căn giữa */
+
+}
+
+.icon-title {
+    text-align: center;
+    /* Căn giữa tiêu đề */
+    width: 100%;
+    /* Đảm bảo tiêu đề chiếm 100% chiều rộng */
+}
+
+.card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    /* Để đảm bảo nội dung được căn giữa trong card */
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .content-wrapper {
+        width: 100%;
+        /* Đảm bảo nội dung chiếm toàn bộ chiều rộng */
+    }
+
+    .text-content {
+        font-size: 14px;
+        /* Điều chỉnh kích thước chữ cho nhỏ hơn trên màn hình nhỏ */
+    }
+
+}
