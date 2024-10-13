@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/users/user.service';
 import { User } from '../../models/user.model';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-info-editing',
@@ -11,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class UserInfoEditingPage implements OnInit {
   user: User | null = null;
-  tempUser: User = { // Khởi tạo với một đối tượng User rỗng
+  tempUser: User = { 
     userId: '',
     name: '',
     email: '',
@@ -20,7 +19,7 @@ export class UserInfoEditingPage implements OnInit {
     reservationHistory: [],
     orderHistory: [],
     score: 0,
-    avatarUrl: '', // Thêm thuộc tính avatarUrl nếu cần
+    avatarUrl: '',
   };
 
   constructor(private userService: UserService) {}
@@ -30,12 +29,12 @@ export class UserInfoEditingPage implements OnInit {
   }
 
   getUserInfo() {
-    const userId = localStorage.getItem('userId'); // Lấy userId từ localStorage
+    const userId = localStorage.getItem('userId');
     if (userId) {
-      this.userService.getUserById(userId).subscribe(userData => { // Thay đổi phương thức lấy thông tin người dùng
-        if (userData) { // Kiểm tra xem userData có tồn tại không
+      this.userService.getUserById(userId).subscribe(userData => {
+        if (userData) {
           this.user = userData;
-          this.tempUser = { ...userData }; // Gán giá trị cho biến trung gian
+          this.tempUser = { ...userData };
         } else {
           console.error('User not found for userId:', userId);
         }
@@ -52,20 +51,34 @@ export class UserInfoEditingPage implements OnInit {
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.Uri,
-      source: CameraSource.Photos, // Chọn từ thư viện ảnh
+      source: CameraSource.Photos,
     });
 
     if (image && image.webPath) {
-      this.tempUser.avatarUrl = image.webPath; // Cập nhật avatarUrl với đường dẫn mới
-      // Lưu ảnh mới vào Firestore hoặc Storage nếu cần
+      // Chuyển đổi blob URI thành File để tải lên
+      const response = await fetch(image.webPath);
+      const blob = await response.blob();
+      const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
+
+      // Lấy userId từ localStorage
+      const userId = localStorage.getItem('userId');
+      if (userId) {
+        // Gọi phương thức updateUserAvatar để tải ảnh lên Firebase và cập nhật Firestore
+        await this.userService.updateUserAvatar(userId, file);
+        
+        // Cập nhật tempUser.avatarUrl với URL mới
+        this.tempUser.avatarUrl = await this.userService.getUserById(userId).toPromise().then(userData => userData?.avatarUrl);
+        
+        console.log('Avatar updated:', this.tempUser.avatarUrl);
+      }
     }
   }
 
   async saveChanges() {
-    if (this.tempUser) { // Kiểm tra tempUser có tồn tại
-      await this.userService.updateUser(this.tempUser); // Lưu thông tin người dùng đã chỉnh sửa
+    if (this.tempUser) {
+      await this.userService.updateUser(this.tempUser);
       console.log('User info updated:', this.tempUser);
-      this.user = { ...this.tempUser }; // Cập nhật lại user
+      this.user = { ...this.tempUser };
     }
   }
 }
