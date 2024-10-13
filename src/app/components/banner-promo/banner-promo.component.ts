@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 import { register } from 'swiper/element/bundle';
 register()
 
 @Component({
-  standalone: true,
+  //standalone: true,
   selector: 'app-banner-promo',
   templateUrl: './banner-promo.component.html',
   styleUrls: ['./banner-promo.component.scss'],
-  imports: [IonicModule, CommonModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
+  
 })
 export class BannerPromoComponent  implements OnInit {
   promos = [
