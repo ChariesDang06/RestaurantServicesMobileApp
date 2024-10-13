@@ -27,10 +27,10 @@
       <ion-icon name="camera" class="camera-icon"></ion-icon>
       <!-- Biểu tượng máy ảnh -->
     </div>
-    <h2 class="text-white">Tên người dùng</h2>
-    <h4 class="text-gold">Rank: Khách hàng hạng vàng</h4>
-    <p class="text-white">SDT: 1234567890</p>
-    <p class="text-white">Email: user&#64;example.com</p>
+    <h2 class="text-white">{{ user.name || 'Tên người dùng' }}</h2>
+    <h4 class="text-gold">Rank: {{ getUserRank(user.score) }}</h4>
+    <p class="text-white">SDT: {{ user.phone || 'Chưa có số điện thoại' }}</p>
+    <p class="text-white">Email: {{ user.email || 'Chưa có email' }}</p>
 
     <div class="buttons-container">
       <ion-button class="custom-button">

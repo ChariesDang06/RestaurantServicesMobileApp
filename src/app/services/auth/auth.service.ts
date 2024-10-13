@@ -8,37 +8,52 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  // BehaviorSubject to hold login status (default to false)
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
-  
-  // Expose login status as an observable
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
-  
+
   constructor(
     private afAuth: AngularFireAuth,
-    private firestore: AngularFirestore // Firestore for storing user data
+    private firestore: AngularFirestore
   ) {}
 
   // Sign in with Google
   signInWithGoogle() {
-    this.isLoggedInSubject.next(true);
-    return this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    return this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((result) => {
+      this.isLoggedInSubject.next(true);
+      const userId = result.user?.uid;
+      if (userId) {
+        // Store userId in localStorage
+        localStorage.setItem('userId', userId);
+      }
+      return result;
+    });
   }
 
   // Sign in with Facebook
   signInWithFacebook() {
-    this.isLoggedInSubject.next(true);
-    return this.afAuth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+    return this.afAuth.signInWithPopup(new firebase.auth.FacebookAuthProvider()).then((result) => {
+      this.isLoggedInSubject.next(true);
+      const userId = result.user?.uid;
+      if (userId) {
+        // Store userId in localStorage
+        localStorage.setItem('userId', userId);
+      }
+      return result;
+    });
   }
 
   // Sign out
   signOut() {
-    this.isLoggedInSubject.next(false);
-    return this.afAuth.signOut();
+    return this.afAuth.signOut().then(() => {
+      this.isLoggedInSubject.next(false);
+      // Clear userId from localStorage
+      localStorage.removeItem('userId');
+    });
   }
 
+  // Check if user is logged in by checking localStorage and BehaviorSubject
   isLoggedIn(): boolean {
-    return this.isLoggedInSubject.value;
+    return this.isLoggedInSubject.value || !!localStorage.getItem('userId');
   }
 
   // Add user to Firestore
@@ -50,5 +65,10 @@ export class AuthService {
       phone: phone || ''  // Optional phone field
     };
     return this.firestore.collection('users').doc(userId).set(userData);
+  }
+
+  // Get logged in userId from localStorage
+  getLoggedInUserId(): string | null {
+    return localStorage.getItem('userId');
   }
 }
