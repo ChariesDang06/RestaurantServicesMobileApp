@@ -1,3 +1,31 @@
-<p>
-  banner-promo works!
-</p>
+<ion-card class="promotion-banner">
+  <swiper-container
+    slidesPerView="1"
+    loop="true"
+    speed="300"
+    effect="cards"
+    spaceBetween="10"
+    pagination="{
+        type: 'bullet',
+        dynamicBullets: true
+      }"
+    class="swiper"
+  >
+    <swiper-slide *ngFor="let promo of promos" class="promo-slide">
+      <ion-img
+        [src]="promo.src"
+        [alt]="promo.alt"
+        class="promo-image"
+      ></ion-img>
+      <ion-card class="content-card">
+        <ion-card-content>
+          <p class="promo-text">{{ promo.promoHeader }}</p>
+          <ion-card-title class="promo-highlight">{{
+            promo.promoAmount
+          }}</ion-card-title>
+          <p class="promo-description">{{ promo.promoContent }}</p>
+        </ion-card-content>
+      </ion-card>
+    </swiper-slide>
+  </swiper-container>
+</ion-card>

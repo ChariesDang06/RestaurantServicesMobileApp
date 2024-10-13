@@ -1,0 +1,70 @@
+.promotion-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: auto;
+
+    .swiper {
+        width: 100%;
+        height: 100%;
+    }
+
+    .promo-slide {
+        position: relative;
+
+        .promo-image {
+            width: 100%;
+        }
+
+        .content-card {
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: rgba(0, 0, 0, 0);
+            color: white;
+            z-index: 10;
+
+            .promo-text {
+                font-size: 16px;
+                margin: 0;
+            }
+
+            .promo-highlight {
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            .promo-description {
+                font-size: 14px;
+                margin-top: 8px;
+            }
+        }
+    }
+}
+
+ion-img {
+    width: 100%;
+    height: 100%;
+    object-fit: fit;
+}
+
+.content-card {
+    position: absolute;
+    width: 95%;
+    height: 95%;
+    z-index: 1;
+    border: 2px solid #f00;
+    border-radius: 15px;
+    margin: 7px;
+    background-color: #ffffff00;
+}
+
+.swiper-pagination-bullet {
+    background-color: #5b5e5f;
+    width: 12px;
+    height: 12px;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #d9e6de;
+}

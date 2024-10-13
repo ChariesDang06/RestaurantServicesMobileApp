@@ -1,0 +1,110 @@
+$background-dark: #0b0b0b;
+$background-light: #2b2b2b;
+$color-red: #f00;
+$color-white: #fff;
+$color-gray: #ccc;
+$font-family-default: "Segoe UI", sans-serif;
+$font-family-poppins: "Poppins", sans-serif;
+
+
+/* General Navbar Styling */
+.navbar {
+    background-color: $background-dark;
+    --color: #fff;
+    display: flex;
+}
+
+/* Navbar Title Styling */
+.navbar-title {
+    font-size: 17px;
+    font-weight: lighter;
+    width: 100%;
+    color: #fff;
+    text-align: start;
+    padding-left: 20px;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+/* Navbar Buttons for Large Screens */
+.navbar-buttons {
+    display: none;
+
+    .nav-button {
+        ion-button {
+            color: #fff;
+            font-size: 14px;
+            padding: 0 12px;
+
+            &::after {
+                content: '|';
+                margin-left: 8px;
+                color: #ccc;
+            }
+
+            &:last-child::after {
+                content: none;
+            }
+        }
+    }
+}
+
+/* Menu Button for Small Screens */
+.navbar-menu {
+    display: flex;
+
+    .menu-button {
+        color: $color-white;
+    }
+}
+
+/* Mobile Menu Hidden on Large Screens */
+@media (min-width: 768px) {
+    .navbar-buttons {
+        display: flex;
+        color: $color-white;
+    }
+
+    .navbar-menu {
+        display: none;
+    }
+}
+
+/* Full-height Side Menu Styling */
+.side-menu {
+    --background: #333;
+    width: 100vw;
+
+    .menu-toolbar {
+        background-color: #222;
+    }
+
+    .menu-title {
+        color: #fff;
+    }
+
+    ion-item {
+        color: #f8f8f8;
+    }
+}
+
+/* Ensure the menu content fills the height of the screen */
+ion-menu {
+    width: 70vw;
+    height: 100vh;
+    z-index: 10;
+}
+
+ion-content {
+    --background: $background-light;
+}
+
+ion-item {
+    display: flex;
+}
+
+ion-app {
+    height: 50vh;
+}
