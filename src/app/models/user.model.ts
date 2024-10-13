@@ -23,4 +23,5 @@ export interface User {
   orderHistory?: Order[];
   score?: number;
   paymentMethods?: PaymentMethods;
+  avatarUrl?: string; 
 }

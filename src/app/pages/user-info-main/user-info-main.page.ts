@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/users/user.service'; // Adjust the path as necessary
-import { User } from '../../models/user.model'; // Adjust the path as necessary
+import { UserService } from 'src/app/services/users/user.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-user-info-main',
@@ -8,47 +8,42 @@ import { User } from '../../models/user.model'; // Adjust the path as necessary
   styleUrls: ['./user-info-main.page.scss'],
 })
 export class UserInfoMainPage implements OnInit {
-  user: User = {
-    userId: '',
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    reservationHistory: [],
-    orderHistory: [],
-    score: 0,
-    paymentMethods: {},
-  };
+  user: User | null = null;
 
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.loadUserData();
+    this.getUserInfo();
   }
 
-  loadUserData() {
-    const userId = localStorage.getItem('userId'); // Get userId from localStorage
-
+  getUserInfo() {
+    const userId = localStorage.getItem('userId'); // Lấy userId từ localStorage
     if (userId) {
-      this.userService.getUserById(userId).subscribe(
-        (userData: User | undefined) => {
-          if (userData) {
-            this.user = userData; // Assign the retrieved user data to the user property
-          }
-        },
-        (error) => {
-          console.error('Error fetching user data:', error);
+      this.userService.getUserById(userId).subscribe((data: User | undefined) => {
+        if (data) {
+          this.user = data; // Gán giá trị cho user nếu tìm thấy
+          console.log('User Info:', this.user);
+        } else {
+          console.error('User not found for userId:', userId);
         }
-      );
+      }, error => {
+        console.error('Error fetching user data:', error);
+      });
     } else {
-      console.warn('No userId found in localStorage');
+      console.error('User ID not found in localStorage');
     }
   }
-
-  getUserRank(score?: number): string {
+  getRank(score: number | undefined): string {
     if (score === undefined) return 'Khách hàng'; // Default rank
     if (score > 1000) return 'Platinum'; // Example rank conditions
     if (score > 500) return 'Gold';
-    return 'Silver';
+    return 'Khách hàng'; // Default rank if score is less than 500
+  }
+
+  getRankClass(score: number | undefined): string {
+    if (score === undefined) return 'rank-default'; // Default class
+    if (score > 1000) return 'rank-platinum'; // Platinum rank class
+    if (score > 500) return 'rank-gold'; // Gold rank class
+    return 'rank-default'; // Default class
   }
 }
