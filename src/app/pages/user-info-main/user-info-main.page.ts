@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { UserService } from '../../services/users/user.service'; // Adjust the path as necessary
 import { User } from '../../models/user.model'; // Adjust the path as necessary
 
 @Component({
@@ -8,7 +8,6 @@ import { User } from '../../models/user.model'; // Adjust the path as necessary
   styleUrls: ['./user-info-main.page.scss'],
 })
 export class UserInfoMainPage implements OnInit {
-  // Initialize user with blank data
   user: User = {
     userId: '',
     name: '',
@@ -18,10 +17,10 @@ export class UserInfoMainPage implements OnInit {
     reservationHistory: [],
     orderHistory: [],
     score: 0,
-    paymentMethods: {}
+    paymentMethods: {},
   };
 
-  constructor(private firestore: AngularFirestore) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.loadUserData();
@@ -31,24 +30,19 @@ export class UserInfoMainPage implements OnInit {
     const userId = localStorage.getItem('userId'); // Get userId from localStorage
 
     if (userId) {
-      this.getUserData(userId);
+      this.userService.getUserById(userId).subscribe(
+        (userData: User | undefined) => {
+          if (userData) {
+            this.user = userData; // Assign the retrieved user data to the user property
+          }
+        },
+        (error) => {
+          console.error('Error fetching user data:', error);
+        }
+      );
     } else {
       console.warn('No userId found in localStorage');
     }
-  }
-
-  getUserData(userId: string) {
-    this.firestore
-      .collection<User>('users') // Specify the collection
-      .doc(userId)
-      .valueChanges()
-      .subscribe((userData: User | undefined) => {
-        if (userData) {
-          this.user = userData; // Assign the retrieved user data to the user property
-        }
-      }, error => {
-        console.error('Error fetching user data:', error);
-      });
   }
 
   getUserRank(score?: number): string {
