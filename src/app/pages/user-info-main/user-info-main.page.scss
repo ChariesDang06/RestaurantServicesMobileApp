@@ -13,6 +13,7 @@ ion-content {
 
 .personal-container {
     text-align: center;
+    padding: 0 20px;
 }
 
 .avatar-container {
@@ -207,3 +208,15 @@ ion-icon {
     --border-radius: 5px !important;
     border-radius: 5px !important;
 }
+.rank-default {
+    color: rgb(122, 122, 122); // Màu chữ trắng cho hạng mặc định
+  }
+  
+  .rank-gold {
+    color: rgb(255, 230, 91); // Màu chữ vàng cho hạng Gold
+  }
+  
+  .rank-platinum {
+    color: rgb(149, 0, 255); // Màu chữ xanh biển cho hạng Platinum
+  }
+  

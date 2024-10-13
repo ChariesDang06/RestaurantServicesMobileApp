@@ -23,14 +23,16 @@
 >
   <div class="personal-container">
     <div class="avatar-container">
-      <img src="/assets/userpageimg/avt.jpg" alt="Avatar" class="avatar" />
+      <img src="{{ user?.avatarUrl || '/assets/userpageimg/default-avt.jpg' }}" alt="Avatar" class="avatar" />
       <ion-icon name="camera" class="camera-icon"></ion-icon>
-      <!-- Biểu tượng máy ảnh -->
     </div>
-    <h2 class="text-white">{{ user.name || 'Tên người dùng' }}</h2>
-    <h4 class="text-gold">Rank: {{ getUserRank(user.score) }}</h4>
-    <p class="text-white">SDT: {{ user.phone || 'Chưa có số điện thoại' }}</p>
-    <p class="text-white">Email: {{ user.email || 'Chưa có email' }}</p>
+
+    <h2 class="text-white">{{ user?.name || 'Tên người dùng' }}</h2>
+    <h4 [ngClass]="getRankClass(user?.score)">Rank: {{ getRank(user?.score) }}</h4>
+    <p class="text-white">SDT: {{ user?.phone || 'Cập nhật sdt' }}</p>
+    <p class="text-white">Email: {{ user?.email || 'user@example.com' }}</p>
+    <p class="text-white">Địa chỉ: {{ user?.address || 'Chưa có địa chỉ' }}</p>
+    <p class="text-white">Điểm: {{ user?.score || 0 }}</p>
 
     <div class="buttons-container">
       <ion-button class="custom-button">
