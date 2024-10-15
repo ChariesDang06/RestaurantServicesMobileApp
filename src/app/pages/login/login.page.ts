@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../services/auth/auth.service';
 import firebase from 'firebase/compat/app';
+import { User } from '../../models/user.model';  // Import the User model
 
 @Component({
   selector: 'app-signin',
@@ -35,20 +36,33 @@ export class LoginPage implements OnInit {
   // Handle Google sign-in
   signInWithGoogle() {
     this.authService.signInWithGoogle().then(
-      (result: firebase.auth.UserCredential) => {
+      async (result: firebase.auth.UserCredential) => {
         const user = result.user;
         if (user) {
           const userId = user.uid;
           const name = user.displayName || 'Anonymous';
           const email = user.email || '';
 
-          // Post user data to Firestore
-          this.authService.addUserToFirestore(userId, name, email).then(() => {
+          // Create a User object based on the sign-in result
+          const userData: User = {
+            userId,
+            name,
+            email,
+            phone: '', // No phone from Google sign-in, leave empty or fetch separately
+            address: '' // Optionally add the address if available
+            ,
+            password: ''
+          };
+
+          // Call the onSubmit function from AuthService
+          const success = await this.authService.onSubmit(userData);
+
+          if (success) {
             console.log('User data stored in Firestore');
             this.router.navigate(['/home']);
-          }).catch((error: any) => {
-            console.error('Error storing user data', error);
-          });
+          } else {
+            this.showAlert('Error storing user data. Please try again later.');
+          }
         }
       },
       (error: any) => {
@@ -60,7 +74,7 @@ export class LoginPage implements OnInit {
   // Handle Facebook sign-in
   signInWithFacebook() {
     this.authService.signInWithFacebook().then(
-      (result: firebase.auth.UserCredential) => {
+      async (result: firebase.auth.UserCredential) => {
         const user = result.user;
         if (user) {
           const userId = user.uid;
@@ -68,13 +82,26 @@ export class LoginPage implements OnInit {
           const email = user.email || '';
           const phone = user.phoneNumber || '';
 
-          // Post user data to Firestore
-          this.authService.addUserToFirestore(userId, name, email, phone).then(() => {
+          // Create a User object based on the sign-in result
+          const userData: User = {
+            userId,
+            name,
+            email,
+            phone,
+            address: '' // Optionally add the address if available
+            ,
+            password: ''
+          };
+
+          // Call the onSubmit function from AuthService
+          const success = await this.authService.onSubmit(userData);
+
+          if (success) {
             console.log('User data stored in Firestore');
             this.router.navigate(['/home']);
-          }).catch((error: any) => {
-            console.error('Error storing user data', error);
-          });
+          } else {
+            this.showAlert('Error storing user data. Please try again later.');
+          }
         }
       },
       (error: any) => {

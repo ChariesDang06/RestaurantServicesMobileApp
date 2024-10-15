@@ -3,6 +3,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import firebase from 'firebase/compat/app';
 import { BehaviorSubject } from 'rxjs';
+import { User } from 'src/app/models/user.model';
+
 
 @Injectable({
   providedIn: 'root',
@@ -56,16 +58,20 @@ export class AuthService {
     return this.isLoggedInSubject.value || !!localStorage.getItem('userId');
   }
 
-  // Add user to Firestore
-  addUserToFirestore(userId: string, name: string, email: string, phone?: string) {
-    const userData = {
-      userId,
-      name,
-      email,
-      phone: phone || ''  // Optional phone field
-    };
-    return this.firestore.collection('users').doc(userId).set(userData);
+   // Submit user registration and save it to Firestore
+  async onSubmit(userData: User) {
+    try {
+      // Store user data in Firestore under 'users' collection
+      await this.firestore.collection('users').add(userData);
+      console.log('User registration successful', userData);
+
+      return true; // Success indicator
+    } catch (error) {
+      console.error('Error saving user data to Firestore: ', error);
+      return false; // Failure indicator
+    }
   }
+
 
   // Get logged in userId from localStorage
   getLoggedInUserId(): string | null {

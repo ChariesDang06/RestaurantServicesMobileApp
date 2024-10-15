@@ -10,7 +10,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 })
 export class UserInfoEditingPage implements OnInit {
   user: User | null = null;
-  tempUser: User = { 
+  tempUser: User = {
     userId: '',
     name: '',
     email: '',
@@ -20,6 +20,7 @@ export class UserInfoEditingPage implements OnInit {
     orderHistory: [],
     score: 0,
     avatarUrl: '',
+    password: ''
   };
 
   constructor(private userService: UserService) {}
