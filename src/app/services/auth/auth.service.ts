@@ -58,19 +58,28 @@ export class AuthService {
     return this.isLoggedInSubject.value || !!localStorage.getItem('userId');
   }
 
-   // Submit user registration and save it to Firestore
-  async onSubmit(userData: User) {
+  // Submit the user data to Firestore
+  async onSubmit(user: Partial<User>): Promise<boolean> {
     try {
-      // Store user data in Firestore under 'users' collection
-      await this.firestore.collection('users').add(userData);
-      console.log('User registration successful', userData);
+      // Add the user to the Firestore collection and automatically generate a userId
+      const userRef = await this.firestore.collection('users').add(user);
+      const userId = userRef.id;  // Get the auto-generated userId
 
-      return true; // Success indicator
+      // Update the user with the generated userId
+      await userRef.update({ userId });
+
+      return true; // Success
     } catch (error) {
-      console.error('Error saving user data to Firestore: ', error);
-      return false; // Failure indicator
+      console.error('Error registering user: ', error);
+      return false; // Failure
     }
   }
+
+    // Store userId in local storage after successful login
+   storeUserId(userId: string) {
+    localStorage.setItem('userId', userId);
+  }
+
 
 
   // Get logged in userId from localStorage

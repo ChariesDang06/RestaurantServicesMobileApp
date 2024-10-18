@@ -61,66 +61,66 @@ checkUsernameTaken(): AsyncValidatorFn {
 }
   // Submit function for form data
   async onSubmit() {
-    if (this.signInForm.valid) {
-       const password = this.signInForm.get('password')?.value;
+  if (this.signInForm.valid) {
+    const password = this.signInForm.get('password')?.value;
 
-      // Hash the password
-    const salt = bcrypt.genSaltSync(10);  // Adjust the salt rounds as needed
+    // Hash the password
+    const salt = bcrypt.genSaltSync(10); // Adjust the salt rounds as needed
     const hashedPassword = bcrypt.hashSync(password, salt);
 
-      // Create User object based on form data
-      const user: User = {
-        name: this.signInForm.get('userName')?.value,
-        phone: this.signInForm.get('phone')?.value,
-        email: this.signInForm.get('email')?.value,
-        address: this.signInForm.get('address')?.value,
-        password: hashedPassword // Store the hashed password
-        ,
-        userId: ''
-      };
+    // Create User object based on form data (without userId for now)
+    const user: Partial<User> = {
+      name: this.signInForm.get('userName')?.value,
+      phone: this.signInForm.get('phone')?.value,
+      email: this.signInForm.get('email')?.value,
+      address: this.signInForm.get('address')?.value,
+      password: hashedPassword // Store the hashed password
+    };
 
-      const success = await this.authService.onSubmit(user); // Call the service method
+    // Call the service method to submit the form
+    const success = await this.authService.onSubmit(user);
 
-      if (success) {
-        const alert = await this.alertController.create({
-          header: 'Success',
-          message: 'User registration successful!',
-          buttons: ['OK'],
-        });
-        await alert.present();
-        this.signInForm.reset();
-        this.navCtrl.navigateForward('/home'); // Navigate after success
-      } else {
-        const alert = await this.alertController.create({
-          header: 'Error',
-          message: 'Failed to register. Please try again later.',
-          buttons: ['OK'],
-        });
-        await alert.present();
-      }
-    } else {
-      // Handle invalid input errors here
-      let errorMessage = '';
-
-      if (this.signInForm.hasError('mismatch')) {
-        errorMessage += 'Passwords do not match.\n';
-      }
-      if (this.signInForm.get('userName')?.hasError('usernameTaken')) {
-        errorMessage += 'Username is already taken.\n';
-      }
-      if (this.signInForm.get('phone')?.hasError('minlength')) {
-        errorMessage += 'Phone number must be at least 10 digits.\n';
-      }
-      if (this.signInForm.get('password')?.hasError('minlength')) {
-        errorMessage += 'Password must be at least 6 characters.\n';
-      }
-
+    if (success) {
       const alert = await this.alertController.create({
-        header: 'Invalid Input',
-        message: errorMessage || 'Please fill all required fields correctly.',
+        header: 'Success',
+        message: 'User registration successful!',
+        buttons: ['OK'],
+      });
+      await alert.present();
+      this.signInForm.reset();
+      this.navCtrl.navigateForward('/home'); // Navigate after success
+    } else {
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'Failed to register. Please try again later.',
         buttons: ['OK'],
       });
       await alert.present();
     }
+  } else {
+    // Handle invalid input errors here
+    let errorMessage = '';
+
+    if (this.signInForm.hasError('mismatch')) {
+      errorMessage += 'Passwords do not match.\n';
+    }
+    if (this.signInForm.get('userName')?.hasError('usernameTaken')) {
+      errorMessage += 'Username is already taken.\n';
+    }
+    if (this.signInForm.get('phone')?.hasError('minlength')) {
+      errorMessage += 'Phone number must be at least 10 digits.\n';
+    }
+    if (this.signInForm.get('password')?.hasError('minlength')) {
+      errorMessage += 'Password must be at least 6 characters.\n';
+    }
+
+    const alert = await this.alertController.create({
+      header: 'Invalid Input',
+      message: errorMessage || 'Please fill all required fields correctly.',
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
+}
+
 }

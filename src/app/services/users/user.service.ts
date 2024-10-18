@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage'; // Thêm import này
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { User } from '../../models/user.model';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -59,4 +59,27 @@ export class UserService {
         console.error('Error updating avatar:', error);
       });
   }
+
+  // Get user by email or phone number
+getUserByUserNameOrPhone(userNameOrPhone: string): Observable<User | undefined> {
+  // First, try to find by username
+  return this.firestore.collection<User>('users', ref =>
+    ref.where('name', '==', userNameOrPhone)
+  ).valueChanges().pipe(
+    map(users => users[0]), // Return the first user found by username
+    // If no user found by username, try searching by phone number
+    switchMap(user => {
+      if (user) {
+        return of(user); // If user found by name, return that user
+      }
+      // If no user found by username, search by phone number
+      return this.firestore.collection<User>('users', ref =>
+        ref.where('phone', '==', userNameOrPhone)
+      ).valueChanges().pipe(
+        map(users => users[0]) // Return the first user found by phone number
+      );
+    })
+  );
+}
+
 }

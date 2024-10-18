@@ -5,7 +5,8 @@ import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../services/auth/auth.service';
 import firebase from 'firebase/compat/app';
 import { User } from '../../models/user.model';  // Import the User model
-
+import { UserService } from 'src/app/services/users/user.service';
+import * as bcrypt from 'bcryptjs'; 
 @Component({
   selector: 'app-signin',
   templateUrl: './login.page.html',
@@ -19,9 +20,10 @@ export class LoginPage implements OnInit {
     private alertController: AlertController,
     private router: Router,
     private authService: AuthService,
+     private userService: UserService
   ) {
     this.signInForm = this.formBuilder.group({
-      userId: new FormControl('', Validators.required),
+       userName: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
     });
   }
@@ -32,6 +34,35 @@ export class LoginPage implements OnInit {
       password: ['', Validators.required],
     });
   }
+// Handle login on button click
+async onLogin() {
+  const userNameOrPhone = this.signInForm.value.userName; // This will be either the username or phone
+  const password = this.signInForm.value.password;
+
+  // Check if the username or phone exists in Firestore
+  this.userService.getUserByUserNameOrPhone(userNameOrPhone).subscribe(async (user) => {
+    if (user) {
+      // Compare the provided password with the hashed password in the database
+      const passwordMatch = bcrypt.compareSync(password, user.password);
+
+      if (passwordMatch) {
+        // If the password matches, store the user ID in local storage using AuthService
+        this.authService.storeUserId(user.userId);
+        console.log(user.userId);
+
+        // Navigate to the home page after successful login
+        this.router.navigate(['/home']);
+      } else {
+        // Show an error message if the password does not match
+        this.showAlert('Mật khẩu không đúng. Vui lòng thử lại.');
+      }
+    } else {
+      // Show an error message if the username or phone number does not exist
+      this.showAlert('Tên đăng nhập hoặc số điện thoại không tồn tại.');
+    }
+  });
+}
+
 
   // Handle Google sign-in
   signInWithGoogle() {
