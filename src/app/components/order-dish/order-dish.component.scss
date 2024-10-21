@@ -60,14 +60,16 @@ ion-card-content {
 //   text-align: end;
 // }
 
-ion-card-subtitle .positive-order {
-    color: var(--green-primary);
+.positive-order {
+    color: var(--green-primary) ;
     margin-right: 0;
     text-align: left;
 }
 
-ion-card-subtitle .transparent-order {
-    color: var(--white-primary);
+.transparent-order {
+    color: var(--white-primary) ;
+    margin-right: 0;
+      text-align: left;
 }
 
 .add-btn {

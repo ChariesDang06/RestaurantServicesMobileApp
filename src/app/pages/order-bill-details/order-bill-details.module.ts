@@ -8,6 +8,7 @@ import { OrderBillDetailsPageRoutingModule } from './order-bill-details-routing.
 
 import { OrderBillDetailsPage } from './order-bill-details.page';
 import { OrderBillModule } from '../../components/order-bill/order-bill.module';
+import { ChangeLocationModule } from 'src/app/components/change-location/change-location.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { OrderBillModule } from '../../components/order-bill/order-bill.module';
     IonicModule,
     OrderBillDetailsPageRoutingModule,
     OrderBillModule,
+    ChangeLocationModule,
   ],
   declarations: [OrderBillDetailsPage],
 })
