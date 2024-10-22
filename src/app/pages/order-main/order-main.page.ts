@@ -1,252 +1,106 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+import { Category, Dish } from 'src/app/models/category.model';
+import { CategoryService } from 'src/app/services/categories/categories.service';
+import { OrderService } from 'src/app/services/order/order.service';
 @Component({
   selector: 'app-order-main',
   templateUrl: './order-main.page.html',
   styleUrls: ['./order-main.page.scss'],
 })
 export class OrderMainPage implements OnInit {
-  isMobile: boolean;
-  categoryList: string[] = [
-    'Khai vị',
-    'Món đặc trưng',
-    'Món Xào',
-    'Món canh',
-    'Món trộn',
-    'Món nướng',
-    'Nước uống',
-    'Món ăn kèm',
-    'Món tráng miệng',
-  ];
-  selectedIndex: number = 0; // Set default selected index to 0
-
-  selectCategory(index: number) {
-    this.selectedIndex = index; // Update the selected index on click
+  categoryList: Category[] = [];
+  dishInCart: number = 0;
+  basketPrice = 0;
+  selectedCategory: Category | null = null;
+  allDishes: Dish[] = [];
+  constructor(
+    private categoryService: CategoryService,
+    private orderService: OrderService,
+    private navController: NavController
+  ) {}
+  ngOnInit() {
+    this.loadCategories();
+    console.log(this.categoryList);
+    console.log('category list', this.categoryList);
+    this.orderService.dishes$.subscribe((dishes: Dish[]) => {
+      this.dishInCart = this.calculateDishInCart(dishes);
+      this.basketPrice = this.calculateBasketPrice(dishes);
+    });
+    // this.dishInCart = this.calculateDishInCart();
+    // this.basketPrice = this.calculateBasketPrice();
   }
-  // menuList:OrderDishComponent[]=new ;
+  // ionViewWillEnter() {
+  //   this.loadCategories();
+  //   console.log(this.categoryList);
+  //   console.log('category list', this.categoryList);
+  //   this.orderService.dishes$.subscribe((dishes: Dish[]) => {
+  //     this.dishInCart = this.calculateDishInCart(dishes);
+  //     this.basketPrice = this.calculateBasketPrice(dishes);
+  //   });
+  // }
+  // getCategoriesAndDishes() {
+  //   this.categoryService.getAllCategories().then((categories) => {
+  //     this.categoryList = categories;
+  //     // Process categories if needed
+  //     console.log('Categories:', categories);
 
-  menuList = [
-    {
-      ID: 1,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 2,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 3,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 4,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 1,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 2,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 3,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 4,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 1,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 2,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 3,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 4,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 1,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 2,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 3,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 4,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 1,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 2,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 3,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 4,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 1,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 2,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 3,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-    {
-      ID: 4,
-      name: 'Gỏi cuống tôn thịt',
-      image:
-        'https://firebasestorage.googleapis.com/v0/b/restaurantservices-cf7db.appspot.com/o/categoryImg%2Fcat001_KhaiVi%2FEllipse%2064.png?alt=media&token=8e7deaea-c725-45ff-a4bb-5e4962b13a5c',
-      sortDescription:
-        'Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có tại Nhà hàng Việt',
-      price: 199000,
-    },
-  ];
+  //     // Optionally set a selected category
+  //     if (categories.length > 0) {
+  //       this.selectedCategory = categories[0]; // Set the first category as selected
+  //     }
+  //   });
 
-  constructor(private platform: Platform) {
-    this.isMobile = this.platform.is('mobile'); // Check if the platform is mobile
+  //   this.categoryService.getAllDishes().then((dishes) => {
+  //     this.allDishes = dishes;
+  //     console.log('All Dishes:', this.allDishes);
+  //   });
+  // }
+  async loadCategories() {
+    try {
+      const categories = await this.categoryService.getCategoriesWithDishes();
+      this.categoryList = categories;
+      console.log('Categories with Dishes:', categories);
+    } catch (error) {
+      console.error('Error fetching categories and dishes:', error);
+    }
+  }
+  getDishArray(): Dish[] {
+    return this.selectedCategory?.dishes
+      ? Object.values(this.selectedCategory.dishes)
+      : [];
   }
 
-  ngOnInit() {}
+  calculateDishInCart(dishes: Dish[]): number {
+    return dishes.reduce((sum, dish) => sum + dish.total, 0); // Calculate total dishes
+  }
+
+  calculateBasketPrice(dishes: Dish[]): number {
+    return dishes.reduce((total, dish) => {
+      console.log('selected item', dish);
+      let dishPrice = Number(dish.price);
+      if (dish.options && dish.options.length > 0) {
+        const optionsTotalPrice = dish.options.reduce(
+          (optionsTotalPrice, option) => {
+            console.log('options ', option.price);
+            return optionsTotalPrice + Number(option.price);
+          },
+          0
+        );
+        dishPrice += optionsTotalPrice;
+        console.log(dishPrice);
+      }
+      console.log('total price', total, dish.total, dishPrice);
+      return total + dish.total * dishPrice;
+    }, 0); // Calculate total dishes
+  }
+
+  ChangeSelectCategory(category: Category) {
+    this.selectedCategory = category;
+    console.log(this.selectedCategory);
+    console.log(this.selectedCategory?.dishes);
+  }
+  gotoOrderBillDetails() {
+    this.navController.navigateForward('/order-bill-details');
+  }
 }

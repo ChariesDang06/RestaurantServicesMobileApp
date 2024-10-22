@@ -1,38 +1,45 @@
 <ion-card>
   <div class="sub-container"></div>
-  <img class="custom-image" src="/assets/images/food.png" alt="" />
+  <img class="custom-image" [src]="dish?.imageUrl" alt="" />
   <div class="main-container">
     <ion-card-header>
-      <ion-card-title>Gỏi cuốn tôm thịt</ion-card-title>
+      <ion-card-title>{{ dish?.name }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      Thịt bò WaiGu, Tôm hùm Alaska, rau xanh công nghệ thủy sinh Đà Lạt. Chỉ có
-      tại Nhà hàng Việt.
+      {{ dish?.ingredients }}
     </ion-card-content>
 
     <ion-card-subtitle>
       <ion-row class="margin-row">
         <ion-col class="ion-align-self-center">
-          <p>{{ price | number : "1.0-0" }}đ</p>
+          <p>{{ dish?.price | number : "1.0-0" }}đ</p>
           <p
             [ngClass]="{
-              'positive-order': countOrder > 0,
-              'transparent-order': countOrder === 0
+              'positive-order': dish?.total ?? 0 > 0,
+              'transparent-order': dish?.total ?? 0 === 0
             }"
           >
-            Đã chọn {{ countOrder }}
+            Đã chọn {{ dish?.total ?? 0 }}
           </p>
         </ion-col>
 
         <ion-col class="col-button">
           <ion-button
-            (click)="openOrderDishDetails()"
+            (click)="openOrderDishDetailsPage()"
             shape="round"
             size="small"
             class="add-btn"
           >
             <ion-icon slot="icon-only" name="add"></ion-icon>
           </ion-button>
+          <!-- <ion-button
+            (click)="checkDishTotalOrder()"
+            shape="round"
+            size="small"
+            class="add-btn"
+          >
+            check dish total order
+          </ion-button> -->
         </ion-col>
       </ion-row>
     </ion-card-subtitle>

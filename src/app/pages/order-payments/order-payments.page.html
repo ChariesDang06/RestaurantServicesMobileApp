@@ -5,20 +5,63 @@
 </ion-header>
 <ion-content>
   <div class="container">
-    <ion-button fill="clear" class="back-button">
+    <ion-button fill="clear" class="back-button" (click)="gotoPreviousPage()">
       <ion-icon name="arrow-back-outline"></ion-icon> Quay lại
     </ion-button>
     <hr />
     <h2>Các phương thức được liên kết</h2>
-    <ion-button expand="block" class="add-bnt">
+
+    <ion-button
+      expand="block"
+      class="add-bnt"
+      (click)="changePaymentMethod('COD')"
+    >
       <div class="credit-container">
         <div>
           <ion-icon name="cash-outline"></ion-icon>
           <p>Tiền mặt</p>
         </div>
-        <ion-icon name="checkmark-outline"></ion-icon>
+        <ion-icon
+          *ngIf="creditText === 'COD'"
+          name="checkmark-outline"
+        ></ion-icon>
       </div>
     </ion-button>
+    <ion-button
+      expand="block"
+      class="add-bnt"
+      *ngIf="user?.paymentMethods?.eWallet"
+      (click)="changePaymentMethod(user?.paymentMethods?.eWallet)"
+    >
+      <div class="credit-container">
+        <div>
+          <img src="/assets/images/momo.png" />
+          <p>Momo</p>
+        </div>
+        <ion-icon
+          *ngIf="creditText === 'Momo'"
+          name="checkmark-outline"
+        ></ion-icon>
+      </div>
+    </ion-button>
+    <ion-button
+      expand="block"
+      class="add-bnt"
+      *ngIf="user?.paymentMethods?.creditCard"
+      (click)="changePaymentMethod(user?.paymentMethods?.creditCard?.cardNumber)"
+    >
+      <div class="credit-container">
+        <div>
+          <ion-icon name="cash-outline"></ion-icon>
+          <p>{{ maskNumber(user?.paymentMethods?.creditCard?.cardNumber) }}</p>
+        </div>
+        <ion-icon
+          *ngIf="creditText !== 'Momo'&&creditText !== 'COD'"
+          name="checkmark-outline"
+        ></ion-icon>
+      </div>
+    </ion-button>
+
     <h2>Thêm các phương thức khác</h2>
     <ion-button expand="block" class="add-bnt">
       <div class="credit-container">
@@ -29,7 +72,11 @@
         <ion-icon name="arrow-forward-outline"></ion-icon>
       </div>
     </ion-button>
-    <ion-button expand="block" class="add-bnt">
+    <ion-button
+      expand="block"
+      class="add-bnt"
+      *ngIf="user?.paymentMethods?.eWallet"
+    >
       <div class="credit-container">
         <div>
           <img src="/assets/images/momo.png" />

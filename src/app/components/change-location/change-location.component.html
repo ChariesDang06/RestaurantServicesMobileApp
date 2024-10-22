@@ -1,0 +1,70 @@
+<ion-content>
+  <div class="container">
+    <ion-button fill="clear" (click)="closePopup()">
+      <ion-icon name="arrow-back-outline"></ion-icon> Quay lại
+    </ion-button>
+    <hr />
+    <ion-item>
+      <ion-select
+        justify="space-between"
+        label="Tỉnh thành  "
+        [interfaceOptions]="cityAlertOptions"
+        interface="alert"
+        placeholder="  Chọn tỉnh thành"
+        [(ngModel)]="selectedCity"
+        (ionChange)="onCityChange()"
+      >
+        <ion-select-option *ngFor="let city of cities" [value]="city.Id">
+          {{ city.Name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <hr />
+    <ion-item>
+      <ion-select
+        justify="space-between"
+        label="Quận huyện"
+        [interfaceOptions]="districtAlertOptions"
+        interface="alert"
+        placeholder="Chọn quận huyện"
+        [(ngModel)]="selectedDistrict"
+        (ionChange)="onDistrictChange()"
+      >
+        <ion-select-option
+          *ngFor="let district of districts"
+          [value]="district.Id"
+          >{{ district.Name }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <hr />
+    <ion-item>
+      <ion-select
+        justify="space-between"
+        label="Quận huyện"
+        [interfaceOptions]="districtAlertOptions"
+        interface="alert"
+        placeholder="Chọn quận huyện"
+        [(ngModel)]="selectedWard"
+      >
+        <ion-select-option *ngFor="let ward of wards" [value]="ward.Id">{{
+          ward.Name
+        }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <hr />
+    <ion-item>
+      <ion-input
+        label="Địa chỉ cụ thể"
+        [(ngModel)]="address"
+        placeholder="Vui lòng nhập địa ..."
+      ></ion-input>
+    </ion-item>
+    <hr />
+  </div>
+  <div class="submit-container">
+    <ion-button class="submit-button" expand="block" (click)="SubmitPopup()"
+      >Xác nhận</ion-button
+    >
+  </div>
+</ion-content>
