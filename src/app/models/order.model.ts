@@ -15,4 +15,5 @@ export interface Order {
   pickupTime: string;
   status: string;
   paymentMethod: string;
+  reservationId?: string;  
 }

@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Dish } from '../../models/category.model';
 import { Order } from '../../models/order.model';
-import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Reservation } from 'src/app/models/reservation.model';
+import { map, switchMap, first } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -68,6 +71,38 @@ export class OrderService {
   //   return firstValueFrom(orders$);
   // }
   getOrderHistory(userId: string): Observable<any[]> {
-    return this.firestore.collection('orders', ref => ref.where('userId', '==', userId)).valueChanges();
+    return this.firestore
+      .collection<Order>('orders', ref => ref.where('userId', '==', userId))
+      .valueChanges()
+      .pipe(
+        switchMap(orders => {
+          console.log('Orders:', orders);
+          // Lấy tất cả các reservationId từ các order
+          const reservationIds = orders.map(order => order.reservationId).filter(id => id); // Lọc ra các reservationId hợp lệ
+          if (reservationIds.length === 0) {
+            return of(orders); // Trả về orders nếu không có reservationId
+          }
+  
+          const reservationObservables = reservationIds.map(reservationId =>
+            this.firestore
+              .collection<Reservation>('reservations', ref =>
+                ref.where('reservationId', '==', reservationId)
+              )
+              .valueChanges()
+              .pipe(first()) // Chỉ lấy phần tử đầu tiên
+          );
+  
+          // Kết hợp các observable của reservations với orders
+          return forkJoin(reservationObservables).pipe(
+            map(reservations => {
+              return orders.map((order, index) => ({
+                ...order,
+                reservation: reservations[index] ? reservations[index][0] : null, // Thêm reservation vào order nếu có
+              }));
+            })
+          );
+        })
+      );
   }
+  
 }
