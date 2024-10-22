@@ -167,7 +167,7 @@ export class OrderAddPaymentPage implements OnInit {
         try {
           await this.userService.updateUser(this.user);
           this.showAlet('Liên kết thành công', '', '');
-          this.navController.back();
+          this.navController.navigateBack('/order-payments');
         } catch {
           await this.userService.updateUser(this.user);
           this.showAlet(

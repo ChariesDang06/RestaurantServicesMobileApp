@@ -79,8 +79,8 @@
     <ion-button
       expand="block"
       class="add-bnt"
-      *ngIf="user?.paymentMethods?.eWallet"
-      (click)="gotoOrderAddPaymentPage()"
+      *ngIf="!user?.paymentMethods?.eWallet"
+      (click)="momoSubmit()"
     >
       <div class="credit-container">
         <div>

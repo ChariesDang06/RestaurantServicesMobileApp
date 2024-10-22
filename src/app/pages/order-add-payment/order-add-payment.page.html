@@ -63,12 +63,7 @@
     <hr />
     <h2>Hoặc liên kết Momo</h2>
 
-    <ion-button
-      expand="block"
-      class="add-bnt"
-      *ngIf="user?.paymentMethods?.eWallet"
-      (click)="linkMomo()"
-    >
+    <ion-button expand="block" class="add-bnt" (click)="linkMomo()">
       <div class="credit-container">
         <div>
           <img src="/assets/images/momo.png" />
