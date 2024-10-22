@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavController, Platform } from '@ionic/angular';
+import { AlertController, NavController, Platform } from '@ionic/angular';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/users/user.service';
 @Component({
@@ -11,7 +11,8 @@ import { UserService } from 'src/app/services/users/user.service';
 export class OrderPaymentsPage implements OnInit {
   constructor(
     private navController: NavController,
-    private userService: UserService
+    private userService: UserService,
+    private alertController: AlertController
   ) {}
   user: User | null = null;
   creditText: string = '';
@@ -25,6 +26,23 @@ export class OrderPaymentsPage implements OnInit {
     this.getUserInfo();
     console.log(this.user?.paymentMethods);
   }
+  momoSubmit() {
+    this.showAlet(
+      'Liên kết Momo',
+      '',
+      'Vì lý do bảo mật nên chức năng này tụi em chưa hoàn thiện'
+    );
+  }
+  async showAlet(header: string, subHeader: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      subHeader: subHeader,
+      message: message,
+      buttons: ['Xác nhận'],
+    });
+
+    await alert.present();
+  }
   gotoPreviousPage() {
     this.navController.navigateBack('/order-bill-details');
   }
@@ -32,8 +50,6 @@ export class OrderPaymentsPage implements OnInit {
     this.navController.navigateForward('/order-add-payment');
   }
   getUserInfo() {
-    localStorage.setItem('userId', 'u001');
-
     const userId = localStorage.getItem('userId'); // Lấy userId từ localStorage
     if (userId) {
       this.userService.getUserById(userId).subscribe(

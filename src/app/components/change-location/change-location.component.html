@@ -11,7 +11,7 @@
         [interfaceOptions]="cityAlertOptions"
         interface="alert"
         placeholder="  Chọn tỉnh thành"
-        [(ngModel)]="selectedCity"
+        [(ngModel)]="selectedCity.id"
         (ionChange)="onCityChange()"
       >
         <ion-select-option *ngFor="let city of cities" [value]="city.Id">
@@ -27,7 +27,7 @@
         [interfaceOptions]="districtAlertOptions"
         interface="alert"
         placeholder="Chọn quận huyện"
-        [(ngModel)]="selectedDistrict"
+        [(ngModel)]="selectedDistrict.id"
         (ionChange)="onDistrictChange()"
       >
         <ion-select-option
@@ -45,7 +45,8 @@
         [interfaceOptions]="districtAlertOptions"
         interface="alert"
         placeholder="Chọn quận huyện"
-        [(ngModel)]="selectedWard"
+        (ionChange)="onWardChange()"
+        [(ngModel)]="selectedWard.id"
       >
         <ion-select-option *ngFor="let ward of wards" [value]="ward.Id">{{
           ward.Name

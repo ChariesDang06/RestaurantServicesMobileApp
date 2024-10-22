@@ -37,7 +37,7 @@ export class OrderAddPaymentPage implements OnInit {
     this.navController.back();
   }
   getUserInfo() {
-    localStorage.setItem('userId', 'u001');
+    // localStorage.setItem('userId', 'u001');
 
     const userId = localStorage.getItem('userId'); // Lấy userId từ localStorage
     if (userId) {
@@ -167,7 +167,7 @@ export class OrderAddPaymentPage implements OnInit {
         try {
           await this.userService.updateUser(this.user);
           this.showAlet('Liên kết thành công', '', '');
-          this.navController.back();
+          this.navController.navigateBack('/order-payments');
         } catch {
           await this.userService.updateUser(this.user);
           this.showAlet(
