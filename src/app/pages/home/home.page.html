@@ -1,8 +1,4 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title></ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-navbar class="navbar"></app-navbar>
 
 <ion-content>
   <ion-grid>
@@ -32,12 +28,12 @@
       </h1>
       <h4>Giòn tan, thơm lừng, ngon tuyệt!</h4>
     </div>
-    <div class="button-container">
+    <div class="button-container" (click)="goToOrder()">
       <div class="ship-icon-container">
         <img src="/assets/homepageimg/shipicon.png" alt="Ship Icon" />
       </div>
       <ion-button size="large" class="action-button order-button">
-        <span>Đặt hàng</span>
+        <span>Đặt món</span>
         <ion-icon
           name="chevron-forward-outline"
           style="background-color: #14c458"
@@ -45,11 +41,11 @@
       </ion-button>
     </div>
 
-    <div class="button-container">
+    <div class="button-container"  (click)="goToReservation()">
       <div class="store-icon-container">
         <img src="/assets/homepageimg/storeicon.png" alt="Store Icon" />
       </div>
-      <ion-button size="large" class="action-button table-button">
+      <ion-button size="large" class="action-button table-button" >
         <span>Đặt bàn</span>
         <ion-icon
           name="chevron-forward-outline"
@@ -58,17 +54,14 @@
       </ion-button>
     </div>
   </div>
-  <div class="qc">
-    <h5>Giảm ngay <span class="highlight">15%</span></h5>
-    <p>Cho khai vị khi đặt bàn</p>
-  </div>
+    <app-banner-promo></app-banner-promo>
   <div class="spectial-content">
-    <h5>- NHỮNG MÓN ĂN ĐẶC BIỆT -</h5>
+    <h5  style="margin-bottom:10px ;">- NHỮNG MÓN ĂN ĐẶC BIỆT -</h5>
     <p>
       Mỗi món ăn tại quán chúng tôi đều được chế biến từ những nguyên liệu tươi
       ngon nhất, mang đến hương vị tuyệt vời và ấn tượng khó quên.
     </p>
-    <p>
+    <p style="margin-bottom:10px ;">
       Hương vị đẳng cấp, phục vụ chu đáo, tiện lợi vượt trội – trải nghiệm ẩm
       thực tinh tế.
     </p>
@@ -107,8 +100,8 @@
     />
   </div>
   <div class="spectial-content">
-    <h5>- NHÀ HÀNG CỦA CHÚNG TÔI -</h5>
-    <p>
+    <h5 style="margin-top: 0;">- NHÀ HÀNG CỦA CHÚNG TÔI -</h5>
+    <p  style="margin-bottom:10px ;">
       Ánh sáng dịu nhẹ từ đèn treo cùng cách bố trí nội thất chu đáo mang đến
       bầu không khí ấm cúng, lý tưởng cho những bữa tiệc sum họp hay những buổi
       hẹn lãng mạn.
@@ -165,51 +158,69 @@
   </div>
 
   <div class="spectial-content">
-    <h5>- KHÁCH HÀNG CỦA CHÚNG TÔI NÓI GÌ -</h5>
+    <h5>- BÌNH LUẬN CỦA KHÁCH HÀNG -</h5>
   </div>
   <swiper-container
-    slides-per-view="1.25"
-    loop="true"
-    [keyboard]="{ enabled: true, onlyInViewport: true, pageUpDown: true }"
-    class="mySwiper"
-  >
-    <swiper-slide>
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>
-            <ion-icon name="logo-wechat" class="custom-icon"></ion-icon>
-          </ion-card-title>
-        </ion-card-header>
-        <ion-card-content class="card-content">
-          "Không gian nhà hàng thoải mái và tinh tế"
-        </ion-card-content>
-      </ion-card>
-    </swiper-slide>
+  slides-per-view="1.25"
+  loop="true"
+  [keyboard]="{ enabled: true, onlyInViewport: true, pageUpDown: true }"
+  class="mySwiper"
 
-    <swiper-slide>
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>
-            <ion-icon name="logo-wechat" class="custom-icon"></ion-icon>
-          </ion-card-title>
-        </ion-card-header>
-        <ion-card-content class="card-content">
-          "Nhân viên phục vụ nhiệt tình, Toy rất hài lòng và sẽ ghé lại."
-        </ion-card-content>
-      </ion-card>
-    </swiper-slide>
+>
+  <swiper-slide style="   margin-right: 10px;
+    margin-left: 10px;" *ngFor="let review of reviews">
+    <ion-card>
+      <ion-card-header style="padding-bottom: 0px;">
+        <ion-card-title>
+          <ion-icon name="logo-wechat" class="custom-icon red-border"></ion-icon>
+          <span class="rating" style="padding-top: 3px;justify-content: center;">
+            <ng-container *ngFor="let star of stars; let i = index">
+              <ion-icon
+                [name]="i < review.rating ? 'star' : 'star-outline'"
+                class="star-icon"
+                style="color: gold;"
+              ></ion-icon>
+            </ng-container>
+          </span>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="card-content">
+        "{{ review.comment }}"
+      </ion-card-content>
+    </ion-card>
+  </swiper-slide>
+</swiper-container>
 
-    <swiper-slide>
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>
-            <ion-icon name="logo-wechat" class="custom-icon"></ion-icon>
-          </ion-card-title>
-        </ion-card-header>
-        <ion-card-content class="card-content">
-          "Món ăn được trình bày đẹp mắt, hương vị ngon "
-        </ion-card-content>
-      </ion-card>
-    </swiper-slide>
-  </swiper-container>
+<!-- Phần bình luận của người dùng -->
+<div *ngIf="canReview()">
+  <ion-card style="margin: 0; height: 100%; padding: 10px; background-color: #2b2b2b;">
+    <ion-card-header>
+      <h5 style="font-size: 18px; font-weight: bold;color:white;text-align: center;">- Viết đánh giá của bạn -</h5>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="star-rating" style="display: flex; gap: 5px; justify-content: center; margin-bottom: 10px;">
+        <ion-icon
+          *ngFor="let star of stars; let i = index"
+          [name]="i < newReview.rating ? 'star' : 'star-outline'"
+          (click)="setRating(i + 1)"
+          class="star-icon"
+          style="color: gold; font-size: 24px;"
+        ></ion-icon>
+      </div>
+      <ion-textarea
+        [(ngModel)]="newReview.comment"
+        placeholder="Nhập bình luận của bạn"
+        style="width: 100%; height: 100px; padding: 10px; border-radius: 8px; border: 1px solid #CCCCCC; font-size: 14px; outline: none; resize: none; margin-bottom: 10px; color: white;"
+      ></ion-textarea>
+      <ion-button expand="block" (click)="submitReview()" style="padding: 10px 0; --background:#14c458; border-radius: 8px; color: white; font-size: 16px; cursor: pointer;">
+        Gửi
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</div>
+
+<!-- Nếu không có quyền review -->
+<div *ngIf="!canReview()">
+  <p style="text-align: center;">Hãy trải nghiệm dịch vụ rùi góp ý cho chúng mình nhé <ion-icon name="heart-outline"></ion-icon></p>
+</div>
 </ion-content>

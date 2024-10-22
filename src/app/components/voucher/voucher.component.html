@@ -1,7 +1,11 @@
-<p>voucher works!</p>
-<ion-button class="voucher-button">
-  <div class="button-content">
-    <ion-icon name="card" class="voucher-icon"></ion-icon>
-    <span class="voucher-text">{{ voucherText }}</span>
-  </div>
-</ion-button>
+<ion-card class="voucher-card">
+  <ion-card-header>
+    <ion-card-title>
+      <ion-icon name="pricetag" class="voucher-icon"></ion-icon> <!-- Thêm icon ở đây -->
+      {{ voucher.value }}% <!-- Hiển thị số phần trăm mà không cần chữ "percent" -->
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <p>{{ voucher.description }}</p> <!-- Hiển thị mô tả voucher -->
+  </ion-card-content>
+</ion-card>
