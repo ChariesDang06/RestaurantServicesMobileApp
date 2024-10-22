@@ -17,12 +17,10 @@ export interface User {
   userId: string;
   name: string;
   email: string;
-  password: string;
   phone: string;
   address?: string;
   reservationHistory?: Reservation[];
   orderHistory?: Order[];
   score?: number;
   paymentMethods?: PaymentMethods;
-  avatarUrl?: string; 
 }

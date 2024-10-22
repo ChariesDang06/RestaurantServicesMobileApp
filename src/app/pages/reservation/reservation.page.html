@@ -12,73 +12,98 @@
       <ion-card class="restaurant-map">
         <ion-img
           class="map-image"
-          [src]="selectedMap.src"
+          [src]="selectedFloor?.floorDiagram"
           alt="Selected map"
         ></ion-img>
         <ion-select
           class="map-button"
-          [placeholder]="mapName"
-          (ionChange)="onMapChange($event)"
+          [placeholder]="selectedFloor?.floor"
+          (ionChange)="onFloorChange($event)"
         >
-          <ion-select-option *ngFor="let map of maps" [value]="map">
-            {{ map.name }}
+          <ion-select-option *ngFor="let map of floors" [value]="map.floor">
+            {{ map.floor }}
           </ion-select-option>
         </ion-select>
       </ion-card>
+      
       <ion-row class="selectionContainer">
-        <ion-item class="selectionItemL">
-          <ion-select placeholder="Mã bàn" (ionChange)="onMapChange($event)">
-            <ion-select-option *ngFor="let table of tables" [value]="table">
-              {{ table.name }}
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
-
-        <ion-item class="selectionItemL">
-          <ion-select placeholder="Ngày giờ" (ionChange)="onMapChange($event)">
-            <ion-datetime presentation="month-year"></ion-datetime>
-          </ion-select>
-        </ion-item>
-
-        <ion-item class="selectionItemS">
-          <ion-select placeholder="6" (ionChange)="onMapChange($event)">
-            <ion-select-option *ngFor="let table of tables" [value]="table">
-              {{ table.name }}
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
+        <ion-col>
+          <!-- First row with two selection items -->
+          <ion-row>
+            <ion-col size="6">
+              <ion-item class="selectionItem">
+                <ion-select placeholder="Mã bàn" (ionChange)="onTableChange($event)">
+                  <ion-select-option *ngFor="let table of tables" [value]="table.name">
+                    {{ table.name }}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+      
+            <ion-col size="6">
+              <ion-item class="selectionItem">
+                {{ selectedTable?.availableSeats }}
+              </ion-item>
+            </ion-col>
+          </ion-row>
+      
+          <!-- Second row with date selector -->
+          <ion-row>
+            <ion-col size="12">
+              <ion-item class="selectionItem" (click)="toggleDateTime()">
+                <div class="datetime-container">
+                  <ion-datetime 
+                    *ngIf="isDateTimeOpen"
+                    presentation="time-date" 
+                    placeholder="Chọn ngày"
+                    [(ngModel)]="selectedDate"
+                    [min]="currentDateTime"
+                    (ionCancel)="closeDateTime()"
+                    (ionChange)="closeDateTime()"
+                    class="datetime-overlay"
+                  ></ion-datetime>
+                  <span *ngIf="!selectedDate">
+                    Chọn ngày
+                  </span>
+                  <span *ngIf="selectedDate">
+                    {{ selectedDate | date: 'short' }}
+                  </span>
+                </div>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-col>
       </ion-row>
-      <ion-row>
-        <p class="description">
-          "Đảm bảo không gian rộng rãi và tiện nghi cho 6 người. Vị trí này lý
-          tưởng cho các buổi gặp gỡ thân mật, hội họp hoặc làm việc nhóm."
-        </p>
-      </ion-row>
+      
+      <!-- Note field below selectionContainer -->
       <ion-row>
         <ion-item class="noteField">
           <ion-textarea placeholder="Ghi chú cho nhà hàng..."></ion-textarea>
         </ion-item>
       </ion-row>
+      
+      
       <ion-row class="customerInfor">
         <ion-text class="inforTitle">Họ và tên</ion-text>
-        <ion-textarea class="inforInput"> </ion-textarea>
+        <ion-textarea class="inforInput" [(ngModel)]="customerName"></ion-textarea>
       </ion-row>
 
       <ion-row class="customerInfor">
         <ion-text class="inforTitle">Số điện thoại</ion-text>
-        <ion-textarea class="inforInput"> </ion-textarea>
+        <ion-textarea class="inforInput" [(ngModel)]="customerPhone"></ion-textarea>
       </ion-row>
 
       <ion-row class="customerInfor">
         <ion-text class="inforTitle">Email</ion-text>
-        <ion-textarea class="inforInput"> </ion-textarea>
+        <ion-textarea class="inforInput" [(ngModel)]="customerEmail"></ion-textarea>
       </ion-row>
 
       <ion-row class="divider"></ion-row>
       <ion-row class="policyCheck">
-        <ion-checkbox labelPlacement="end"
-          >Nhận mail thông báo về các ưu đãi của chúng tôi</ion-checkbox
-        >
+        <ion-checkbox [(ngModel)]="confirmationEmailSent" labelPlacement="end">
+          Nhận mail thông báo về các ưu đãi của chúng tôi
+        </ion-checkbox>
+
       </ion-row>
       <ion-row class="policy-section">
         <ion-col>
@@ -100,14 +125,10 @@
 
       <ion-row>
         <ion-col size="7">
-          <ion-button class="bigButt" fill="clear" expand="block"
-            >Đặt món</ion-button
-          >
+          <ion-button class="bigButt" fill="clear" expand="block" (click)="submitReservation()">Đặt món</ion-button>
         </ion-col>
         <ion-col size="5">
-          <ion-button class="smallButt" fill="clear" expand="block"
-            >Xác nhận</ion-button
-          >
+          <ion-button class="smallButt" fill="clear" expand="block" (click)="submitReservation()">Xác nhận</ion-button>
         </ion-col>
       </ion-row>
     </ion-col>

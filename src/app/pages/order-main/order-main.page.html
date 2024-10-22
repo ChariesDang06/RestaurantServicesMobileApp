@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header *ngIf="isMobile">
   <ion-toolbar>
     <ion-title>order-bill-details</ion-title>
   </ion-toolbar>
@@ -36,38 +36,35 @@
   <hr />
   <div class="navbar-container">
     <a
-      *ngFor="let category of categoryList"
+      *ngFor="let category of categoryList; let i = index"
       class="navbar-item"
-      (click)="ChangeSelectCategory(category)"
-      [class.active]="selectedCategory?.categoryId === category.categoryId"
+      [class.active]="i === selectedIndex"
+      (click)="selectCategory(i)"
     >
-      {{ category.name }}</a
+      {{ category }}</a
     >
   </div>
-  <p class="selected-category" *ngIf="selectedCategory">
-    {{selectedCategory.name}}
-  </p>
+  <p class="selected-category">{{categoryList[selectedIndex]}}</p>
   <ion-grid class="grid-item">
     <ion-row>
-      <ion-col
-        class="list-menu-item"
-        size="6"
-        *ngFor="let item of getDishArray()"
-      >
-        <app-order-dish [dish]="item"> </app-order-dish>
-      </ion-col>
+      <ion-col class="list-menu-item" size="6" *ngFor="let item of menuList">
+        <app-order-dish
+          [ID]="item.ID"
+          [name]="item.name"
+          [image]="item.image"
+          [sortDescription]="item.sortDescription"
+          [price]="item.price"
+        >
+        </app-order-dish
+      ></ion-col>
     </ion-row>
   </ion-grid>
   <div class="submit-container">
-    <ion-button
-      class="submit-button"
-      expand="block"
-      (click)="gotoOrderBillDetails()"
-      [disabled]="dishInCart === 0"
+    <ion-button class="submit-button" expand="block"
       ><div class="submit-button-text">
-        <p>Giỏ hàng: {{dishInCart}}</p>
+        <p>Giỏ hàng: {{selectedIndex}}</p>
         <div>
-          <p>{{basketPrice | number : "1.0-0" }} đ</p>
+          <p>{{menuList[0].price | number : "1.0-0" }}đ</p>
         </div>
       </div>
     </ion-button>

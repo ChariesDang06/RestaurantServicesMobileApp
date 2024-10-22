@@ -56,7 +56,10 @@ const routes: Routes = [
     path: 'user-voucher',
     loadChildren: () => import('./pages/user-voucher/user-voucher.module').then( m => m.UserVoucherPageModule)
   },
- 
+  {
+    path: 'data-test',
+    loadChildren: () => import('./pages/data-test/data-test.module').then( m => m.DataTestPageModule)
+  },
   {
     path: 'order-add-payment',
     loadChildren: () => import('./pages/order-add-payment/order-add-payment.module').then( m => m.OrderAddPaymentPageModule)

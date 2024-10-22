@@ -1,22 +1,13 @@
 <ion-card>
   <div class="lef-content">
-    <img [src]="dish?.imageUrl" />
+    <img src="/assets/images/food.png" />
     <div class="text">
-      <ion-title>{{ dish?.name }}</ion-title>
-
-      <ion-card-subtitle class="options" *ngFor="let option of dish?.options">
-        <p>
-          {{ option.name }}
-        </p>
-        <p>+{{ option.price | number : "1.0-0" }} đ</p>
-      </ion-card-subtitle>
+      <ion-title>{{ name }}</ion-title>
       <div class="sub-title">
-        <ion-card-subtitle>Đã chọn {{ dish?.total }}</ion-card-subtitle
-        ><ion-button size="small" fill="clear" (click)="editDish()"
-          >Chỉnh sửa</ion-button
-        >
+        <ion-card-subtitle>Đã chọn {{ total }}</ion-card-subtitle
+        ><ion-button size="small" fill="clear">Chỉnh sửa</ion-button>
       </div>
     </div>
   </div>
-  <p>{{ dish?.price | number : "1.0-0" }}đ</p>
-</ion-card>
+  <p>{{ price | number : "1.0-0" }}đ</p></ion-card
+>
