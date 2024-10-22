@@ -27,7 +27,14 @@ ion-content {
 hr {
   border-top: 1px solid var(--green-primary);
 }
-
+.user-address {
+  div {
+    p {
+      display: flex;
+      justify-content: start;
+    }
+  }
+}
 ion-button {
   div {
     width: 100%;
@@ -101,7 +108,7 @@ ion-list {
     justify-content: start;
 
     ion-icon {
-      color: var(--red-primary);
+      color: var(--green-primary);
       padding-right: 1rem;
     }
   }

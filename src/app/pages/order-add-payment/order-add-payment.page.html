@@ -5,7 +5,7 @@
 </ion-header>
 <ion-content>
   <div class="container">
-    <ion-button fill="clear" class="back-button">
+    <ion-button fill="clear" class="back-button" (click)="gotoPreviousPage()">
       <ion-icon name="arrow-back-outline"></ion-icon> Thêm thẻ
     </ion-button>
     <hr />
@@ -13,7 +13,13 @@
       <h2>Số thẻ</h2>
       <div class="input-with-icon">
         <ion-icon name="card-outline"></ion-icon
-        ><input placeholder="Số thẻ" type="text" />
+        ><input
+          placeholder="Số thẻ"
+          type="text"
+          maxlength="16"
+          (input)="formatCreditNumber($event)"
+          [(ngModel)]="creditNumber"
+        />
       </div>
     </div>
     <div class="row-container">
@@ -33,7 +39,14 @@
       <div>
         <h2>CVV</h2>
         <div class="input-with-icon">
-          <input placeholder="CVV" type="text" />
+          <input
+            placeholder="CVV"
+            type="number"
+            maxlength="3"
+            id="CvvInput"
+            (input)="formatCvv($event)"
+            [(ngModel)]="Vcc"
+          />
         </div>
       </div>
     </div>
@@ -47,7 +60,24 @@
       thêm thẻ, bạn đã đọc và đồng ý với <a>điều khoản điều kiện</a> của chúng
       tôi.
     </p>
-  </div>
+    <hr />
+    <h2>Hoặc liên kết Momo</h2>
 
-  <ion-button class="submit-button" expand="block">Liên kết </ion-button>
+    <ion-button
+      expand="block"
+      class="add-bnt"
+      *ngIf="user?.paymentMethods?.eWallet"
+      (click)="linkMomo()"
+    >
+      <div class="credit-container">
+        <div>
+          <img src="/assets/images/momo.png" />
+          <p>Momo</p>
+        </div>
+      </div>
+    </ion-button>
+  </div>
+  <ion-button class="submit-button" expand="block" (click)="onSubmit()"
+    >Liên kết
+  </ion-button>
 </ion-content>

@@ -10,6 +10,9 @@
         </p>
         <p>+{{ option.price | number : "1.0-0" }} đ</p>
       </ion-card-subtitle>
+      <ion-card-subtitle class="options">
+        <p *ngIf="dish?.note !== ''">Ghi chú: {{ dish?.note }}</p>
+      </ion-card-subtitle>
       <div class="sub-title">
         <ion-card-subtitle>Đã chọn {{ dish?.total }}</ion-card-subtitle
         ><ion-button size="small" fill="clear" (click)="editDish()"
@@ -18,5 +21,5 @@
       </div>
     </div>
   </div>
-  <p>{{ dish?.price | number : "1.0-0" }}đ</p>
+  <p>{{ calculateDishPrice() | number : "1.0-0" }}đ</p>
 </ion-card>

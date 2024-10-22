@@ -17,6 +17,27 @@ export class OrderService {
     currentDishes.push(dish); // Add new dish
     this.dishesSubject.next(currentDishes); // Emit updated dish list
   }
+  changeDish(oldDish: Dish, newDish: Dish) {
+    const currentDishes = this.dishesSubject.getValue(); // Get current dishes
+    // Filter out the dish with the matching dishId
+    console.log(currentDishes);
+    const index = currentDishes.findIndex(
+      (dish) =>
+        dish.note == oldDish.note &&
+        dish.dishId == oldDish.dishId &&
+        dish.categoryId == oldDish.categoryId &&
+        dish.total == oldDish.total
+    );
+    console.log('this is index', index);
+    if (index !== -1) {
+      // Remove the dish from the array
+      currentDishes[index] = newDish; // Removes the dish at the found index
+      this.dishesSubject.next(currentDishes); // Emit updated dish list
+    } else {
+      console.warn('Dish not found in the list.');
+    }
+  }
+
   deleteDish(delDish: Dish) {
     const currentDishes = this.dishesSubject.getValue(); // Get current dishes
     // Filter out the dish with the matching dishId
@@ -57,6 +78,11 @@ export class OrderService {
     // Convert Observable to Promise
     return firstValueFrom(orders$);
   }
+  getOrderHistory(userId: string): Observable<any[]> {
+    return this.firestore
+      .collection('orders', (ref) => ref.where('userId', '==', userId))
+      .valueChanges();
+  }
   // async getNewestOrderByUserId(userID: string): Promise<Order> {
   //   const orders$ = this.firestore
   //     .collection<Order>('orders', (ref) =>
@@ -67,7 +93,4 @@ export class OrderService {
   //   // Convert Observable to Promise
   //   return firstValueFrom(orders$);
   // }
-  getOrderHistory(userId: string): Observable<any[]> {
-    return this.firestore.collection('orders', ref => ref.where('userId', '==', userId)).valueChanges();
-  }
 }

@@ -63,7 +63,11 @@
     </ion-button>
 
     <h2>Thêm các phương thức khác</h2>
-    <ion-button expand="block" class="add-bnt">
+    <ion-button
+      expand="block"
+      class="add-bnt"
+      (click)="gotoOrderAddPaymentPage()"
+    >
       <div class="credit-container">
         <div>
           <ion-icon name="card-outline"></ion-icon>
@@ -76,6 +80,7 @@
       expand="block"
       class="add-bnt"
       *ngIf="user?.paymentMethods?.eWallet"
+      (click)="gotoOrderAddPaymentPage()"
     >
       <div class="credit-container">
         <div>

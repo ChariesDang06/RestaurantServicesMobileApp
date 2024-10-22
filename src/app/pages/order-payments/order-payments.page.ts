@@ -26,7 +26,10 @@ export class OrderPaymentsPage implements OnInit {
     console.log(this.user?.paymentMethods);
   }
   gotoPreviousPage() {
-    this.navController.back();
+    this.navController.navigateBack('/order-bill-details');
+  }
+  gotoOrderAddPaymentPage() {
+    this.navController.navigateForward('/order-add-payment');
   }
   getUserInfo() {
     localStorage.setItem('userId', 'u001');

@@ -83,7 +83,7 @@ export class OrderDishDetailsPage implements OnInit {
   }
 
   onSubmit() {
-    if (this.dishDetails && this.totalOrder > 0) {
+    if (this.dishDetails && !this.dishDefault && this.totalOrder > 0) {
       const dish: Dish = JSON.parse(JSON.stringify(this.dishDetails));
       dish.options = this.selectedOptions;
       dish.total = this.totalOrder;
@@ -93,6 +93,17 @@ export class OrderDishDetailsPage implements OnInit {
       this.dishDetails.total =
         Number(this.dishDetails.total ?? 0) + Number(this.totalOrder);
       this.orderService.setDishes(dish);
+    }
+    if (this.dishDetails && this.dishDefault && this.totalOrder != 0) {
+      const dish: Dish = JSON.parse(JSON.stringify(this.dishDetails));
+      dish.options = this.selectedOptions;
+      dish.total = this.totalOrder;
+      dish.note = this.note;
+
+      // Update total in the original dish object
+      this.dishDetails.total =
+        Number(this.dishDetails.total ?? 0) + Number(this.totalOrder);
+      this.orderService.changeDish(this.dishDefault, dish);
     } else if (this.dishDefault && this.totalOrder == 0) {
       console.log(this.dishDefault);
       this.orderService.deleteDish(this.dishDefault);
