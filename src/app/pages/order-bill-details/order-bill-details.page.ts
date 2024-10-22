@@ -49,7 +49,7 @@ export class OrderBillDetailsPage implements OnInit {
     this.basketPrice = this.calculateBasketPrice(this.listOrderDish);
   }
   getUserInfo() {
-    localStorage.setItem('userId', 'u001');
+    // localStorage.setItem('userId', 'u001');
 
     const userId = localStorage.getItem('userId'); // Lấy userId từ localStorage
     if (userId) {
@@ -77,8 +77,8 @@ export class OrderBillDetailsPage implements OnInit {
     console.log('call order bill detail');
     this.listOrderDish = this.orderService.getDishes();
     this.basketPrice = this.calculateBasketPrice(this.listOrderDish);
-    this.getNewestOrder();
     this.getUserInfo();
+    this.getNewestOrder();
   }
   calculateBasketPrice(dishes: Dish[]): number {
     return dishes.reduce((total, dish) => {
@@ -217,29 +217,32 @@ export class OrderBillDetailsPage implements OnInit {
     });
   }
   async getNewestOrder() {
-    try {
-      // Await for the promise to resolve
-      const orders: Order[] = await this.orderService.getOrdersByUser(
-        'u002',
-        1
-      );
-      console.log('all order', orders); // Log the fetched data for debugging
+    const userId = localStorage.getItem('userId'); // Lấy userId từ localStorage
+    if (userId) {
+      try {
+        // Await for the promise to resolve
+        const orders: Order[] = await this.orderService.getOrdersByUser(
+          userId,
+          1
+        );
+        console.log('all order', orders); // Log the fetched data for debugging
 
-      if (orders.length > 0) {
-        console.log('order payment', orders[0].paymentMethod); // Log the fetched data for debugging
+        if (orders.length > 0) {
+          console.log('order payment', orders[0].paymentMethod); // Log the fetched data for debugging
 
-        if (orders[0].paymentMethod === 'Momo') {
-          this.creditText = 'Momo';
-        } else if (orders[0].paymentMethod === 'creditCard')
-          this.creditText = this.maskNumber(
-            this.user?.paymentMethods?.creditCard?.cardNumber || ''
-          );
-        else this.creditText = 'COD';
-      } else {
-        this.creditText = 'COD';
+          if (orders[0].paymentMethod === 'Momo') {
+            this.creditText = 'Momo';
+          } else if (orders[0].paymentMethod === 'creditCard')
+            this.creditText = this.maskNumber(
+              this.user?.paymentMethods?.creditCard?.cardNumber || ''
+            );
+          else this.creditText = 'COD';
+        } else {
+          this.creditText = 'COD';
+        }
+      } catch (error) {
+        console.error('Error fetching orders:', error); // Handle errors
       }
-    } catch (error) {
-      console.error('Error fetching orders:', error); // Handle errors
     }
   }
   submit() {

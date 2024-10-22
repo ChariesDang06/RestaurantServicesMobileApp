@@ -32,8 +32,6 @@ export class OrderPaymentsPage implements OnInit {
     this.navController.navigateForward('/order-add-payment');
   }
   getUserInfo() {
-    localStorage.setItem('userId', 'u001');
-
     const userId = localStorage.getItem('userId'); // Lấy userId từ localStorage
     if (userId) {
       this.userService.getUserById(userId).subscribe(
