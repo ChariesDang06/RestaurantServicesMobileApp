@@ -1,4 +1,14 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { RestaurantService } from 'src/app/services/restaurants/restaurant.service';
+import { ReservationService } from 'src/app/services/reservations/reservation.service';
+import { Restaurant, Floor, Table } from 'src/app/models/restaurant.model';
+import { OrderItem } from 'src/app/models/order.model';
+import { Reservation } from 'src/app/models/reservation.model';
+import { User } from 'src/app/models/user.model';
+import { UserService } from 'src/app/services/users/user.service';
 
 @Component({
   selector: 'app-reservation',
@@ -6,28 +16,232 @@ import { Component, NgModule, OnInit } from '@angular/core';
   styleUrls: ['./reservation.page.scss'],
 })
 export class ReservationPage implements OnInit {
+  restaurants: Restaurant[] = [];
+  floors: Floor[] = [];
+  tables: Table[] = [];
+  user: User | null = null;
+  userId: string | null = null;
 
-  constructor() { }
+  currentDateTime: string | null = null;
+  note: string="";
+  selectedFloor: Floor | null = null;
+  selectedTable: Table | null = null;
+  selectedDate: string | null = null;
+  selectedTime: string | null = null;
+  availableTimes: string[] = [];
+  availableDates: string[] = []; // Store available dates
+  isDateTimeOpen: boolean = false;
+  preOrderedItems: OrderItem[] = [];
+  customerName: string = '';
+  customerPhone: string = '';
+  customerEmail: string = '';
+  confirmationEmailSent: boolean = false;
+  depositAmount: number = 100000;
+  confirmationSMSSent: boolean = false;
+
+  constructor(
+    private restaurantService: RestaurantService,
+    private reservationService: ReservationService,
+    private authenticationService: AuthService,
+    private userService: UserService,
+    private alertController: AlertController,
+    private router: Router,
+  ) {}
+
   ngOnInit() {
+    this.loadAllRestaurants();
+    this.setCurrentDateTime();
+    this.loadUser();
   }
-  maps = [
-    { name: 'Sảnh chính', src: 'assets/images/image1.png' },
-    { name: 'Tầng 1', src: 'assets/images/image2.png' },
-    { name: 'Tầng 2', src: 'assets/images/image3.png' }
-  ];
 
-  tables = [
-    { name: 'ban 1', id: '1' },
-    { name: 'ban 2', id: '2' },
-    { name: 'ban 3', id: '3' }
-  ];
+  async loadUser() {
+    this.userId = this.authenticationService.getLoggedInUserId();
 
-  selectedMap = this.maps[0];
-  mapName=this.selectedMap.name;
-   
+    if (this.userId) {
+      this.userService.getUserById(this.userId).subscribe(
+        (userData: User | undefined) => {
+          if (userData) {
+            this.user = userData;
+            this.customerEmail=this.user.email;
+            this.customerName=this.user.name;
+            this.customerPhone=this.user.phone;
+          } else {
+            console.log('No user data found');
+          }
+        },
+        (error) => {
+          console.error('Error loading user:', error);
+        }
+      );
+    } else {
+      await this.presentAlert();
+    }
+  }
 
-  onMapChange(event: any) {
-    this.selectedMap = event.detail.value.src;
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Vui lòng đăng nhập',
+      message: 'Nhấn \'Đăng nhập\' để chuyển hướng đến trang đăng nhập',
+      buttons: [
+        {
+          text: 'Đăng nhập',
+          handler: () => {
+            this.router.navigate(['/login']);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+navigateToOrder(){
+   this.router.navigate(['/order-main']);
+}
+  loadAllRestaurants() {
+    this.restaurantService.getAllRestaurants().then((restaurants) => {
+      this.restaurants = restaurants;
+
+      if (this.restaurants.length > 0) {
+        this.floors = this.restaurants[0].floors;
+        if (this.floors.length > 0) {
+          this.setSelectedFloor(this.floors[0]);
+        }
+      }
+    });
+  }
+
+  setCurrentDateTime() {
+    const now = new Date();
+    this.currentDateTime = now.toISOString().substring(0, 16);
+  }
+
+  setSelectedFloor(floor: Floor) {
+    this.selectedFloor = floor;
+    this.tables = this.selectedFloor.tables;
+    this.selectedTable = this.tables[0]; // Reset selected table
+    this.setSelectedTable(this.selectedTable);
+    this.updateAvailableDays(); // Update available days when floor is selected
+  }
+
+  updateAvailableDays() {
+    this.availableDates = []; // Clear previous available dates
+    if (this.selectedTable?.availableTime) {
+      const today = new Date();
+      const todayDateString = today.toISOString().split('T')[0];
+
+      this.selectedTable.availableTime.forEach((timeData) => {
+        const dateTimestamp = new Date(timeData.date.seconds * 1000).toISOString().split('T')[0];
+        if (!this.availableDates.includes(dateTimestamp) && dateTimestamp >= todayDateString) {
+          this.availableDates.push(dateTimestamp);
+        }
+      });
+    }
+    console.log('Available Dates:', this.availableDates);
+  }
+
+  onFloorChange(event: any) {
+    const selectedFloorName = event.detail.value;
+
+    if (this.floors && this.floors.length > 0) {
+      const selectedFloor = this.floors.find(floor => floor.floor === selectedFloorName);
+
+      if (selectedFloor) {
+        this.setSelectedFloor(selectedFloor);
+        this.updateAvailableDays(); // Update available days when floor changes
+      }
+    }
+  }
+
+  onDateChange(event: any) {
+    this.selectedDate = event.detail.value;
+    if (this.selectedDate) {
+      console.log('Selected Date:', this.selectedDate);
+      this.updateAvailableTimes();
+    } else {
+      console.error('Invalid selected date');
+    }
+  }
+
+  updateAvailableTimes() {
+    this.availableTimes = []; // Clear previous available times
+    if (this.selectedDate && this.selectedTable?.availableTime) {
+      this.selectedTable.availableTime.forEach((timeData) => {
+        if (timeData.date && timeData.date.seconds) {
+          const dateTimestamp = new Date(timeData.date.seconds * 1000).toISOString().split('T')[0];
+          if (this.selectedDate === dateTimestamp) {
+            this.availableTimes = timeData.time; // Ensure this is correctly structured
+          }
+        } else {
+          console.error('Invalid timeData format:', timeData);
+        }
+      });
+
+      console.log('Available Times for selected date:', this.availableTimes);
+    } else {
+      console.error('Invalid selection for available times');
+    }
+  }
+
+  onTableChange(event: any) {
+    const selectedTableName = event.detail.value;
+
+    if (this.tables && this.tables.length > 0) {
+      const selectedTable = this.tables.find(table => table.name === selectedTableName);
+
+      if (selectedTable) {
+        this.setSelectedTable(selectedTable);
+        this.updateAvailableDays(); // Update available days when table changes
+
+        // Reset available times and selected time
+        this.availableTimes = []; // Clear previous available times
+        this.selectedTime = null; // Reset selected time
+      }
+    }
+  }
+
+  setSelectedTable(table: Table) {
+    this.selectedTable = table;
+  }
+
+  onTimeChange(event: any) {
+    this.selectedTime = event.detail.value;
+    if (this.selectedTime) {
+      console.log('Time changed to:', this.selectedTime);
+    } else {
+      console.error('Invalid selected time');
+    }
+  }
+
+  async submitReservation() {
+    // Validate user input
+    if (!this.selectedTable || !this.selectedDate || !this.selectedTime) {
+      const alert = await this.alertController.create({
+        header: 'Missing Information',
+        message: 'Please select a table, date, and time before submitting.',
+        buttons: ['OK'],
+      });
+      await alert.present();
+      return;
+    }
+
+    const reservation: Omit<Reservation, 'reservationId'> = {
+      userId: this.userId || 'guest', // Logged-in user ID or 'guest'
+      tableId: this.selectedTable.name,
+      reservationTime: `${this.selectedDate}T${this.selectedTime}`, // Combine date and time
+      numberOfPeople: this.selectedTable.availableSeats || 1,
+      preOrderedItems: this.preOrderedItems,
+      status: 'confirmed',
+      depositAmount: this.depositAmount,
+      confirmationEmailSent: this.confirmationEmailSent,
+      confirmationSMS: this.confirmationSMSSent,
+      note: this.note,
+    };
+
+    try {
+      await this.reservationService.createReservation(reservation);
+      // Optionally navigate or show a success message
+    } catch (error) {
+      console.error('Error creating reservation:', error);
+    }
   }
 }
-  
