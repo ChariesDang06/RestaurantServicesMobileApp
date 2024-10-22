@@ -1,6 +1,19 @@
+export interface Table {
+  name: string;
+  availableSeats: number;
+  description: string;
+}
+
+export interface Floor {
+  floor: string;
+  floorDiagram: string;
+  tables: Table[];
+}
+
 export interface Restaurant {
-  restaurantId: string;
-  address: string;
+  restaurantId: string
+  mapHTML: string;
   phone: string;
-  mapHTML?: string;
+  address: string;
+  floors: Floor[];
 }

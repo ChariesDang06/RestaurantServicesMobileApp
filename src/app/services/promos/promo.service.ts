@@ -1,49 +1,74 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { firstValueFrom } from 'rxjs';
 import { Promotion } from '../../models/promo.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PromoService {
-  private promotionsCollection: AngularFirestoreCollection<Promotion>;
+  constructor(private firestore: AngularFirestore) {}
 
-  constructor(private firestore: AngularFirestore) {
-    this.promotionsCollection = firestore.collection<Promotion>('promotions');
+  getPromotions(): Promise<Promotion[]> {
+    return firstValueFrom(
+      this.firestore.collection<{ [key: string]: Promotion }>('promotions').valueChanges()
+    ).then((promotions: { [key: string]: Promotion }[]) => {
+      const flattenedPromos = promotions.map(promoObj => Object.values(promoObj)).flat();
+      return flattenedPromos;
+    }).catch(error => {
+      console.error('Error fetching promotions:', error);
+      return [];
+    });
   }
 
-  // Get all promotions
-  getPromotions(): Observable<Promotion[]> {
-    return this.promotionsCollection.snapshotChanges().pipe(
-      map(actions => actions.map(a => {
-        const data = a.payload.doc.data() as Omit<Promotion, 'promoId'>;
-        const promoId = a.payload.doc.id;
-        return { promoId, ...data };
-      }))
-    );
+  // Get promotion by ID (using Promise)
+  getPromotionById(promoId: string): Promise<Promotion | undefined> {
+    return firstValueFrom(this.firestore.collection<Promotion>('promotions').doc(promoId).valueChanges())
+      .then(data => {
+        if (data) {
+          return { ...data, promoId };
+        } else {
+          return undefined;
+        }
+      })
+      .catch(error => {
+        console.error(`Error fetching promotion with ID ${promoId}:`, error);
+        return undefined; // Return undefined in case of error
+      });
   }
 
-  // Get promotion by ID
-  getPromotionById(promoId: string): Observable<Promotion | undefined> {
-    return this.promotionsCollection.doc<Promotion>(promoId).valueChanges();
-  }
-
-  // Create a new promotion
+  // Create a new promotion (using Promise)
   createPromotion(promotion: Omit<Promotion, 'promoId'>): Promise<void> {
     const promoId = this.firestore.createId(); // Generate a new ID
-    const newPromotion: Promotion = { promoId, ...promotion }; // Create the full promotion object
-    return this.promotionsCollection.doc(promoId).set(newPromotion); // Use set to include the ID
+    const newPromotion: Promotion = { promoId, ...promotion };
+    return this.firestore.collection('promotions').doc(promoId).set(newPromotion)
+      .then(() => {
+        console.log('Promotion successfully created!');
+      })
+      .catch(error => {
+        console.error('Error creating promotion:', error);
+      });
   }
 
-  // Update an existing promotion
+  // Update an existing promotion (using Promise)
   updatePromotion(promoId: string, promotion: Partial<Promotion>): Promise<void> {
-    return this.promotionsCollection.doc(promoId).update(promotion);
+    return this.firestore.collection('promotions').doc(promoId).update(promotion)
+      .then(() => {
+        console.log('Promotion successfully updated!');
+      })
+      .catch(error => {
+        console.error(`Error updating promotion with ID ${promoId}:`, error);
+      });
   }
 
-  // Delete a promotion
+  // Delete a promotion (using Promise)
   deletePromotion(promoId: string): Promise<void> {
-    return this.promotionsCollection.doc(promoId).delete();
+    return this.firestore.collection('promotions').doc(promoId).delete()
+      .then(() => {
+        console.log('Promotion successfully deleted!');
+      })
+      .catch(error => {
+        console.error(`Error deleting promotion with ID ${promoId}:`, error);
+      });
   }
 }

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
-import { CommonModule } from '@angular/common';
-
+import { Promotion } from 'src/app/models/promo.model';
 import { register } from 'swiper/element/bundle';
+import { PromoService } from 'src/app/services/promos/promo.service';
 register()
 
 @Component({
@@ -14,13 +13,15 @@ register()
   
 })
 export class BannerPromoComponent  implements OnInit {
-  promos = [
-    { promoHeader: 'Nhận ngay', promoAmount:'10% Off', promoContent:'cho cái bơ gơ bự đùng', src: 'assets/images/image1.png', alt: 'Image 1' },
-    { promoHeader: 'Nhận ngay', promoAmount:'20% Off', promoContent:'cho cái bơ gơ bự đùng', src: 'assets/images/image2.png', alt: 'Image 2' },
-    { promoHeader: 'Nhận ngay', promoAmount:'30% Off', promoContent:'cho cái bơ gơ bự đùng', src: 'assets/images/image3.png', alt: 'Image 3' },
-  ];
-  constructor() { }
-
-  ngOnInit() {}
-
+  promos: Promotion[]=[];
+  constructor(private promotionService : PromoService) { }
+  ngOnInit() {
+    this.GetAllPromotions();
+  }
+  
+  GetAllPromotions(){
+    this.promotionService.getPromotions().then(data=>{
+      this.promos=data;
+    })
+  }
 }
