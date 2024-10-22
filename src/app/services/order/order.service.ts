@@ -67,4 +67,7 @@ export class OrderService {
   //   // Convert Observable to Promise
   //   return firstValueFrom(orders$);
   // }
+  getOrderHistory(userId: string): Observable<any[]> {
+    return this.firestore.collection('orders', ref => ref.where('userId', '==', userId)).valueChanges();
+  }
 }

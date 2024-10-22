@@ -1,61 +1,59 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title></ion-title>
-  </ion-toolbar>
+  <app-navbar class="navbar"></app-navbar>
 </ion-header>
 
 <ion-header [translucent]="true" style="background-color: black">
-  <ion-toolbar class="custom-toolbar">
-    <ion-buttons slot="start">
-      <ion-button>
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Chỉnh sửa thông tin cá nhân</ion-title>
-    <div class="toolbar-border"></div>
-  </ion-toolbar>
+<ion-toolbar class="custom-toolbar">
+  <ion-buttons slot="start">
+    <ion-button (click)="goBack()">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-title>Chỉnh sửa thông tin cá nhân</ion-title>
+  <div class="toolbar-border"></div>
+</ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="personal-content" style="background-color: #2b2b2b">
-  <div class="personal-container">
-    <!-- Phần avatar và nút máy ảnh -->
-    <div class="avatar-container">
-      <img [src]="tempUser.avatarUrl || '/assets/userpageimg/default-avt.jpg'" alt="Avatar" class="avatar" />
-      <ion-icon name="camera" class="camera-icon" (click)="changeAvatar()"></ion-icon>
-    </div>
-
-    <div class="input-container">
-      <label class="input-label">Họ và tên</label>
-      <div class="input-wrapper">
-        <ion-input [(ngModel)]="tempUser.name" placeholder="Nhập họ và tên"></ion-input>
-        <ion-icon name="pencil" class="edit-icon"></ion-icon>
-      </div>
-    </div>
-
-    <div class="input-container">
-      <label class="input-label">Số điện thoại</label>
-      <div class="input-wrapper">
-        <ion-input [(ngModel)]="tempUser.phone" placeholder="Nhập số điện thoại"></ion-input>
-        <ion-icon name="pencil" class="edit-icon"></ion-icon>
-      </div>
-    </div>
-
-    <div class="input-container">
-      <label class="input-label">Email</label>
-      <div class="input-wrapper">
-        <ion-input [(ngModel)]="tempUser.email" placeholder="Nhập email"></ion-input>
-        <ion-icon name="pencil" class="edit-icon"></ion-icon>
-      </div>
-    </div>
-
-    <div class="input-container">
-      <label class="input-label">Địa chỉ</label>
-      <div class="input-wrapper">
-        <ion-input [(ngModel)]="tempUser.address" placeholder="Nhập địa chỉ"></ion-input>
-        <ion-icon name="pencil" class="edit-icon"></ion-icon>
-      </div>
-    </div>
-
-    <ion-button expand="block" class="save-button" (click)="saveChanges()">Lưu</ion-button>
+<div class="personal-container">
+  <!-- Phần avatar và nút máy ảnh -->
+  <div class="avatar-container">
+    <img [src]="tempUser.avatarUrl || '/assets/userpageimg/default-avt.jpg'" alt="Avatar" class="avatar" />
+    <ion-icon name="camera" class="camera-icon" (click)="changeAvatar()"></ion-icon>
   </div>
+
+  <div class="input-container">
+    <label class="input-label">Họ và tên</label>
+    <div class="input-wrapper">
+      <ion-input [(ngModel)]="tempUser.name" placeholder="Nhập họ và tên"></ion-input>
+      <ion-icon name="pencil" class="edit-icon"></ion-icon>
+    </div>
+  </div>
+
+  <div class="input-container">
+    <label class="input-label">Số điện thoại</label>
+    <div class="input-wrapper">
+      <ion-input [(ngModel)]="tempUser.phone" placeholder="Nhập số điện thoại"></ion-input>
+      <ion-icon name="pencil" class="edit-icon"></ion-icon>
+    </div>
+  </div>
+
+  <div class="input-container">
+    <label class="input-label">Email</label>
+    <div class="input-wrapper">
+      <ion-input [(ngModel)]="tempUser.email" placeholder="Nhập email"></ion-input>
+      <ion-icon name="pencil" class="edit-icon"></ion-icon>
+    </div>
+  </div>
+
+  <div class="input-container">
+    <label class="input-label">Địa chỉ</label>
+    <div class="input-wrapper">
+      <ion-input [(ngModel)]="tempUser.address" placeholder="Nhập địa chỉ"></ion-input>
+      <ion-icon name="pencil" class="edit-icon"></ion-icon>
+    </div>
+  </div>
+
+  <ion-button expand="block" class="save-button" (click)="saveChanges()">Lưu</ion-button>
+</div>
 </ion-content>

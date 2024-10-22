@@ -14,49 +14,52 @@
 
         .promo-image {
             width: 100%;
+            position: relative; /* Thêm vị trí tương đối */
+        }
+
+        /* Tạo bóng đen từ trái qua phải với hiệu ứng blur */
+        .promo-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 85%; /* Đổ bóng từ bên trái qua giữa */
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Độ mờ của bóng */
+            z-index: 5; /* Đảm bảo lớp này nằm phía trên hình ảnh */
+            filter: blur(50px); /* Thêm hiệu ứng blur */
+            /* Optional: Thêm border-radius nếu cần */
+            border-radius: 0 10px 10px 0; /* Bo góc bên phải của bóng */
         }
 
         .content-card {
             position: absolute;
             right: 0;
             top: 0;
-            background: rgba(0, 0, 0, 0);
-            color: white;
+            width: 95%;
+            height: 90%;
             z-index: 10;
-
-            .promo-text {
-                font-size: 16px;
+            margin: 7px;
+            background-color: rgba(255, 255, 255, 0); /* Thay đổi màu nền để rõ hơn */
+            padding-top: 15px;
+            .promo-text,
+            .promo-description {
+                color: white; /* Đổi màu chữ thành trắng */
+                font-weight: 500;
                 margin: 0;
             }
 
             .promo-highlight {
-                font-size: 24px;
-                font-weight: bold;
-            }
-
-            .promo-description {
-                font-size: 14px;
-                margin-top: 8px;
+                font-size: 32px; /* Thay đổi kích thước phông chữ cho promo-highlight */
+                font-weight: bold; /* Có thể thêm font-weight để làm nổi bật chữ hơn */
+                color: white; 
             }
         }
     }
 }
-
 ion-img {
-    width: 100%;
-    height: 100%;
-    object-fit: fit;
-}
-
-.content-card {
-    position: absolute;
-    width: 95%;
-    height: 95%;
-    z-index: 1;
-    border: 2px solid #f00;
-    border-radius: 15px;
-    margin: 7px;
-    background-color: #ffffff00;
+    height: 20vh;
+    object-fit: cover;
 }
 
 .swiper-pagination-bullet {

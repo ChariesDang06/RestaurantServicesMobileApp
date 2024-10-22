@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Voucher } from 'src/app/models/voucher.model';
 
 @Component({
   selector: 'app-voucher',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./voucher.component.scss'],
 })
 export class VoucherComponent {
-  voucherText: string = 'Mua 2 tính tiền 2';
+  @Input() voucher!: Voucher; // Nhận dữ liệu voucher từ trang cha
+
+  getVoucherDescription(): string {
+    // Tạo mô tả chi tiết cho voucher từ dữ liệu
+    return `${this.voucher.description} - Giảm ${this.voucher.value}% với hóa đơn từ ${this.voucher.minPrice} đến ${this.voucher.maxPrice}. Điều kiện: ${this.voucher.condition}`;
+  }
 }

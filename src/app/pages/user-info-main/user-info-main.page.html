@@ -1,13 +1,11 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title></ion-title>
-  </ion-toolbar>
+  <app-navbar class="navbar"></app-navbar>
 </ion-header>
 
 <ion-header [translucent]="true" style="background-color: black">
   <ion-toolbar class="custom-toolbar">
     <ion-buttons slot="start">
-      <ion-button>
+      <ion-button (click)="goBack()">
         <ion-icon name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -29,24 +27,22 @@
 
     <h2 class="text-white">{{ user?.name || 'Tên người dùng' }}</h2>
     <h4 [ngClass]="getRankClass(user?.score)">Rank: {{ getRank(user?.score) }}</h4>
-    <p class="text-white">SDT: {{ user?.phone || 'Cập nhật sdt' }}</p>
     <p class="text-white">Email: {{ user?.email || 'user@example.com' }}</p>
-    <p class="text-white">Địa chỉ: {{ user?.address || 'Chưa có địa chỉ' }}</p>
     <p class="text-white">Điểm: {{ user?.score || 0 }}</p>
 
     <div class="buttons-container">
-      <ion-button class="custom-button">
+      <ion-button class="custom-button" (click)="goToVoucher()">
         <span>Voucher</span> <ion-icon name="chevron-forward"></ion-icon>
       </ion-button>
-      <ion-button class="custom-button">
+      <ion-button class="custom-button" (click)="goToOrderHistory()">
         <span>Lịch sử đơn hàng</span>
         <ion-icon name="chevron-forward"></ion-icon>
       </ion-button>
-      <ion-button class="custom-button">
+      <ion-button class="custom-button" (click)="goToEditInfo()">
         <span>Chỉnh sửa thông tin cá nhân</span>
         <ion-icon name="chevron-forward"></ion-icon>
       </ion-button>
     </div>
-    <ion-button class="logout-button">Thoát</ion-button>
+    <ion-button class="logout-button" (click)="logout()">Thoát</ion-button>
   </div>
 </ion-content>

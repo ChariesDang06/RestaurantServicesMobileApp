@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/users/user.service';
 import { User } from '../../models/user.model';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-user-info-editing',
   templateUrl: './user-info-editing.page.html',
@@ -23,12 +23,14 @@ export class UserInfoEditingPage implements OnInit {
     password: ''
   };
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private navCtrl: NavController) {}
 
   ngOnInit() {
     this.getUserInfo();
   }
-
+  goBack() {
+    this.navCtrl.navigateForward('/user-info-main'); // Quay lại trang trước đó
+  }
   getUserInfo() {
     const userId = localStorage.getItem('userId');
     if (userId) {
