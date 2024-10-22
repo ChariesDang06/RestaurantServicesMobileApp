@@ -18,8 +18,8 @@ import { NavBarModule } from 'src/app/components/navbar/navbar.module';
     UserHistoryPageRoutingModule,
     OrderBillModule,
     OrderDetailsModalModule,
-    NavBarModule
+    NavBarModule,
   ],
-  declarations: [UserHistoryPage]
+  declarations: [UserHistoryPage],
 })
 export class UserHistoryPageModule {}

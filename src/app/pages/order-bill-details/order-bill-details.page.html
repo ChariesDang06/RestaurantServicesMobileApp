@@ -10,10 +10,15 @@
     </ion-button>
     <hr />
     <h2>Giao đến</h2>
-    <ion-button fill="clear" expand="full" (click)="openLocationPopUp()">
+    <ion-button
+      class="user-address"
+      fill="clear"
+      expand="full"
+      (click)="openLocationPopUp()"
+    >
       <div>
         <ion-icon name="location"></ion-icon>
-        <p>{{user?.address}}</p>
+        <p>{{ userAddress}}</p>
         <ion-icon name="arrow-forward-outline"></ion-icon>
       </div>
     </ion-button>
@@ -35,13 +40,30 @@
         [dish]="item"
       ></app-order-bill>
     </ion-list>
+    <hr />
+    <h2>Mã giảm giá</h2>
+    <div class="coupon-container">
+      <div>
+        <input class="couponInput" type="text" [(ngModel)]="voucherCode" />
+        <ion-button
+          (click)="checkVoucher()"
+          [disabled]="voucherCode.trim()===''"
+          >Áp mã
+        </ion-button>
+      </div>
+      <p class="voucher">{{voucher?.description}}</p>
+    </div>
     <div class="total-price">
       <p>Tổng tạm tính</p>
       <p class="price">{{basketPrice|number:'1.0-0'}} đ</p>
       <!-- <p class="price">{{getTotalPrice()|number:'1.0-0'}}đ</p> -->
     </div>
+    <div class="total-price" *ngIf="voucherDiscount!==0">
+      <p>Giảm giá</p>
+      <p class="price">-{{voucherDiscount|number:'1.0-0'}} đ</p>
+    </div>
     <div class="total-price">
-      <p>Phí giao hàng</p>
+      <p>Miễn phí giao hàng</p>
       <p class="price">{{shipCost|number:'1.0-0'}}đ</p>
     </div>
     <hr />
@@ -68,7 +90,7 @@
     >
       <div class="credit-container">
         <div>
-          <ion-icon name="card-outline"></ion-icon>
+          <ion-icon name="cash-outline"></ion-icon>
           <p>Thanh toán khi nhận hàng</p>
         </div>
         <ion-icon name="arrow-forward-outline"></ion-icon>
@@ -89,7 +111,7 @@
       </div>
     </ion-button>
     <hr />
-    <h2>Mã giảm giá</h2>
+    <!-- <h2>Mã giảm giá</h2>
     <div class="coupon-container">
       <div>
         <input class="couponInput" type="text" [(ngModel)]="voucherCode" />
@@ -100,20 +122,21 @@
         </ion-button>
       </div>
       <p class="voucher">{{voucher?.description}}</p>
-    </div>
+    </div> -->
   </div>
   <div class="end-total-price">
     <p>Thanh toán</p>
     <!-- <p class="price">{{getTotalPrice()+shipCost|number:'1.0-0'}}đ</p> -->
     <p class="price">
-      {{basketPrice >= 0 ? (basketPrice | number:'1.0-0') : 0 }} đ
+      {{basketPrice >= 0 ? (basketPrice-voucherDiscount+shipCost |
+      number:'1.0-0') : 0 }} đ
     </p>
   </div>
   <ion-button
     (click)="submit()"
     class="submit-button"
     expand="block"
-    [disabled]="listOrderDish.length===0"
+    [disabled]="listOrderDish.length===0 && user?.address===''"
     >{{(listOrderDish.length > 0)?'đặt đơn':'Vui lòng chọn món để thanh\ toán'}}
   </ion-button>
 </ion-content>

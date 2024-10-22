@@ -25,5 +25,18 @@ export class OrderBillComponent implements OnInit {
       },
     });
   }
-  getDishById() {}
+  calculateDishPrice() {
+    let dishPrice = Number(this.dish?.price);
+    if (this.dish?.options && this.dish.options.length > 0) {
+      const optionsTotalPrice = this.dish.options.reduce(
+        (optionsTotalPrice, option) => {
+          console.log('options ', option.price);
+          return optionsTotalPrice + Number(option.price);
+        },
+        0
+      );
+      dishPrice += optionsTotalPrice;
+    }
+    return dishPrice * Number(this.dish?.total);
+  }
 }

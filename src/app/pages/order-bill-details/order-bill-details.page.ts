@@ -3,7 +3,6 @@ import {
   AlertController,
   ModalController,
   NavController,
-  Platform,
 } from '@ionic/angular';
 import { Dish } from 'src/app/models/category.model';
 import { Order } from 'src/app/models/order.model';
@@ -12,8 +11,6 @@ import { ChangeLocationComponent } from 'src/app/components/change-location/chan
 import { User } from '../../models/user.model';
 import { VoucherService } from 'src/app/services/voucher/voucher.service';
 import { Voucher } from 'src/app/models/voucher.model';
-import { state } from '@angular/animations';
-import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/users/user.service';
 @Component({
   selector: 'app-order-bill-details',
@@ -21,13 +18,15 @@ import { UserService } from 'src/app/services/users/user.service';
   styleUrls: ['./order-bill-details.page.scss'],
 })
 export class OrderBillDetailsPage implements OnInit {
-  shipCost: number = 9000;
+  shipCost: number = 0;
   basketPrice: number = 0;
   voucherCode: string = '';
   voucher: Voucher | null = null;
   orders: Order[] | null = null;
   creditText: string = '';
   user: User | null = null;
+  userAddress: string = '';
+  voucherDiscount: number = 0;
   constructor(
     private navController: NavController,
     private orderService: OrderService,
@@ -58,6 +57,11 @@ export class OrderBillDetailsPage implements OnInit {
         (data: User | undefined) => {
           if (data) {
             this.user = data; // Gán giá trị cho user nếu tìm thấy
+            if (!localStorage.getItem('tempAddress')) {
+              localStorage.setItem('tempAddress', this.user.address || '');
+            } else {
+              this.userAddress = localStorage.getItem('tempAddress') || '';
+            }
           } else {
           }
         },
@@ -108,7 +112,7 @@ export class OrderBillDetailsPage implements OnInit {
     return maskedPart + visiblePart;
   }
   gotoPreviousPage() {
-    this.navController.back();
+    this.navController.navigateBack('/order-main');
   }
   // getCurrentLocation(): Promise<any> {
   //   return new Promise((resolve, reject) => {
@@ -133,7 +137,19 @@ export class OrderBillDetailsPage implements OnInit {
     });
     modal.onDidDismiss().then((result) => {
       if (result.data) {
-        console.log('Data from modal:', result.data); // Access the data here
+        const fullAddress =
+          result.data.address +
+          ',' +
+          result.data.selectedWard.name +
+          ', ' +
+          result.data.selectedDistrict.name +
+          ', ' +
+          result.data.selectedCity.name;
+        this.userAddress = fullAddress;
+        if (this.user) {
+          localStorage.setItem('tempAddress', fullAddress || '');
+        }
+        // this.user?.address = fullAddress;
       }
     });
     await modal.present();
@@ -156,17 +172,26 @@ export class OrderBillDetailsPage implements OnInit {
         if (this.basketPrice >= voucher.condition) {
           this.voucher = voucher;
           if (this.voucher.Type === 'percent') {
-            var discount = Math.min(
+            this.voucherDiscount = Math.min(
               (this.basketPrice / 100) * this.voucher.value,
               this.voucher.maxPrice
             );
-            this.basketPrice -= discount;
+            // this.basketPrice -= this.voucherDiscount;
             this.showAlet(
               'Thành công',
-              `Giảm ${discount}`,
+              `Giảm ${this.voucherDiscount}`,
               voucher.description
             );
           } else if (this.voucher.Type === 'fixed') {
+            this.voucherDiscount = this.voucher.maxPrice;
+            console.log('voucher', this.voucher);
+            console.log('voucher discount', this.voucherDiscount);
+            // this.basketPrice -= this.voucherDiscount;
+            this.showAlet(
+              'Thành công',
+              `Giảm ${this.voucherDiscount}`,
+              voucher.description
+            );
           }
         } else {
           this.showAlet(
@@ -210,6 +235,8 @@ export class OrderBillDetailsPage implements OnInit {
             this.user?.paymentMethods?.creditCard?.cardNumber || ''
           );
         else this.creditText = 'COD';
+      } else {
+        this.creditText = 'COD';
       }
     } catch (error) {
       console.error('Error fetching orders:', error); // Handle errors
@@ -217,6 +244,7 @@ export class OrderBillDetailsPage implements OnInit {
   }
   submit() {
     console.log(this.orderService.getDishes());
+    localStorage.removeItem('tempAddress');
     // getOrdersByUser
     // throw new Error('Method not implemented.');
   }
