@@ -7,22 +7,12 @@ ion-card {
     flex-direction: row;
     border-bottom: 1px solid;
 
-
     img {
         width: 3rem;
         height: 3rem;
         border-radius: .5rem;
     }
 
-
-}
-.options{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  p{
-  color: var(--third-color);
-  }
 
 }
 

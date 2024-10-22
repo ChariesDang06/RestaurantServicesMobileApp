@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Reservation } from '../../models/reservation.model';
+import { Table } from 'src/app/models/table.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class ReservationService {
   createReservation(reservation: Omit<Reservation, 'reservationId'>): Promise<void> {
     const reservationId = this.firestore.createId(); // Generate a new ID
     const newReservation: Reservation = { reservationId, ...reservation }; // Create the full reservation object
-    return this.reservationsCollection.doc(reservationId).set(newReservation); // Use set to include the ID
+    return this.firestore.collection('reservations').doc(reservationId).set(newReservation); // Use set to include the ID
   }
 
   // Update an existing reservation
@@ -45,5 +46,12 @@ export class ReservationService {
   // Delete a reservation
   deleteReservation(reservationId: string): Promise<void> {
     return this.reservationsCollection.doc(reservationId).delete();
+  }
+
+  
+  getTables():Promise<Table[]>{
+    return firstValueFrom(
+      this.firestore.collection<Table>('tables').valueChanges()
+    )
   }
 }
