@@ -24,27 +24,31 @@ export class UserHistoryPage implements OnInit {
   }
 
   ngOnInit() {
-    const userId = localStorage.getItem('userId'); // Lấy userId từ local storage
+    const userId = localStorage.getItem('userId');
     if (userId) {
       this.orderHistory$ = this.orderService.getOrderHistory(userId);
     } else {
       console.error('User ID not found in localStorage');
     }
   }
-
   async openOrderDetails(order: any) {
+    console.log('Order:', order); // Log thông tin đơn hàng
     const modal = await this.modalController.create({
       component: OrderDetailsModalComponent,
       componentProps: {
         address: order.address,
         orderItems: order.orderItems,
-        orderTime: order.orderTime,
+        orderTime: order.orderTime ? order.orderTime.toDate() : null,
+        
+
         paymentMethod: order.paymentMethod,
-        pickupTime: order.pickupTime,
-        totalBill: order.totalBill,
+        pickupTime: order.pickupTime ? order.pickupTime.toDate() : null,
+        // 
+        totalBill: order.totalBill, // Kiểm tra lại giá trị này
+        reservation: order.reservation,
       },
     });
-
+  console.log('total price',order.reservation);
     return await modal.present();
   }
 }
