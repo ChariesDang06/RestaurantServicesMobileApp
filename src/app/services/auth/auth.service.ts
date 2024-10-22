@@ -3,44 +3,87 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import firebase from 'firebase/compat/app';
 import { BehaviorSubject } from 'rxjs';
+import { User } from 'src/app/models/user.model';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  // A behavior subject to hold login status (default to false, meaning not logged in)
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
-  
-  // Expose the login status as an observable
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
+
   constructor(
     private afAuth: AngularFireAuth,
-    private firestore: AngularFirestore // Firestore for storing user data
+    private firestore: AngularFirestore
   ) {}
 
   // Sign in with Google
   signInWithGoogle() {
-    this.isLoggedInSubject.next(true);
-    return this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    return this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((result) => {
+      this.isLoggedInSubject.next(true);
+      const userId = result.user?.uid;
+      if (userId) {
+        // Store userId in localStorage
+        localStorage.setItem('userId', userId);
+      }
+      return result;
+    });
+  }
+
+  // Sign in with Facebook
+  signInWithFacebook() {
+    return this.afAuth.signInWithPopup(new firebase.auth.FacebookAuthProvider()).then((result) => {
+      this.isLoggedInSubject.next(true);
+      const userId = result.user?.uid;
+      if (userId) {
+        // Store userId in localStorage
+        localStorage.setItem('userId', userId);
+      }
+      return result;
+    });
   }
 
   // Sign out
   signOut() {
-    this.isLoggedInSubject.next(false);
-    return this.afAuth.signOut();
+    return this.afAuth.signOut().then(() => {
+      this.isLoggedInSubject.next(false);
+      // Clear userId from localStorage
+      localStorage.removeItem('userId');
+    });
   }
 
+  // Check if user is logged in by checking localStorage and BehaviorSubject
   isLoggedIn(): boolean {
-    return this.isLoggedInSubject.value;
+    return this.isLoggedInSubject.value || !!localStorage.getItem('userId');
   }
 
-  // Add user to Firestore
-  addUserToFirestore(userId: string, name: string, email: string) {
-    const userData = {
-      userId,
-      name,
-      email,
-    };
-    return this.firestore.collection('users').doc(userId).set(userData);
+  // Submit the user data to Firestore
+  async onSubmit(user: Partial<User>): Promise<boolean> {
+    try {
+      // Add the user to the Firestore collection and automatically generate a userId
+      const userRef = await this.firestore.collection('users').add(user);
+      const userId = userRef.id;  // Get the auto-generated userId
+
+      // Update the user with the generated userId
+      await userRef.update({ userId });
+
+      return true; // Success
+    } catch (error) {
+      console.error('Error registering user: ', error);
+      return false; // Failure
+    }
+  }
+
+    // Store userId in local storage after successful login
+   storeUserId(userId: string) {
+    localStorage.setItem('userId', userId);
+  }
+
+
+
+  // Get logged in userId from localStorage
+  getLoggedInUserId(): string | null {
+    return localStorage.getItem('userId');
   }
 }

@@ -1,7 +1,9 @@
+// src/app/services/restaurant.service.ts
+
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { firstValueFrom } from 'rxjs';
-import { Restaurant, Floor, Table } from '../../models/restaurant.model'; // Adjust the import path as needed
+import { Restaurant } from '../../models/restaurant.model'; // Ensure this path is correct
+import { firstValueFrom } from 'rxjs'; // Import for converting Observable to Promise
 
 @Injectable({
   providedIn: 'root'
@@ -9,45 +11,23 @@ import { Restaurant, Floor, Table } from '../../models/restaurant.model'; // Adj
 export class RestaurantService {
   constructor(private firestore: AngularFirestore) {}
 
-  // Fetch all restaurants
-  getAllRestaurants(): Promise<Restaurant[]> {
-    return firstValueFrom(this.firestore.collection('restaurants').snapshotChanges())
-      .then(snapshot => {
-        // Map Firebase data to Restaurant, Floor, and Table models
-        return snapshot.map(doc => {
-          const restaurantData = doc.payload.doc.data() as any;
-          const restaurantId = doc.payload.doc.id; // Get the document ID
-
-          const floors: Floor[] = restaurantData.tables.map((floorData: any) => {
-            const tables: Table[] = floorData.tables.map((tableData: any) => ({
-              name: tableData.name,
-              availableSeats: Number(tableData.availableSeats),
-              description: tableData.description,
-            }));
-
-            return {
-              floor: floorData.floor,
-              floorDiagram: floorData.floorDiagram || '',  // Default to an empty string if missing
-              tables: tables
-            };
-          });
-
-          return {
-            restaurantId,  // Assign the document ID as the restaurantId
-            address: restaurantData.address,
-            mapHTML: restaurantData.mapHTML,
-            phone: restaurantData.phone,
-            floors: floors
-          } as Restaurant;
+  // Get all restaurants (without async/await, using Promise)
+  getRestaurants(): Promise<Restaurant[]> {
+    return firstValueFrom(this.firestore.collection<Restaurant>('restaurants').snapshotChanges())
+      .then(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data() as Restaurant;
+          const restaurantId = a.payload.doc.id;
+          return { ...data, restaurantId };
         });
       })
       .catch(error => {
         console.error('Error fetching restaurants:', error);
-        return [];
+        return []; // Return an empty array in case of error
       });
   }
-  
-  // Fetch a restaurant by ID
+
+  // Get restaurant by ID (without async/await, using Promise)
   getRestaurantById(restaurantId: string): Promise<Restaurant | undefined> {
     return firstValueFrom(this.firestore.collection<Restaurant>('restaurants').doc(restaurantId).valueChanges())
       .then(data => {
@@ -59,13 +39,13 @@ export class RestaurantService {
       })
       .catch(error => {
         console.error(`Error fetching restaurant with ID ${restaurantId}:`, error);
-        return undefined;
+        return undefined; // Return undefined in case of error
       });
   }
 
-  // Create a new restaurant
+  // Create a new restaurant (without async/await, using Promise)
   createRestaurant(restaurant: Omit<Restaurant, 'restaurantId'>): Promise<void> {
-    const restaurantId = this.firestore.createId();
+    const restaurantId = this.firestore.createId(); // Generate a new ID
     const newRestaurant: Restaurant = { restaurantId, ...restaurant };
     return this.firestore.collection('restaurants').doc(restaurantId).set(newRestaurant)
       .then(() => {
@@ -76,8 +56,8 @@ export class RestaurantService {
       });
   }
 
-  // Update an existing restaurant
-  updateRestaurant(restaurantId: string, restaurant: Partial<Restaurant>): Promise<void> {
+  // Update an existing restaurant (without async/await, using Promise)
+  updateRestaurant(restaurantId: string, restaurant: Partial<Omit<Restaurant, 'restaurantId'>>): Promise<void> {
     return this.firestore.collection('restaurants').doc(restaurantId).update(restaurant)
       .then(() => {
         console.log('Restaurant successfully updated!');
@@ -87,7 +67,7 @@ export class RestaurantService {
       });
   }
 
-  // Delete a restaurant
+  // Delete a restaurant (without async/await, using Promise)
   deleteRestaurant(restaurantId: string): Promise<void> {
     return this.firestore.collection('restaurants').doc(restaurantId).delete()
       .then(() => {

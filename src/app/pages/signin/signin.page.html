@@ -10,43 +10,79 @@
   <ion-grid>
     <ion-row>
       <ion-col class="form">
-        <form [formGroup]="signInForm">
+        <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+          <!-- Username -->
           <ion-label>Tên người dùng</ion-label>
           <ion-item>
             <ion-input
               [clearInput]="true"
               formControlName="userName"
               type="text"
-            >
-            </ion-input>
+            ></ion-input>
           </ion-item>
+          <ion-note
+            *ngIf="signInForm.get('userName')?.hasError('usernameTaken')"
+            color="danger"
+          >
+            Tên người dùng đã được sử dụng.
+          </ion-note>
 
+          <!-- Password -->
           <ion-label>Mật khẩu</ion-label>
           <ion-item>
-            <ion-input type="password" formControlName="password"> </ion-input>
+            <ion-input type="password" formControlName="password"></ion-input>
           </ion-item>
+          <ion-note
+            *ngIf="signInForm.get('password')?.hasError('minlength')"
+            color="danger"
+          >
+            Mật khẩu phải có ít nhất 6 ký tự.
+          </ion-note>
 
+          <!-- Confirm Password -->
           <ion-label>Nhập lại mật khẩu</ion-label>
           <ion-item>
-            <ion-input type="password" formControlName="passwordRecheck">
-            </ion-input>
+            <ion-input
+              type="password"
+              formControlName="passwordRecheck"
+            ></ion-input>
           </ion-item>
+          <ion-note *ngIf="signInForm.hasError('mismatch')" color="danger">
+            Mật khẩu không khớp.
+          </ion-note>
 
+          <!-- Phone -->
           <ion-label>Số điện thoại</ion-label>
           <ion-item>
-            <ion-input type="text" formControlName="phone"> </ion-input>
+            <ion-input type="text" formControlName="phone"></ion-input>
           </ion-item>
+          <ion-note
+            *ngIf="signInForm.get('phone')?.hasError('minlength')"
+            color="danger"
+          >
+            Số điện thoại phải có ít nhất 10 chữ số.
+          </ion-note>
 
+          <!-- Email -->
           <ion-label>Email</ion-label>
           <ion-item>
-            <ion-input type="text" formControlName="email"> </ion-input>
+            <ion-input type="email" formControlName="email"></ion-input>
           </ion-item>
+          <ion-note
+            *ngIf="signInForm.get('email')?.hasError('email')"
+            color="danger"
+          >
+            Email không hợp lệ.
+          </ion-note>
 
+          <!-- Address -->
           <ion-label>Địa chỉ</ion-label>
           <ion-item>
-            <ion-input type="text" formControlName="address"> </ion-input>
+            <ion-input type="text" formControlName="address"></ion-input>
           </ion-item>
-          <ion-button expand="block">Đăng ký</ion-button>
+
+          <!-- Submit Button -->
+          <ion-button expand="block" type="submit">Đăng ký</ion-button>
         </form>
 
         <ion-label style="display: block; text-align: center"

@@ -1,43 +1,44 @@
-<ion-header *ngIf="isMobile">
+<ion-header>
   <ion-toolbar>
     <ion-title>order-bill-details</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <div class="container">
-    <ion-button fill="clear" class="back-button">
+    <ion-button fill="clear" class="back-button" (click)="gotoPreviousPage()">
       <ion-icon name="arrow-back-outline"></ion-icon> Quay lại
     </ion-button>
     <hr />
     <h2>Giao đến</h2>
-    <ion-button fill="clear" expand="full">
+    <ion-button fill="clear" expand="full" (click)="openLocationPopUp()">
       <div>
         <ion-icon name="location"></ion-icon>
-        <p>Số 1 Phù Đổng Thiên Vương</p>
+        <p>{{user?.address}}</p>
         <ion-icon name="arrow-forward-outline"></ion-icon>
       </div>
     </ion-button>
     <input
+      class="note-address-input"
       type="text"
       placeholder="Thêm chi tiết địa chỉ và chỉ dẫn giao hàng"
     />
     <hr />
     <div class="addorder-row">
       <h2>Đơn hàng</h2>
-      <ion-button fill="clear">Thêm món</ion-button>
+      <ion-button fill="clear" (click)="gotoPreviousPage()"
+        >Thêm món</ion-button
+      >
     </div>
     <ion-list>
       <app-order-bill
-        *ngFor="let item of listOrderBill"
-        [image]="item.image"
-        [name]="item.name"
-        [price]="item.price"
-        [total]="item.total"
+        *ngFor="let item of listOrderDish"
+        [dish]="item"
       ></app-order-bill>
     </ion-list>
     <div class="total-price">
       <p>Tổng tạm tính</p>
-      <p class="price">{{getTotalPrice()|number:'1.0-0'}}đ</p>
+      <p class="price">{{basketPrice|number:'1.0-0'}} đ</p>
+      <!-- <p class="price">{{getTotalPrice()|number:'1.0-0'}}đ</p> -->
     </div>
     <div class="total-price">
       <p>Phí giao hàng</p>
@@ -45,22 +46,74 @@
     </div>
     <hr />
     <h2>Phương thức thanh toán</h2>
-    <ion-button fill="clear" expand="full">
+    <ion-button
+      fill="clear"
+      expand="full"
+      (click)="gotoOrderPayments()"
+      *ngIf="creditText==='Momo'"
+    >
+      <div class="credit-container">
+        <div>
+          <img src="/assets/images/momo.png" />
+          <p>Momo</p>
+        </div>
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </div>
+    </ion-button>
+    <ion-button
+      fill="clear"
+      expand="full"
+      (click)="gotoOrderPayments()"
+      *ngIf="creditText==='COD'"
+    >
       <div class="credit-container">
         <div>
           <ion-icon name="card-outline"></ion-icon>
-          <p>{{maskNumber(creditCardNumber)}}</p>
+          <p>Thanh toán khi nhận hàng</p>
+        </div>
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </div>
+    </ion-button>
+    <ion-button
+      fill="clear"
+      expand="full"
+      (click)="gotoOrderPayments()"
+      *ngIf="creditText!=='Momo'&&creditText!=='COD'"
+    >
+      <div class="credit-container">
+        <div>
+          <ion-icon name="card-outline"></ion-icon>
+          <p>{{maskNumber(creditText)}}</p>
         </div>
         <ion-icon name="arrow-forward-outline"></ion-icon>
       </div>
     </ion-button>
     <hr />
     <h2>Mã giảm giá</h2>
-    <input type="text" />
+    <div class="coupon-container">
+      <div>
+        <input class="couponInput" type="text" [(ngModel)]="voucherCode" />
+        <ion-button
+          (click)="checkVoucher()"
+          [disabled]="voucherCode.trim()===''"
+          >Áp mã
+        </ion-button>
+      </div>
+      <p class="voucher">{{voucher?.description}}</p>
+    </div>
   </div>
   <div class="end-total-price">
-    <p>Tổng cộng</p>
-    <p class="price">{{getTotalPrice()+shipCost|number:'1.0-0'}}đ</p>
+    <p>Thanh toán</p>
+    <!-- <p class="price">{{getTotalPrice()+shipCost|number:'1.0-0'}}đ</p> -->
+    <p class="price">
+      {{basketPrice >= 0 ? (basketPrice | number:'1.0-0') : 0 }} đ
+    </p>
   </div>
-  <ion-button class="submit-button" expand="block">Đặt đơn </ion-button>
+  <ion-button
+    (click)="submit()"
+    class="submit-button"
+    expand="block"
+    [disabled]="listOrderDish.length===0"
+    >{{(listOrderDish.length > 0)?'đặt đơn':'Vui lòng chọn món để thanh\ toán'}}
+  </ion-button>
 </ion-content>
