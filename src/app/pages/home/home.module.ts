@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { NavBarModule } from 'src/app/components/navbar/navbar.module';
-
+import { BannerPromoModule } from 'src/app/components/banner-promo/banner-promo.module';
 
 @NgModule({
   imports: [
@@ -13,7 +13,8 @@ import { NavBarModule } from 'src/app/components/navbar/navbar.module';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    NavBarModule
+    NavBarModule,
+    BannerPromoModule
   ],
   declarations: [HomePage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

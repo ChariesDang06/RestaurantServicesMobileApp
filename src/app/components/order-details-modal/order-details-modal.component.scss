@@ -1,0 +1,73 @@
+.close-button {
+  color: red;
+  text-transform: initial;
+}
+
+.order-details-content {
+  background-color: #2b2b2b;
+  color: white;
+  padding: 1rem;
+}
+
+.order-details-container {
+  background-color: #2b2b2b;
+  border-radius: 0.5rem;
+  margin: 20px;
+}
+
+.order-details-list {
+  background-color: transparent;
+}
+
+.order-item {
+  background-color: #2b2b2b;
+  --ion-item-background: #2b2b2b;
+  --ion-item-border-color: transparent;
+}
+
+.order-item ion-label {
+  color: white;
+}
+
+.divider-container {
+  display: flex; /* Sử dụng flexbox để căn giữa */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+}
+
+.divider {
+  width: 90%; /* Chiều rộng của đường gạch */
+  border-top: 2px solid #28a745;
+  margin: 0; /* Giữ margin 0 */
+}
+
+.quantity-box {
+  display: inline-block;
+  background-color: #5E5E5E;
+  color: white;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  text-align: center;
+  width: 2.5rem; /* Đặt chiều rộng cho ô vuông */
+  height: 2.5rem;
+}
+
+.order-item-content {
+  display: flex; /* Sử dụng flexbox cho số lượng và tên món */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: space-between; /* Căn giữa theo chiều ngang */
+}
+
+.total-price {
+  margin-left: auto; /* Đẩy sang bên phải */
+  color: white; /* Đảm bảo tổng tiền là màu trắng */
+  font-weight: bold; /* Tùy chọn: làm nổi bật tổng tiền */
+}
+
+.contact-button {
+  background-color: #28a745 !important; /* Màu xanh lá */
+  color: white !important; /* Màu chữ trắng */
+  --background: #28a745; /* Ghi đè lại màu nền */
+  --color: white; /* Ghi đè lại màu chữ */
+  margin: 20px; /* Khoảng cách từ phần trên */
+  --border-radius: 10%;
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/users/user.service';
 import { User } from '../../models/user.model';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-user-info-main',
@@ -10,10 +11,34 @@ import { User } from '../../models/user.model';
 export class UserInfoMainPage implements OnInit {
   user: User | null = null;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private navCtrl: NavController) {}
 
   ngOnInit() {
     this.getUserInfo();
+  }
+
+  goToVoucher() {
+    this.navCtrl.navigateForward('/user-voucher');
+  }
+
+  goToOrderHistory() {
+    this.navCtrl.navigateForward('/user-history');
+  }
+
+  goToEditInfo() {
+    this.navCtrl.navigateForward('/user-info-editing');
+  }
+
+  logout() {
+    // Thực hiện logic đăng xuất nếu cần
+    console.log('Đăng xuất');
+    // Ví dụ: Xóa userId khỏi localStorage và điều hướng về trang đăng nhập
+    localStorage.removeItem('userId');
+    this.navCtrl.navigateRoot('/login'); // Đảm bảo bạn đã định nghĩa route này
+  }
+
+  goBack() {
+    this.navCtrl.navigateForward('/home');
   }
 
   getUserInfo() {
@@ -33,6 +58,7 @@ export class UserInfoMainPage implements OnInit {
       console.error('User ID not found in localStorage');
     }
   }
+
   getRank(score: number | undefined): string {
     if (score === undefined) return 'Khách hàng'; // Default rank
     if (score > 1000) return 'Platinum'; // Example rank conditions

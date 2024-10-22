@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { firstValueFrom } from 'rxjs';
-// import { Voucher } from 'src/app/models/voucher.model';
 import { Voucher } from 'src/app/models/voucher.model';
 @Injectable({
   providedIn: 'root',
@@ -27,4 +26,8 @@ export class VoucherService {
         return undefined; // Return undefined in case of error
       });
   }
+  getAllVouchers(): Promise<Voucher[]> {
+    return firstValueFrom(this.firestore.collection<Voucher>('vouchers').valueChanges());
+  }
+  
 }
