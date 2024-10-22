@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/users/user.service';
 import { User } from '../../models/user.model';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-user-info-editing',
@@ -11,7 +10,7 @@ import { NavController } from '@ionic/angular';
 })
 export class UserInfoEditingPage implements OnInit {
   user: User | null = null;
-  tempUser: User = { 
+  tempUser: User = {
     userId: '',
     name: '',
     email: '',
@@ -21,13 +20,13 @@ export class UserInfoEditingPage implements OnInit {
     orderHistory: [],
     score: 0,
     avatarUrl: '',
+    password: ''
   };
 
-  constructor(private userService: UserService, private navCtrl: NavController) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.getUserInfo();
-    this.loadUserInfoFromLocalStorage();
   }
 
   getUserInfo() {
@@ -48,34 +47,6 @@ export class UserInfoEditingPage implements OnInit {
     }
   }
 
-  loadUserInfoFromLocalStorage() {
-    const userId = localStorage.getItem('userId');
-    const name = localStorage.getItem('userName');
-    const email = localStorage.getItem('userEmail');
-    const phone = localStorage.getItem('userPhone');
-    const address = localStorage.getItem('userAddress');
-    const avatarUrl = localStorage.getItem('userAvatar');
-
-    if (userId) {
-      this.tempUser.userId = userId;
-    }
-    if (name) {
-      this.tempUser.name = name;
-    }
-    if (email) {
-      this.tempUser.email = email;
-    }
-    if (phone) {
-      this.tempUser.phone = phone;
-    }
-    if (address) {
-      this.tempUser.address = address;
-    }
-    if (avatarUrl) {
-      this.tempUser.avatarUrl = avatarUrl;
-    }
-  }
-
   async changeAvatar() {
     const image = await Camera.getPhoto({
       quality: 90,
@@ -85,14 +56,20 @@ export class UserInfoEditingPage implements OnInit {
     });
 
     if (image && image.webPath) {
+      // Chuyển đổi blob URI thành File để tải lên
       const response = await fetch(image.webPath);
       const blob = await response.blob();
       const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
 
+      // Lấy userId từ localStorage
       const userId = localStorage.getItem('userId');
       if (userId) {
+        // Gọi phương thức updateUserAvatar để tải ảnh lên Firebase và cập nhật Firestore
         await this.userService.updateUserAvatar(userId, file);
+        
+        // Cập nhật tempUser.avatarUrl với URL mới
         this.tempUser.avatarUrl = await this.userService.getUserById(userId).toPromise().then(userData => userData?.avatarUrl);
+        
         console.log('Avatar updated:', this.tempUser.avatarUrl);
       }
     }
@@ -102,19 +79,7 @@ export class UserInfoEditingPage implements OnInit {
     if (this.tempUser) {
       await this.userService.updateUser(this.tempUser);
       console.log('User info updated:', this.tempUser);
-
-      // Cập nhật thông tin vào localStorage
-      localStorage.setItem('userName', this.tempUser.name || '');
-      localStorage.setItem('userEmail', this.tempUser.email || '');
-      localStorage.setItem('userPhone', this.tempUser.phone || '');
-      localStorage.setItem('userAddress', this.tempUser.address || '');
-      localStorage.setItem('userAvatar', this.tempUser.avatarUrl || '');
-
       this.user = { ...this.tempUser };
     }
-  }
-
-  goBack() {
-    this.navCtrl.navigateForward('/user-info-main'); // Quay lại trang trước đó
   }
 }

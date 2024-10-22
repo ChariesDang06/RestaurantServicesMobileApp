@@ -1,13 +1,13 @@
 ion-toolbar {
-    --background-color: var(--second-color);
+    --background-color: #2B2B2B;
 }
 
 ion-content {
-    background-color: var(--second-color);
+    background-color: #2B2B2B;
 }
 
 .personal-content {
-    --background: var(--second-color);
+    --background: #2B2B2B;
     /* Ghi đè màu nền */
 }
 
@@ -26,7 +26,7 @@ ion-content {
     width: 100px;
     border-radius: 50%;
     margin-top: 16px;
-    border: 4px solid var(--green-primary);
+    border: 4px solid #14C458;
     /* Viền xanh lá cho avatar */
 }
 
@@ -34,15 +34,15 @@ ion-content {
     position: absolute;
     bottom: 0;
     right: 0;
-    background-color: rgba(97, 97, 97, 0.81); /* Giữ nguyên màu này */
+    background-color: #616161cf;
     border-radius: 50%;
     padding: 4px;
     font-size: 24px;
-    color: var(--green-primary);
+    color: #14C458;
 }
 
 .text-white {
-    color: var(--white-primary);
+    color: white;
 }
 
 .text-gold {
@@ -50,15 +50,15 @@ ion-content {
 }
 
 .custom-toolbar {
-    --background: var(--second-color);
-    --color: var(--white-primary);
+    --background: #2B2B2B;
+    --color: white;
     position: relative;
 }
 
 .toolbar-border {
     height: 2px;
     width: 90%;
-    background-color: var(--green-primary);
+    background-color: #14C458;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -66,24 +66,12 @@ ion-content {
 }
 
 .divider {
-    border-top: 2px solid var(--green-primary);
+    border-top: 2px solid #14C458;
     margin: 20px 0 10px 0;
     width: 100%;
 }
 
 i {
-    color: var(--sub-color);
+    color: #CECECE;
     font-size: 0.75em;
 }
-.rank-default {
-    color: gray; /* Màu sắc mặc định */
-  }
-  
-  .rank-gold {
-    color: gold; /* Màu vàng cho khách hàng hạng vàng */
-  }
-  
-  .rank-platinum {
-    color: silver; /* Màu bạc cho khách hàng hạng platinum */
-  }
-  

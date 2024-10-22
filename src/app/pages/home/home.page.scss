@@ -1,9 +1,7 @@
-*{
-    margin: 0;
-}
 img {
     max-width: none;
 }
+
 p {
     font-size: 12px;
 }
@@ -148,7 +146,6 @@ ion-col {
 
 h1 {
     margin-top: 10px;
-    margin-bottom: 10px;
     font-size: 48px;
 }
 
@@ -203,31 +200,18 @@ h1 {
 /* quảng cáo */
 .qc {
     margin-top: 10px;
-    padding: 15px 0 20px 30px;
+    padding: 15px 30px 10px 30px;
     width: 100%;
     height: auto;
     background-color: red;
-    position: relative; /* Cần thiết để định vị phần tử con */
-  }
-  
-  .qc h5 {
+}
+
+.qc h5 {
     font-size: 1em;
-    display: inline; /* Để cho chữ "Giảm ngay" và "15%" nằm cùng dòng */
-  }
-  
-  .highlight {
-    font-size: 1.25em; /* Điều chỉnh kích thước chữ cho "15%" */
-    font-weight: bold; /* Tùy chọn: làm cho chữ nổi bật hơn */
-  }
-  
-  .qc-image {
-    position: absolute;
-    right: 10px; /* Căn lề phải */
-    top: 50%; /* Căn giữa theo chiều dọc */
-    transform: translateY(-50%); /* Đảm bảo hình ảnh ở giữa chiều dọc */
-    width: 50%; /* Điều chỉnh kích thước hình ảnh */
-    height: auto;
-  }
+    display: inline;
+    /* Để cho chữ "Giảm ngay" và "15%" nằm cùng dòng */
+}
+
 .highlight {
     font-size: 1.25em;
     /* Điều chỉnh kích thước chữ cho "15%" */
@@ -321,8 +305,8 @@ swiper-slide img {
 }
 
 .boder-sketch {
-    border-bottom: 4px solid #14C458;
-    border-top: 4px solid #14C458;
+    border-bottom: 4px solid green;
+    border-top: 4px solid green;
     width: 100%;
     margin: 0 auto;
     /* Căn giữa theo chiều ngang */
@@ -361,12 +345,8 @@ swiper-slide img {
 .aboutus-content {
     margin: 10px 20px 0 20px;
 }
-.aboutus-content p {
-    margin-bottom: 10px;
-}
 
 .bold-text {
-    margin-top: 5px;
     font-weight: bold;
 }
 
@@ -374,11 +354,10 @@ swiper-slide img {
 .divider {
     width: 20%;
     /* Bằng 1/5 chiều rộng văn bản */
-    height: 2px;
+    height: 4px;
     /* Chiều cao của đường */
     background-color: white;
     /* Màu của đường */
-    
 
 }
 
@@ -417,112 +396,12 @@ swiper-slide img {
     /* Đảm bảo tiêu đề chiếm 100% chiều rộng */
 }
 
-swiper-slide {
- 
+.card-content {
     display: flex;
-    justify-content: center; /* Canh giữa các phần bình luận */
-  }
-  
-  ion-card {
-    height: 170px; // Chiều cao cố định cho phần bình luận
-    width: 100%; // Đảm bảo chiều rộng là 100%
-  }
-  
-  .card-content {
-    max-height: 100px; // Chiều cao tối đa cho nội dung bình luận
-    overflow: hidden; // Ẩn nội dung thừa
-    text-overflow: ellipsis; // Hiện ba dấu chấm nếu có nội dung thừa
-    display: -webkit-box;
-    -webkit-line-clamp: 3; // Số dòng tối đa hiển thị
-    -webkit-box-orient: vertical;
-  }
-  
-  .card-content:hover {
-    overflow-y: auto; // Hiển thị cuộn dọc khi hover
-  }
-  
-  /* CSS riêng cho phần viết bình luận */
-  .review-input {
-    margin-top: 20px; // Đảm bảo có khoảng cách giữa phần bình luận và phần viết bình luận
-  }
-  
-.review-card {
-    width: 100%; /* Đảm bảo chiều rộng đầy đủ */
-    height: auto; /* Chiều cao tự động để chứa nội dung */
-    display: flex;
-    flex-direction: column; /* Để các phần tử xếp chồng lên nhau */
-    align-items: flex-start; /* Căn trái cho các phần tử */
-    justify-content: space-between; /* Đảm bảo có khoảng cách giữa các phần tử */
-    padding: 16px; /* Padding cho thẻ card */
-  }
-  
-  .user-avatar {
-    width: 40px; /* Kích thước ảnh đại diện */
-    height: 40px; /* Kích thước ảnh đại diện */
-    border-radius: 50%; /* Để ảnh thành hình tròn */
-    margin-right: 8px; /* Khoảng cách giữa ảnh đại diện và ngôi sao */
-  }
-  
-  .rating {
-    display: flex; /* Để các ngôi sao xếp hàng ngang */
-  }
-  
-  .star-icon {
-    color: gold; /* Màu vàng cho ngôi sao */
-    margin-right: 2px; /* Khoảng cách giữa các ngôi sao */
-  }
-  
-  .card-content {
-    
-    margin-top: 8px; /* Khoảng cách giữa tiêu đề và nội dung */
-    font-size: 14px; /* Kích thước chữ bình luận */
-  }
-  
-  .star-rating {
-    display: flex; /* Để các ngôi sao trong phần bình luận xếp hàng ngang */
-    cursor: pointer; /* Hiển thị con trỏ như là một nút bấm */
-  }
-
-.comment-form {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #CCCCCC;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    width: 100%;
-}
-
-.comment-form textarea {
-    resize: none;
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #CCCCCC;
-    font-size: 14px;
-    outline: none;
-}
-
-.comment-form textarea:focus {
-    border-color: #4A90E2;
-}
-
-.comment-form button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #4A90E2;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.comment-form button:hover {
-    background-color: #357ABD;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    /* Để đảm bảo nội dung được căn giữa trong card */
 }
 
 /* Responsive */

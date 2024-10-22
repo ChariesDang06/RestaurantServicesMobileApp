@@ -1,29 +1,30 @@
-.voucher-card {
-    background-color: red; // Thay đổi màu nền thành đỏ
-    color: white; // Đặt màu chữ thành trắng để nổi bật trên nền đỏ
+.button-content {
     display: flex;
-    align-items: center; // Căn giữa nội dung theo chiều dọc
-    padding: 20px; // Thêm khoảng đệm để thẻ lớn hơn
-    margin: 10px 20px; // Thêm khoảng cách giữa các thẻ voucher và 20px hai bên
-  
-    .voucher-icon {
-      margin-right: 15px; // Khoảng cách giữa icon và thông tin voucher
-      font-size: 36px; // Kích thước của icon lớn hơn
-      color: white; // Đặt màu icon thành trắng
-    }
-  
-    ion-card-title {
-      display: flex;
-      align-items: center; // Căn giữa icon và chữ
-      font-size: 24px; // Kích thước chữ lớn hơn
-      color: white; // Đảm bảo chữ trong title cũng là trắng
-    }
-  
-    ion-card-content {
-      color: white; // Đặt màu chữ trong nội dung cũng là trắng
-      font-size: 18px; // Kích thước chữ mô tả lớn hơn
-      margin-top: 10px; // Thêm khoảng cách trên giữa title và content
-      text-align:justify; // Căn trái cho phần mô tả
-    }
-  }
-  
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+
+}
+
+.voucher-button {
+    --background: red;
+    --color: white;
+    --border-radius: 5px;
+    margin: 15px 0;
+    width: 100%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+}
+
+.voucher-icon {
+    font-size: 3rem;
+    /* Tăng kích thước icon */
+    color: white;
+    margin-right: 10px;
+}
+
+.voucher-text {
+    font-size: 1rem;
+    /* Tăng kích thước chữ */
+}

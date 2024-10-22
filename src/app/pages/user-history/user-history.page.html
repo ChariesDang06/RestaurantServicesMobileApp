@@ -1,42 +1,13 @@
-<ion-header>
-  <app-navbar class="navbar"></app-navbar>
-
-</ion-header>
-
-<ion-header [translucent]="true" style="background-color: #2b2b2b">
-  <ion-toolbar class="custom-toolbar">
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Lịch sử đặt</ion-title>
-    <div class="toolbar-border"></div>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>user-history</ion-title>
   </ion-toolbar>
 </ion-header>
 
-
-<ion-content [fullscreen]="true" class="order-history-content">
+<ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">user-history</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <ion-list class="order-history-list">
-    <ion-item
-      *ngFor="let item of orderHistory$ | async"
-      (click)="openOrderDetails(item)"
-      class="order-item"
-    >
-      <ion-label>
-        <div class="order-item-content">
-          <ion-icon name="restaurant" slot="start" style="color: white; margin-right: 0.5rem;"></ion-icon>
-          <h2 style="color: white; display: inline;">{{ item.orderItems[0].dishID }}</h2>
-          <span class="view-details" style="color: red; font-size: 0.8rem; margin-left: auto; display: block;">Xem chi tiết</span>
-        </div>
-        <p style="color: white;">Tổng tiền: {{ item.totalBill | number : "1.0-0" }}đ</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
 </ion-content>

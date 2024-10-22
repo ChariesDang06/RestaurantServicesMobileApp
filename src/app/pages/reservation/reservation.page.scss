@@ -151,37 +151,30 @@ $font-family-poppins: "Poppins", sans-serif;
 }
 
 .selectionContainer {
-    background-color: transparent; // Ensure it doesn't have a background color that might interfere
-  
-    ion-row {
-      margin-bottom: 10px; // Space between rows
+    display: flex;
+    margin: 10px;
+    justify-content: space-around;
+
+    .selectionItemL {
+        font-size: smaller;
+        width: 35%;
+        height: 50px;
+        border-radius: 5px;
+        border: 1px solid $color-white;
     }
-  }
-  .selectionItem{
-    border: 1px solid $color-white;
-  }
-  .noteField {
-    margin: 10px; // Ensure the note field has space around it
-    z-index: 1; // Ensure it sits below the selectionContainer
-  }
-  
-  .datetime-container {
-    position: relative; // Make sure it's positioned relative to the ion-item
-    z-index: 2; // Higher z-index to stay on top when the datetime picker is open
-  }
-  
-  // Ensure the ion-datetime doesn't inherit the display property that hides it
-  ion-datetime {
-    z-index: 3; // Highest z-index to ensure it overlays correctly
-  }
-  
-  
-  
+
+    .selectionItemS {
+        font-size: smaller;
+        width: 20%;
+        height: 50px;
+        border-radius: 5px;
+        border: 1px solid $color-white;
+    }
+}
 
 
 // Description
 .description {
-    width: 100%;
     border-radius: 5px;
     background-color: rgba(89, 36, 36, 0.48);
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.08);
