@@ -9,6 +9,7 @@ import { OrderMainPageRoutingModule } from './order-main-routing.module';
 import { NavBarModule } from '../../components/navbar/navbar.module';
 import { orderDishModule } from '../../components/order-dish/order-dish.module';
 import { OrderMainPage } from './order-main.page';
+import { OrderCustomerInfoModule } from 'src/app/components/order-customer-info/order-customer-info.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { OrderMainPage } from './order-main.page';
     OrderMainPageRoutingModule,
     NavBarModule,
     orderDishModule,
+    OrderCustomerInfoModule
   ],
   declarations: [OrderMainPage],
   exports: [OrderMainPage],

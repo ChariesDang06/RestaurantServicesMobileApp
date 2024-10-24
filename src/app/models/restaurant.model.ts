@@ -7,7 +7,7 @@ export interface AvailableTime {
 }
 
 export interface Table {
-  name: string;
+  tableId: string;
   availableSeats: number;
   description: string;
   availableTime: AvailableTime[];

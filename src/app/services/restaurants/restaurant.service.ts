@@ -63,6 +63,22 @@ getAllRestaurants(): Promise<Restaurant[]> {
         return undefined;
       });
   }
+   // Fetch a table by restaurant ID and table name
+  getTableById(restaurantId: string, tableId: string): Promise<Table | undefined> {
+  return firstValueFrom(this.firestore.collection('restaurants').doc(restaurantId).collection('tables', ref => ref.where('tableId', '==', tableId)).get())
+    .then(snapshot => {
+      if (!snapshot.empty) {
+        const tableData = snapshot.docs[0].data() as Table; // Get the first matching table
+        return { ...tableData, name: tableId }; // Return table with its ID
+      } else {
+        return undefined; // No matching table found
+      }
+    })
+    .catch(error => {
+      console.error(`Error fetching table with ID ${tableId}:`, error);
+      return undefined;
+    });
+}
 
   // Create a new restaurant
   createRestaurant(restaurant: Omit<Restaurant, 'restaurantId'>): Promise<void> {

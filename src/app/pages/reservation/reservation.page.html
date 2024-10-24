@@ -42,9 +42,9 @@
                 >
                   <ion-select-option
                     *ngFor="let table of tables"
-                    [value]="table.name"
+                    [value]="table.tableId"
                   >
-                    {{ table.name }}
+                    {{ table.tableId }}
                   </ion-select-option>
                 </ion-select>
               </ion-item>
@@ -158,7 +158,7 @@
             class="bigButt"
             fill="clear"
             expand="block"
-            (click)="navigateToOrder()"
+            (click)="placeOrder()"
             >Đặt món</ion-button
           >
         </ion-col>

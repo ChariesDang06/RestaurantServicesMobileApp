@@ -67,6 +67,14 @@
       <p class="price">{{shipCost|number:'1.0-0'}}đ</p>
     </div>
     <hr />
+    <div class="end-total-price">
+      <p>Thanh toán</p>
+      <!-- <p class="price">{{getTotalPrice()+shipCost|number:'1.0-0'}}đ</p> -->
+      <p class="price">
+        {{basketPrice >= 0 ? (basketPrice-voucherDiscount+shipCost |
+        number:'1.0-0') : 0 }} đ
+      </p>
+    </div>
     <h2>Phương thức thanh toán</h2>
     <ion-button
       fill="clear"
@@ -124,14 +132,7 @@
       <p class="voucher">{{voucher?.description}}</p>
     </div> -->
   </div>
-  <div class="end-total-price">
-    <p>Thanh toán</p>
-    <!-- <p class="price">{{getTotalPrice()+shipCost|number:'1.0-0'}}đ</p> -->
-    <p class="price">
-      {{basketPrice >= 0 ? (basketPrice-voucherDiscount+shipCost |
-      number:'1.0-0') : 0 }} đ
-    </p>
-  </div>
+
   <ion-button
     (click)="submit()"
     class="submit-button"

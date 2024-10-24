@@ -121,13 +121,15 @@ ion-list {
 }
 
 .end-total-price {
-  margin: 0 2rem;
+  //margin: 0 2rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+ 
 
   p {
     margin: 0;
+    font-weight: bold;
   }
 }
 

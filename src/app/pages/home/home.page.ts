@@ -4,6 +4,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Review } from '../../models/review.model';  // Model review
 import { User } from '../../models/user.model';     // Model user
 import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -15,7 +17,8 @@ export class HomePage implements OnInit {
   newReview: Review = { userId: '', rating: 0, comment: '' };
   stars = [1, 2, 3, 4, 5]; // Mảng 5 sao
 
-  constructor(private userService: UserService, private firestore: AngularFirestore,private navCtrl: NavController) {}
+
+  constructor(private authService: AuthService,private router: Router,private userService: UserService, private firestore: AngularFirestore,private navCtrl: NavController) {}
 
   ngOnInit() {
     this.getUserInfo();
@@ -91,4 +94,15 @@ goToOrder(){
   setRating(rating: number) {
     this.newReview.rating = rating; // Cập nhật rating khi nhấn vào sao
   }
+  
+  async placeOrderFromHome() {
+  const userId = this.authService.getLoggedInUserId();
+  
+  // Store in local storage
+  localStorage.setItem('orderMode', 'delivery');
+
+  // Navigate to OrderCustomerInfo component
+  this.router.navigate(['/order-customer-info']);
+}
+  
 }

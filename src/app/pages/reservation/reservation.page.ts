@@ -46,7 +46,9 @@ export class ReservationPage implements OnInit {
     private userService: UserService,
     private alertController: AlertController,
     private router: Router,
-  ) {}
+  ) {
+    
+  }
 
   ngOnInit() {
     this.loadAllRestaurants();
@@ -94,9 +96,7 @@ export class ReservationPage implements OnInit {
 
     await alert.present();
   }
-navigateToOrder(){
-   this.router.navigate(['/order-main']);
-}
+
   loadAllRestaurants() {
     this.restaurantService.getAllRestaurants().then((restaurants) => {
       this.restaurants = restaurants;
@@ -186,7 +186,7 @@ navigateToOrder(){
     const selectedTableName = event.detail.value;
 
     if (this.tables && this.tables.length > 0) {
-      const selectedTable = this.tables.find(table => table.name === selectedTableName);
+      const selectedTable = this.tables.find(table => table.tableId === selectedTableName);
 
       if (selectedTable) {
         this.setSelectedTable(selectedTable);
@@ -226,7 +226,7 @@ navigateToOrder(){
 
     const reservation: Omit<Reservation, 'reservationId'> = {
       userId: this.userId || 'guest', // Logged-in user ID or 'guest'
-      tableId: this.selectedTable.name,
+      tableId: this.selectedTable.tableId,
       reservationTime: `${this.selectedDate}T${this.selectedTime}`, // Combine date and time
       numberOfPeople: this.selectedTable.availableSeats || 1,
       preOrderedItems: this.preOrderedItems,
@@ -244,4 +244,21 @@ navigateToOrder(){
       console.error('Error creating reservation:', error);
     }
   }
+
+  async placeOrder() {
+    this.router.navigate(['/order-main']);
+  const reservationInfo = {
+    userId: this.userId || 'guest',
+    reservationTime: `${this.selectedDate}T${this.selectedTime}`,
+    numberOfPeople: this.selectedTable?.availableSeats || 0,
+    tableId: this.selectedTable?.tableId || ""    // Add other relevant reservation information here
+  };
+
+  // Store in local storage
+  localStorage.setItem('orderMode', 'reservation');
+  localStorage.setItem('reservationInfo', JSON.stringify(reservationInfo));
+
+  // Navigate to OrderCustomerInfo component
+  this.router.navigate(['/order-customer-info']);
+}
 }

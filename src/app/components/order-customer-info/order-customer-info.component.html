@@ -1,0 +1,59 @@
+<ion-card>
+  <div class="user-inf-card">
+    <ion-card-header>
+      <ion-card-title *ngIf="mode === 'reservation'"
+        >Thông tin đặt bàn</ion-card-title
+      >
+      <ion-card-title *ngIf="mode === 'delivery'"
+        >Thông tin giao hàng</ion-card-title
+      >
+    </ion-card-header>
+    <ion-card-content>
+      <!-- Display for Reservation Mode -->
+      <ng-container *ngIf="mode === 'reservation'">
+        <div class="info-div">
+          <ion-icon class="icon-info" name="customer-info"></ion-icon>
+          <span>{{ user?.name }}</span>
+          <br />
+        </div>
+        <div class="info-div">
+          <ion-icon class="icon-info" name="calendar-outline"></ion-icon>
+          <span>{{ reservation?.reservationTime }}</span>
+          <br />
+        </div>
+        <div class="info-div">
+          <ion-icon class="icon-info" name="people-outline"></ion-icon>
+          <span>{{ reservation?.numberOfPeople }}</span>
+        </div>
+        <div class="info-div">
+          <ion-icon name="location-outline" class="icon-info"></ion-icon>
+          <span>{{ table?.tableId }}</span>
+        </div>
+      </ng-container>
+
+      <!-- Display for Delivery Mode -->
+      <ng-container *ngIf="mode === 'delivery'">
+        <div class="info-div">
+          <ion-icon class="icon-info" name="customer-info"></ion-icon>
+          <span>{{ user?.name }}</span>
+          <br />
+        </div>
+        <div class="info-div">
+          <ion-icon class="icon-info" name="mail-outline"></ion-icon>
+          <span>{{ user?.email }}</span>
+          <br />
+        </div>
+        <div class="info-div">
+          <ion-icon class="icon-info" name="call-outline"></ion-icon>
+          <span>{{ user?.phone }}</span>
+          <br />
+        </div>
+        <div class="info-div" *ngIf="user?.address">
+          <ion-icon class="icon-info" name="location-outline"></ion-icon>
+          <span>{{ user?.address }}</span>
+          <br />
+        </div>
+      </ng-container>
+    </ion-card-content>
+  </div>
+</ion-card>
