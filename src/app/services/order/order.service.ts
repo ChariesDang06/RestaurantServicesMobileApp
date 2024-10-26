@@ -114,4 +114,13 @@ export class OrderService {
         })
       );
   }
+
+  async createOrder(order: Omit<Order, 'orderId'>): Promise<void> {
+  const orderId = this.firestore.createId(); // Generate a new order ID
+  const newOrder: Order = { orderId, ...order }; // Construct the order with a single orderId
+
+  return this.firestore.collection('orders').doc(orderId).set(newOrder); // Save the new order in Firestore
+}
+
+
 }

@@ -20,7 +20,7 @@ getAllRestaurants(): Promise<Restaurant[]> {
 
         const floors: Floor[] = restaurantData.tables.map((floorData: any) => {
           const tables: Table[] = floorData.tables.map((tableData: any) => ({
-            name: tableData.name,
+            tableId: tableData.tableId,
             availableSeats: Number(tableData.availableSeats),
             description: tableData.description,
             availableTime: tableData.availableTime || [] // Add availableTime and default to an empty array if missing
@@ -69,7 +69,7 @@ getAllRestaurants(): Promise<Restaurant[]> {
     .then(snapshot => {
       if (!snapshot.empty) {
         const tableData = snapshot.docs[0].data() as Table; // Get the first matching table
-        return { ...tableData, name: tableId }; // Return table with its ID
+        return { ...tableData, tableId: tableId }; // Return table with its ID
       } else {
         return undefined; // No matching table found
       }

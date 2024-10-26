@@ -5,19 +5,22 @@ import {
   NavController,
 } from '@ionic/angular';
 import { Dish } from 'src/app/models/category.model';
-import { Order } from 'src/app/models/order.model';
+import { Order, OrderItem } from 'src/app/models/order.model';
 import { OrderService } from 'src/app/services/order/order.service';
 import { ChangeLocationComponent } from 'src/app/components/change-location/change-location.component';
 import { User } from '../../models/user.model';
 import { VoucherService } from 'src/app/services/voucher/voucher.service';
 import { Voucher } from 'src/app/models/voucher.model';
 import { UserService } from 'src/app/services/users/user.service';
+import { Reservation } from 'src/app/models/reservation.model';
+import { ReservationService } from 'src/app/services/reservations/reservation.service';
 @Component({
   selector: 'app-order-bill-details',
   templateUrl: './order-bill-details.page.html',
   styleUrls: ['./order-bill-details.page.scss'],
 })
 export class OrderBillDetailsPage implements OnInit {
+  mode: 'reservation' | 'delivery' = 'reservation'; 
   shipCost: number = 0;
   basketPrice: number = 0;
   voucherCode: string = '';
@@ -27,14 +30,22 @@ export class OrderBillDetailsPage implements OnInit {
   user: User | null = null;
   userAddress: string = '';
   voucherDiscount: number = 0;
+ 
+  depositAmount: number | undefined;
+  confirmationEmailSent: boolean = false;
+  confirmationSMSSent: boolean = false;
+  note: string = "";
   constructor(
     private navController: NavController,
     private orderService: OrderService,
     private modalController: ModalController,
     private voucherService: VoucherService,
     private alertController: AlertController,
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+    private reservationService: ReservationService
+  ) {
+     this.mode = localStorage.getItem('orderMode') === 'reservation' ? 'reservation' : 'delivery';
+  }
   listOrderDish: Dish[] = [];
   // ViewWillEnter() {}
   ionViewWillEnter() {
@@ -245,10 +256,80 @@ export class OrderBillDetailsPage implements OnInit {
       }
     }
   }
-  submit() {
-    console.log(this.orderService.getDishes());
-    localStorage.removeItem('tempAddress');
-    // getOrdersByUser
-    // throw new Error('Method not implemented.');
+  // submit() {
+  //   console.log(this.orderService.getDishes());
+  //   localStorage.removeItem('tempAddress');
+  //   // getOrdersByUser
+  //   // throw new Error('Method not implemented.');
+  // }
+  async submit() {
+  const currentTime = new Date().toISOString();
+  const dishes = this.orderService.getDishes();
+
+    // Map Dish[] to OrderItem[], adding default quantity and other properties as needed
+    const orderItems: OrderItem[] = dishes.map((dish) => ({
+      ...dish,
+      quantity: 1, // Set a default quantity, or update based on user input
+    }));
+
+  if (this.mode === 'reservation') {
+    const reservationInfo = JSON.parse(localStorage.getItem('reservationInfo') || '{}');
+    const preOrderedItems: Dish[] = this.orderService.getDishes() || [];
+
+    const reservation: Omit<Reservation, 'reservationId'> = {
+  userId: this.user?.userId || reservationInfo.userId || 'guest',
+  tableId: reservationInfo.tableId,
+  reservationTime: reservationInfo.reservationTime || currentTime,
+  numberOfPeople: reservationInfo.numberOfPeople || 1,
+  preOrderedItems: orderItems, // Use the mapped OrderItem[] for preordered items
+  depositAmount: this.depositAmount || 0,
+  status: 'confirmed',
+  confirmationEmailSent: this.confirmationEmailSent || false,
+  confirmationSMS: this.confirmationSMSSent || false,
+  note: reservationInfo.note || '',
+};
+
+    try {
+      await this.reservationService.createReservation(reservation);
+      const alert = await this.alertController.create({
+        header: 'Success',
+        message: 'Đặt bàn thành công',
+        buttons: ['OK']
+      });
+      await alert.present();
+      this.navController.navigateForward('/user-history');
+    } catch (error) {
+      console.error('Error creating reservation:', error);
+    }
+  } else if (this.mode === 'delivery') {
+    
+    const totalAmount = this.basketPrice || 0; // If basketPrice exists, use it; otherwise default to 0
+
+// Define the order object without `totalAmount` if it's not part of the Order type
+const order: Omit<Order, 'orderId'> = {
+  userId: this.user?.userId || 'guest', // Default to 'guest' if userId is undefined
+  orderTime: new Date().toISOString(),
+  paymentMethod: 'Credit Card', // Set appropriate payment method
+  status: 'Pending', // Default status or user-defined
+  restaurantId: 'restaurant123', // Replace with actual restaurant ID
+  orderItems,
+  totalPrice: 0,
+  pickupTime: ''
+};
+
+    try {
+      await this.orderService.createOrder(order); // Use OrderService to create order
+      const alert = await this.alertController.create({
+        header: 'Success',
+        message: 'Đặt món thành công',
+        buttons: ['OK'],
+      });
+      await alert.present();
+      this.navController.navigateForward('/user-history');
+    } catch (error) {
+      console.error('Error creating order:', error);
+    }
   }
+}
+
 }

@@ -12,7 +12,7 @@
       <!-- Display for Reservation Mode -->
       <ng-container *ngIf="mode === 'reservation'">
         <div class="info-div">
-          <ion-icon class="icon-info" name="customer-info"></ion-icon>
+          <ion-icon class="icon-info" name="person-outline"></ion-icon>
           <span>{{ user?.name }}</span>
           <br />
         </div>
@@ -27,14 +27,14 @@
         </div>
         <div class="info-div">
           <ion-icon name="location-outline" class="icon-info"></ion-icon>
-          <span>{{ table?.tableId }}</span>
+          <span>{{ reservation?.tableId }}</span>
         </div>
       </ng-container>
 
       <!-- Display for Delivery Mode -->
       <ng-container *ngIf="mode === 'delivery'">
         <div class="info-div">
-          <ion-icon class="icon-info" name="customer-info"></ion-icon>
+          <ion-icon class="icon-info" name="person-outline"></ion-icon>
           <span>{{ user?.name }}</span>
           <br />
         </div>

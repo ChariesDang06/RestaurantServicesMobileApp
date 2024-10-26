@@ -16,8 +16,10 @@ export class OrderCustomerInfoComponent  implements OnInit {
   mode: 'reservation' | 'delivery' = 'delivery'; // Default to 'delivery'
   user: User | null = null;
   reservation: any = null; // Define based on your reservation structure
-  table: Table | null = null; // Declare the table property
-  
+ 
+
+  table: any | null;
+  userId: any | null;
   constructor(private userService: UserService, private restaurantService: RestaurantService) {}
 ngOnDestroy() {
   localStorage.removeItem('orderMode');
@@ -46,15 +48,13 @@ ngOnDestroy() {
     this.reservation = JSON.parse(reservationInfo);
 
     // Fetch the table information if needed
-    const tableId = this.reservation.tableId; // Assume tableId in the reservation corresponds to the table name
-    const restaurantId = "location001"; // Get the restaurant ID from the reservation info
+    const userId = localStorage.getItem('userId');
 
-    if (tableId && restaurantId) {
-      this.restaurantService.getTableById(restaurantId, tableId).then(tableData => {
-        if (tableData) {
-          this.table = tableData; // Store the fetched table data
-        }
-      });
+    if ( userId ) {
+      this.userService.getUserById(userId).subscribe(userData => {
+        if (userData) {
+          this.user = userData;}
+        });
     }
   }
 }

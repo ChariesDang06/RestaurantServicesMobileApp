@@ -23,13 +23,13 @@ export class ReservationPage implements OnInit {
   userId: string | null = null;
 
   currentDateTime: string | null = null;
-  note: string="";
+  note: string = '';
   selectedFloor: Floor | null = null;
   selectedTable: Table | null = null;
   selectedDate: string | null = null;
   selectedTime: string | null = null;
   availableTimes: string[] = [];
-  availableDates: string[] = []; // Store available dates
+  availableDates: string[] = [];
   isDateTimeOpen: boolean = false;
   preOrderedItems: OrderItem[] = [];
   customerName: string = '';
@@ -45,10 +45,8 @@ export class ReservationPage implements OnInit {
     private authenticationService: AuthService,
     private userService: UserService,
     private alertController: AlertController,
-    private router: Router,
-  ) {
-    
-  }
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadAllRestaurants();
@@ -64,9 +62,9 @@ export class ReservationPage implements OnInit {
         (userData: User | undefined) => {
           if (userData) {
             this.user = userData;
-            this.customerEmail=this.user.email;
-            this.customerName=this.user.name;
-            this.customerPhone=this.user.phone;
+            this.customerEmail = this.user.email;
+            this.customerName = this.user.name;
+            this.customerPhone = this.user.phone;
           } else {
             console.log('No user data found');
           }
@@ -143,7 +141,7 @@ export class ReservationPage implements OnInit {
     const selectedFloorName = event.detail.value;
 
     if (this.floors && this.floors.length > 0) {
-      const selectedFloor = this.floors.find(floor => floor.floor === selectedFloorName);
+      const selectedFloor = this.floors.find((floor) => floor.floor === selectedFloorName);
 
       if (selectedFloor) {
         this.setSelectedFloor(selectedFloor);
@@ -166,13 +164,9 @@ export class ReservationPage implements OnInit {
     this.availableTimes = []; // Clear previous available times
     if (this.selectedDate && this.selectedTable?.availableTime) {
       this.selectedTable.availableTime.forEach((timeData) => {
-        if (timeData.date && timeData.date.seconds) {
-          const dateTimestamp = new Date(timeData.date.seconds * 1000).toISOString().split('T')[0];
-          if (this.selectedDate === dateTimestamp) {
-            this.availableTimes = timeData.time; // Ensure this is correctly structured
-          }
-        } else {
-          console.error('Invalid timeData format:', timeData);
+        const dateTimestamp = new Date(timeData.date.seconds * 1000).toISOString().split('T')[0];
+        if (this.selectedDate === dateTimestamp) {
+          this.availableTimes = timeData.time;
         }
       });
 
@@ -186,15 +180,15 @@ export class ReservationPage implements OnInit {
     const selectedTableName = event.detail.value;
 
     if (this.tables && this.tables.length > 0) {
-      const selectedTable = this.tables.find(table => table.tableId === selectedTableName);
+      const selectedTable = this.tables.find((table) => table.tableId === selectedTableName);
 
       if (selectedTable) {
         this.setSelectedTable(selectedTable);
         this.updateAvailableDays(); // Update available days when table changes
 
         // Reset available times and selected time
-        this.availableTimes = []; // Clear previous available times
-        this.selectedTime = null; // Reset selected time
+        this.availableTimes = [];
+        this.selectedTime = null;
       }
     }
   }
@@ -213,7 +207,6 @@ export class ReservationPage implements OnInit {
   }
 
   async submitReservation() {
-    // Validate user input
     if (!this.selectedTable || !this.selectedDate || !this.selectedTime) {
       const alert = await this.alertController.create({
         header: 'Missing Information',
@@ -225,9 +218,9 @@ export class ReservationPage implements OnInit {
     }
 
     const reservation: Omit<Reservation, 'reservationId'> = {
-      userId: this.userId || 'guest', // Logged-in user ID or 'guest'
+      userId: this.userId || 'guest',
       tableId: this.selectedTable.tableId,
-      reservationTime: `${this.selectedDate}T${this.selectedTime}`, // Combine date and time
+      reservationTime: `${this.selectedDate}T${this.selectedTime}`,
       numberOfPeople: this.selectedTable.availableSeats || 1,
       preOrderedItems: this.preOrderedItems,
       status: 'confirmed',
@@ -239,26 +232,28 @@ export class ReservationPage implements OnInit {
 
     try {
       await this.reservationService.createReservation(reservation);
-      // Optionally navigate or show a success message
+      const alert = await this.alertController.create({
+        header: 'Success',
+        message: 'Reservation successfully created.',
+        buttons: ['OK'],
+      });
+      await alert.present();
     } catch (error) {
       console.error('Error creating reservation:', error);
     }
   }
 
   async placeOrder() {
+    const reservationInfo = {
+      userId: this.userId || 'guest',
+      reservationTime: `${this.selectedDate || ''}T${this.selectedTime || ''}`,
+      numberOfPeople: this.selectedTable?.availableSeats || 0,
+      tableId: this.selectedTable?.tableId,
+      note: this.note || ''
+    };
+
+    localStorage.setItem('orderMode', 'reservation');
+    localStorage.setItem('reservationInfo', JSON.stringify(reservationInfo));
     this.router.navigate(['/order-main']);
-  const reservationInfo = {
-    userId: this.userId || 'guest',
-    reservationTime: `${this.selectedDate}T${this.selectedTime}`,
-    numberOfPeople: this.selectedTable?.availableSeats || 0,
-    tableId: this.selectedTable?.tableId || ""    // Add other relevant reservation information here
-  };
-
-  // Store in local storage
-  localStorage.setItem('orderMode', 'reservation');
-  localStorage.setItem('reservationInfo', JSON.stringify(reservationInfo));
-
-  // Navigate to OrderCustomerInfo component
-  this.router.navigate(['/order-customer-info']);
-}
+  }
 }
