@@ -158,3 +158,11 @@ ion-button.add-btn ion-icon {
     --background: var(--red-primary);
   }
 }
+.ingredient {
+  padding: 0;
+  ion-icon {
+    color: var(--green-primary);
+    padding-right: 1rem;
+    font-size: 1rem;
+  }
+}

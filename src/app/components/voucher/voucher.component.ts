@@ -8,6 +8,9 @@ import { Voucher } from 'src/app/models/voucher.model';
 })
 export class VoucherComponent {
   @Input() voucher!: Voucher; // Nhận dữ liệu voucher từ trang cha
+  constructor() {}
+
+  ngOnInit() {}
 
   getVoucherDescription(): string {
     // Tạo mô tả chi tiết cho voucher từ dữ liệu

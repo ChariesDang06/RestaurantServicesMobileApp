@@ -8,6 +8,7 @@ import { SigninPageRoutingModule } from './signin-routing.module';
 
 import { SigninPage } from './signin.page';
 import { NavBarModule } from 'src/app/components/navbar/navbar.module';
+import { HeaderModule } from '../../components/header/header.module';
 
 @NgModule({
   imports: [
@@ -16,8 +17,9 @@ import { NavBarModule } from 'src/app/components/navbar/navbar.module';
     ReactiveFormsModule,
     IonicModule,
     SigninPageRoutingModule,
-    NavBarModule
+    NavBarModule,
+    HeaderModule,
   ],
-  declarations: [SigninPage]
+  declarations: [SigninPage],
 })
 export class SigninPageModule {}

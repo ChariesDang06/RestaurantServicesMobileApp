@@ -1,69 +1,69 @@
 ion-card {
-    margin: .5rem 0;
-    background-color: transparent;
-    box-shadow: none;
-    justify-content: space-between;
-    display: flex;
-    flex-direction: row;
-    border-bottom: 1px solid;
+  margin: 0.5rem 0;
+  background-color: transparent;
+  box-shadow: none;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid;
 
-
-    img {
-        width: 3rem;
-        height: 3rem;
-        border-radius: .5rem;
-    }
-
-
+  img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.5rem;
+  }
 }
-.options{
+ion-title {
+  align-content: start;
+}
+
+.options {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  p{
-  color: var(--third-color);
+  p {
+    color: var(--third-color);
   }
-
 }
 
 .lef-content {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .text {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  padding-left: 1rem;
+
+  div {
     display: flex;
-    flex-direction: column;
-    justify-content: start;
-    padding-left: 1rem;
+    flex-direction: row;
+    align-items: center;
+  }
 
-    div {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
+  ion-card-subtitle {
+    color: var(--green-primary);
+    font-size: 10px;
+  }
 
-    ion-card-subtitle {
-        color: var(--green-primary);
-        font-size: 10px;
-    }
+  ion-title {
+    padding: 0px;
+    font-size: 14px;
+    color: var(--white-primary);
+  }
 
-    ion-title {
-        padding: 0px;
-        font-size: 14px;
-        color: var(--white-primary);
-    }
-
-    ion-button {
-        font-size: 10px;
-        text-transform: initial;
-        color: var(--red-primary);
-        align-items: baseline;
-    }
+  ion-button {
+    font-size: 10px;
+    text-transform: initial;
+    color: var(--red-primary);
+    align-items: baseline;
+  }
 }
 
 p {
-    color: var(--white-primary);
-    font-weight: bold;
-    margin: 0px;
+  color: var(--white-primary);
+  font-weight: bold;
+  margin: 0px;
 }

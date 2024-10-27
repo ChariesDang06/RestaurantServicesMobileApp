@@ -1,42 +1,140 @@
-<ion-header>
-  <app-navbar class="navbar"></app-navbar>
+<app-header route="'home'"></app-header>
 
-</ion-header>
+<ion-content>
+  <div class="main-container">
+    <div class="tab">
+      <ion-tab-button expand="full" (click)="changeTab('order')">
+        <ion-icon
+          name="restaurant-outline"
+          [ngClass]="{'active-icon': selectedTab === 'order', 'inactive-icon': selectedTab !== 'order'}"
+        ></ion-icon>
+        <ion-label
+          [ngClass]="{'active-label': selectedTab === 'order', 'inactive-label': selectedTab !== 'order'}"
+          >đặt món</ion-label
+        >
+      </ion-tab-button>
 
-<ion-header [translucent]="true" style="background-color: #2b2b2b">
-  <ion-toolbar class="custom-toolbar">
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Lịch sử đặt</ion-title>
-    <div class="toolbar-border"></div>
-  </ion-toolbar>
-</ion-header>
-
-
-<ion-content [fullscreen]="true" class="order-history-content">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">user-history</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-list class="order-history-list">
-    <ion-item
-      *ngFor="let item of orderHistory$ | async"
-      (click)="openOrderDetails(item)"
-      class="order-item"
-    >
-      <ion-label>
-        <div class="order-item-content">
-          <ion-icon name="restaurant" slot="start" style="color: white; margin-right: 0.5rem;"></ion-icon>
-          <h2 style="color: white; display: inline;">{{ item.orderItems[0].dishID }}</h2>
-          <span class="view-details" style="color: red; font-size: 0.8rem; margin-left: auto; display: block;">Xem chi tiết</span>
+      <ion-tab-button expand="full" (click)="changeTab('reservation')">
+        <ion-icon
+          name="calendar-clear-outline"
+          [ngClass]="{'active-icon': selectedTab === 'reservation', 'inactive-icon': selectedTab !== 'reservation'}"
+        ></ion-icon>
+        <ion-label
+          [ngClass]="{'active-label': selectedTab === 'reservation', 'inactive-label': selectedTab !== 'reservation'}"
+          >đặt bàn</ion-label
+        >
+      </ion-tab-button>
+    </div>
+    <hr />
+    <ion-list *ngIf="selectedTab==='order'" class="order-history-list">
+      <h2>Lịch sử đặt món</h2>
+      <ion-item *ngFor="let order of orderHistory">
+        <div class="main-ion-item-container">
+          <div class="date-time">
+            <span
+              ><ion-icon name="calendar-outline"></ion-icon>
+              {{formatDate(order.orderTime).split('-')[0]}}</span
+            >
+            <span
+              ><ion-icon name="time-outline"></ion-icon
+              >{{formatDate(order.orderTime).split('-')[1]}}</span
+            >
+          </div>
+          <div class="total-dish">
+            <p>
+              <ion-icon name="restaurant-outline"></ion-icon>
+              {{order.orderItems.length}} món
+            </p>
+            <p>
+              <ion-icon name="cash-outline"></ion-icon>
+              {{order.totalPrice|number:'1.0-0'}} đ
+            </p>
+          </div>
+          <div class="status">
+            <div>
+              <p>Trạng thái:&emsp;</p>
+              <p class="pending-text" *ngIf="order.status==='Pending'">
+                Đang xử lý
+              </p>
+              <p class="confirmed-text" *ngIf="order.status==='preparing'">
+                Đang chuẩn bị đơn
+              </p>
+              <p class="confirmed-text" *ngIf="order.status==='shipping'">
+                Đang giao hàng
+              </p>
+              <p class="confirmed-text" *ngIf="order.status==='confirmed'">
+                Đã hoàn thành
+              </p>
+              <p class="cancel-text" *ngIf="order.status==='cancelled'">
+                Đã hủy
+              </p>
+            </div>
+            <ion-button fill="clear" (click)="openOrderDetails(order,null)"
+              >Xem chi tiết</ion-button
+            >
+          </div>
         </div>
-        <p style="color: white;">Tổng tiền: {{ item.totalBill | number : "1.0-0" }}đ</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngIf="selectedTab==='reservation'" class="order-history-list">
+      <h2>Lịch sử đặt bàn</h2>
+      <ion-item *ngFor="let reservation of reservationHistory">
+        <div class="main-ion-item-container">
+          <div class="date-time">
+            <span
+              ><ion-icon name="calendar-outline"></ion-icon>
+              {{formatDate(reservation.reservationTime).split('-')[0]}}</span
+            >
+            <span
+              ><ion-icon name="time-outline"></ion-icon
+              >{{formatDate(reservation.reservationTime).split('-')[1]}}</span
+            >
+          </div>
+          <div class="total-dish">
+            <p>
+              <ion-icon src="./assets/icon/desk.svg"></ion-icon>
+              Bàn {{reservation.tableId}}
+            </p>
+            <p>
+              <ion-icon name="people-circle-outline"></ion-icon>
+              {{reservation.numberOfPeople}} người
+            </p>
+          </div>
+          <div class="total-dish">
+            <p>
+              <ion-icon name="restaurant-outline"></ion-icon>
+              {{reservation.preOrderedItems.length}} món
+            </p>
+            <p>
+              <ion-icon name="cash-outline"></ion-icon>
+              Cọc trước: {{reservation.depositAmount|number:'1.0-0'}} đ
+            </p>
+          </div>
+          <div class="status">
+            <div>
+              <p>Trạng thái:&emsp;</p>
+              <p class="pending-text" *ngIf="reservation.status==='Pending'">
+                Đang xử lý
+              </p>
+
+              <p
+                class="confirmed-text"
+                *ngIf="reservation.status==='confirmed'"
+              >
+                Đặt thành công
+              </p>
+              <p class="cancel-text" *ngIf="reservation.status==='cancelled'">
+                Đã hủy bàn
+              </p>
+            </div>
+            <ion-button
+              fill="clear"
+              (click)="openOrderDetails(null,reservation)"
+              >Xem chi tiết</ion-button
+            >
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

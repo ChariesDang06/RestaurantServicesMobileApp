@@ -10,6 +10,7 @@ import { LoginPage } from './login.page';
 import { NavBarModule } from 'src/app/components/navbar/navbar.module';
 import { UserService } from 'src/app/services/users/user.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { HeaderModule } from '../../components/header/header.module';
 
 @NgModule({
   imports: [
@@ -19,8 +20,8 @@ import { AuthService } from 'src/app/services/auth/auth.service';
     LoginPageRoutingModule,
     NavBarModule,
     ReactiveFormsModule,
-
+    HeaderModule,
   ],
-  declarations: [LoginPage]
+  declarations: [LoginPage],
 })
 export class LoginPageModule {}

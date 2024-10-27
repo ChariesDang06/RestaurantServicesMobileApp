@@ -1,387 +1,378 @@
-// Variables (you can customize these colors and font families)
-$background-dark: #0b0b0b;
-$background-light: #2b2b2b;
-$color-red: #f00;
-$color-white: #fff;
-$color-gray: #ccc;
-$font-family-default: "Segoe UI", sans-serif;
-$font-family-poppins: "Poppins", sans-serif;
-
-// Host styles
 :host {
-    display: contents;
+  display: contents;
 }
 
 .main-body {
-    border-radius: 5px;
-    margin: 7px 7px 6vh 7px;
-    background-color: $background-light;
-    height: auto;
+  border-radius: 5px;
+  margin: 7px 7px 6vh 7px;
+  background-color: var(--second-color);
+  height: auto;
 }
 
 .back-button {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 // Divider
 .divider {
-    margin: 10px;
-    max-width: 100%;
-    height: 2px;
-    border: none;
-    background-color: $color-red;
+  margin: 10px;
+  max-width: 100%;
+  height: 2px;
+  border: none;
+  background-color: var(--green-primary);
 }
 
 .map-title {
-    font-size: large;
-    margin-left: 10px;
+  font-size: large;
+  margin-left: 10px;
 
-    span {
-        color: #f00;
-    }
+  span {
+    color: #f00;
+  }
 }
 
 // Promotion banner
 .promotion-banner {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  position: relative;
+  aspect-ratio: 2.5;
+  margin-top: 13px;
+  font-family: var(--ion-font-family);
+  color: var(--white-primary);
+  font-weight: 600;
+  line-height: 1;
+  justify-content: center;
+  padding: 2px 3px;
+
+  .promo-bg {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .promo-content {
+    position: relative;
+    border-radius: 5px;
+    border: 1px solid var(--green-primary);
     display: flex;
     flex-direction: column;
-    border-radius: 5px;
-    position: relative;
-    aspect-ratio: 2.5;
-    margin-top: 13px;
-    font-family: $font-family-poppins;
-    color: $color-white;
-    font-weight: 600;
-    line-height: 1;
-    justify-content: center;
-    padding: 2px 3px;
+    align-items: flex-start;
+    padding: 33px 66px 33px 28px;
+  }
 
-    .promo-bg {
-        position: absolute;
-        inset: 0;
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-        object-position: center;
-    }
+  .promo-text {
+    font-size: 14px;
+  }
 
-    .promo-content {
-        position: relative;
-        border-radius: 5px;
-        border: 1px solid $color-red;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 33px 66px 33px 28px;
-    }
+  .promo-highlight {
+    font-size: 30px;
+  }
 
-    .promo-text {
-        font-size: 14px;
-    }
-
-    .promo-highlight {
-        font-size: 30px;
-    }
-
-    .promo-description {
-        font-size: 10px;
-    }
+  .promo-description {
+    font-size: 10px;
+  }
 }
 
 // Section title
 .section-title {
-    align-self: flex-start;
-    margin-top: 18px;
-    color: $color-white;
-    text-transform: uppercase;
-    font: 600 14px/1 $font-family-poppins;
+  align-self: flex-start;
+  margin-top: 18px;
+  color: var(--white-primary);
+  text-transform: uppercase;
+  font: 600 14px/1 var(--ion-font-family);
 }
 
 // Highlight text
 .highlight-text {
-    color: $color-red;
+  color: var(--green-primary);
 }
 
 // Restaurant map
 .image-container {
-    position: relative;
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+
+  ion-img {
     width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+  }
 
-    ion-img {
-        width: 100%;
-        height: auto;
-        display: block;
-        border-radius: 10px;
-    }
-
-    .dropdown-container {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 5px;
-        z-index: 10;
-    }
+  .dropdown-container {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    z-index: 10;
+  }
 }
 
 .restaurant-map {
-    color: $color-white;
-    display: flex;
-    height: 40vh;
-    border-radius: 1px;
-    flex-direction: row-reverse;
-    align-items: flex-end;
+  color: var(--white-primary);
+  display: flex;
+  height: 40vh;
+  border-radius: 1px;
+  flex-direction: row-reverse;
+  align-items: flex-end;
 
-    .map-image {
-        height: 100%;
-        object-fit: cover;
-    }
+  .map-image {
+    height: 100%;
+    object-fit: cover;
+  }
 
-    .map-button {
-        position: absolute;
-        border: 1px solid $color-white;
-        background-color: $color-red;
-        border-radius: 5px;
-        margin: 8px;
-        width: 120px;
-    }
+  .map-button {
+    position: absolute;
+    border: 1px solid var(--white-primary);
+    background-color: var(--green-primary);
+    border-radius: 5px;
+    margin: 8px;
+    width: 120px;
+  }
 }
 
 .selectionContainer {
-    background-color: transparent; // Ensure it doesn't have a background color that might interfere
-  
-    ion-row {
-      margin-bottom: 10px; // Space between rows
-    }
-  }
-  .selectionItem{
-    border: 1px solid $color-white;
-  }
-  .noteField {
-    margin: 10px; // Ensure the note field has space around it
-    z-index: 1; // Ensure it sits below the selectionContainer
-  }
-  
-  .datetime-container {
-    position: relative; // Make sure it's positioned relative to the ion-item
-    z-index: 2; // Higher z-index to stay on top when the datetime picker is open
-  }
-  
-  // Ensure the ion-datetime doesn't inherit the display property that hides it
-  ion-datetime {
-    z-index: 3; // Highest z-index to ensure it overlays correctly
-  }
-  
-  
-  
+  background-color: transparent; // Ensure it doesn't have a background color that might interfere
 
+  ion-row {
+    margin-bottom: 10px; // Space between rows
+  }
+}
+.selectionItem {
+  border: 1px solid var(--white-primary);
+}
+.noteField {
+  margin: 10px; // Ensure the note field has space around it
+  z-index: 1; // Ensure it sits below the selectionContainer
+}
+
+.datetime-container {
+  position: relative; // Make sure it's positioned relative to the ion-item
+  z-index: 2; // Higher z-index to stay on top when the datetime picker is open
+}
+
+// Ensure the ion-datetime doesn't inherit the display property that hides it
+ion-datetime {
+  z-index: 3; // Highest z-index to ensure it overlays correctly
+}
 
 // Description
 .description {
-    width: 100%;
-    border-radius: 5px;
-    background-color: rgba(89, 36, 36, 0.48);
-    box-shadow: 0 0 16px rgba(0, 0, 0, 0.08);
-    margin: 10px;
-    color: #bfbfbf;
-    text-align: center;
-    padding: 9px 13px 15px;
-    font: 500 10px/15px $font-family-poppins, -apple-system, Roboto, Helvetica, sans-serif;
-    font-size: small;
+  width: 100%;
+  border-radius: 5px;
+  background-color: rgba(89, 36, 36, 0.48);
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.08);
+  margin: 10px;
+  color: #bfbfbf;
+  text-align: center;
+  padding: 9px 13px 15px;
+  font:
+    500 10px/15px var(--ion-font-family),
+    -apple-system,
+    Roboto,
+    Helvetica,
+    sans-serif;
+  font-size: small;
 }
 
 .noteField {
-    width: 100%;
-    margin: 10px;
-    border-radius: 5px;
+  width: 100%;
+  margin: 10px;
+  border-radius: 5px;
 }
 
 .customerInfor {
-    margin: 10px;
+  margin: 10px;
 
-    .inforTitle {
-        color: $color-red;
-    }
+  .inforTitle {
+    color: var(--green-primary);
+  }
 
-    .inforInput {
-        margin: 5px 0px;
-        height: 4vh;
-        border-radius: 5px;
-        border: 1px solid $color-gray
-    }
+  .inforInput {
+    margin: 5px 0px;
+    height: 4vh;
+    border-radius: 5px;
+    border: 1px solid var(--sub-color);
+  }
 }
 
 // Policy section
 .policy-section {
-    display: flex;
+  display: flex;
+  margin: 10px;
+  flex-direction: row;
+  align-items: flex-start;
+  font-size: 10px;
+  color: #5e5e5e;
+
+  .policyCheck {
     margin: 10px;
-    flex-direction: row;
-    align-items: flex-start;
-    font-size: 10px;
-    color: #5e5e5e;
+    width: 100%;
+    font-size: 5px;
+  }
 
-    .policyCheck {
-        margin: 10px;
-        width: 100%;
-        font-size: 5px;
-    }
+  ion-checkbox {
+    --size: 32px;
+    --checkbox-background-checked: #ffffff;
+  }
 
-    ion-checkbox {
-        --size: 32px;
-        --checkbox-background-checked: #ffffff;
-    }
+  ion-checkbox::part(container) {
+    border-radius: 6px;
+    border: 2px solid;
+  }
 
-    ion-checkbox::part(container) {
-        border-radius: 6px;
-        border: 2px solid
-    }
+  .policy-title {
+    font-weight: 600;
+  }
 
-    .policy-title {
-        font-weight: 600;
-    }
+  ion-text {
+    width: auto;
+  }
 
-    ion-text {
-        width: auto;
-    }
+  .policy-text,
+  .policy-note {
+    font-style: italic;
+    font-weight: 400;
+  }
 
-    .policy-text,
-    .policy-note {
-        font-style: italic;
-        font-weight: 400;
-    }
-
-    .policy-note {
-        text-align: center;
-        margin-top: 17px;
-    }
+  .policy-note {
+    text-align: center;
+    margin-top: 17px;
+  }
 }
 
 .bigButt {
-    border-radius: 5px;
-    background-color: $color-red;
-    color: $color-white;
+  border-radius: 5px;
+  background-color: var(--green-primary);
+  color: var(--white-primary);
 }
 
 .smallButt {
-    border-radius: 5px;
-    color: $color-red;
-    background-color: $color-white;
+  border-radius: 5px;
+  color: var(--green-primary);
+  background-color: var(--white-primary);
 }
 
 // Form actions
 .form-actions {
-    display: flex;
-    gap: 10px;
-    font-size: 14px;
-    font-weight: 700;
-    text-align: center;
-    line-height: 24px;
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 24px;
 
-    .action-button {
-        flex: 1;
-        border-radius: 4px;
-        min-height: 36px;
-        padding: 6px;
-        border: none;
-        cursor: pointer;
+  .action-button {
+    flex: 1;
+    border-radius: 4px;
+    min-height: 36px;
+    padding: 6px;
+    border: none;
+    cursor: pointer;
 
-        &.secondary {
-            background-color: #fff;
-            color: $color-red;
-        }
-
-        &.primary {
-            background-color: $color-red;
-            color: $color-white;
-        }
+    &.secondary {
+      background-color: #fff;
+      color: var(--green-primary);
     }
+
+    &.primary {
+      background-color: var(--green-primary);
+      color: var(--white-primary);
+    }
+  }
 }
 
 // Responsive styles
 @media (max-width: 480px) {
-    .welcome-container {
-        width: 100%;
-    }
+  .welcome-container {
+    width: 100%;
+  }
 
-    .reservation-details {
-        flex-direction: column;
-        gap: 10px;
-    }
+  .reservation-details {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-    .detail-item {
-        width: 100%;
-    }
+  .detail-item {
+    width: 100%;
+  }
 
-    .form-actions {
-        flex-direction: column;
-    }
+  .form-actions {
+    flex-direction: column;
+  }
 }
 
 // Visually hidden class
 .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 // Bold text
 .bold-text {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 // Icon styles
 .back-icon,
 .detail-icon {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 // Textarea styles
 textarea.text-input {
-    resize: vertical;
-    min-height: 100px;
+  resize: vertical;
+  min-height: 100px;
 }
 
 // Phone input styles
 .phone-input .text-input {
-    border: none;
-    padding: 0;
-    flex-grow: 1;
+  border: none;
+  padding: 0;
+  flex-grow: 1;
 }
 
 // Focus styles for checkbox and buttons
-.checkbox-input:focus+.checkbox-label {
-    outline: 2px solid $color-red;
-    outline-offset: 2px;
+.checkbox-input:focus + .checkbox-label {
+  outline: 2px solid var(--green-primary);
+  outline-offset: 2px;
 }
 
 .action-button:focus {
-    outline: 2px solid $color-white;
-    outline-offset: 2px;
+  outline: 2px solid var(--white-primary);
+  outline-offset: 2px;
 }
 
 .map-button:focus {
-    outline: 2px solid $color-white;
-    outline-offset: 2px;
+  outline: 2px solid var(--white-primary);
+  outline-offset: 2px;
 }
 
 .back-button:focus {
-    outline: 2px solid $color-white;
-    outline-offset: 2px;
+  outline: 2px solid var(--white-primary);
+  outline-offset: 2px;
 }
 
 // Reduce motion preference
 @media (prefers-reduced-motion: reduce) {
-    * {
-        transition: none !important;
-    }
+  * {
+    transition: none !important;
+  }
 }

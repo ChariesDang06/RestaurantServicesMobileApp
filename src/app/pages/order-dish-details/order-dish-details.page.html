@@ -1,13 +1,6 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>order-bill-details</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header [route]="previousRoute"></app-header>
 <ion-content>
   <div class="container">
-    <ion-button fill="clear" (click)="gotoPreviousPage()">
-      <ion-icon name="arrow-back-outline"></ion-icon> Quay lại
-    </ion-button>
     <hr />
     <img [src]="dishDetails?.imageUrl" />
     <h1>{{dishDetails?.name}}</h1>
@@ -15,6 +8,17 @@
     <h2>Mô tả</h2>
     <p>{{dishDetails?.description}}</p>
     <hr />
+    <h2>Thành phần</h2>
+    <ion-list>
+      <ion-item
+        class="ingredient"
+        *ngFor="let ingredient of dishDetails?.ingredients"
+      >
+        <ion-label>- {{ingredient}}</ion-label>
+      </ion-item>
+    </ion-list>
+    <hr />
+
     <div class="form-container">
       <ion-list>
         <ion-item *ngFor="let option of dishDetails?.options">

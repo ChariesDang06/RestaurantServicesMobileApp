@@ -15,9 +15,14 @@
       </ion-card-subtitle>
       <div class="sub-title">
         <ion-card-subtitle>Đã chọn {{ dish?.total }}</ion-card-subtitle
-        ><ion-button size="small" fill="clear" (click)="editDish()"
+        ><ion-button
+          *ngIf="enableEdit === true"
+          size="small"
+          fill="clear"
+          (click)="editDish()"
           >Chỉnh sửa</ion-button
         >
+        <ion-button size="small" fill="clear" [disabled]="true"></ion-button>
       </div>
     </div>
   </div>

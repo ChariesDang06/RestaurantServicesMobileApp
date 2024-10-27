@@ -55,6 +55,22 @@ export class CategoryService {
   //       return []; // Return an empty array in case of error
   //     });
   // }
+  async getCategories(): Promise<Category[]> {
+    const snapshot = await this.firestore
+      .collection('categories')
+      .get()
+      .toPromise();
+    const categories: any[] = [];
+
+    if (snapshot) {
+      snapshot.forEach((doc) => {
+        const data = doc.data() as { [key: string]: any }; // Explicitly cast as an object
+        const categoryId = doc.id;
+        categories.push({ categoryId, ...data });
+      });
+    }
+    return categories;
+  }
   async getCategoriesWithDishes(): Promise<Category[]> {
     try {
       // Fetch all categories

@@ -8,14 +8,16 @@ import { UserInfoMainPageRoutingModule } from './user-info-main-routing.module';
 
 import { UserInfoMainPage } from './user-info-main.page';
 import { NavBarModule } from 'src/app/components/navbar/navbar.module';
+import { HeaderModule } from '../../components/header/header.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     UserInfoMainPageRoutingModule,
-    NavBarModule
+    NavBarModule,
+    HeaderModule,
   ],
-  declarations: [UserInfoMainPage]
+  declarations: [UserInfoMainPage],
 })
 export class UserInfoMainPageModule {}

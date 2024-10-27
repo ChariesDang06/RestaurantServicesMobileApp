@@ -10,6 +10,7 @@ import { OrderService } from 'src/app/services/order/order.service';
 })
 export class OrderBillComponent implements OnInit {
   @Input() dish: Dish | null = null;
+  @Input() enableEdit: boolean = true;
   constructor(
     private orderServices: OrderService,
     private navController: NavController
@@ -21,7 +22,7 @@ export class OrderBillComponent implements OnInit {
       state: {
         dish: this.dish,
         totalOrder: this.dish?.total,
-        previousPage: 'order-bill',
+        previousPage: 'order-bill-details',
       },
     });
   }

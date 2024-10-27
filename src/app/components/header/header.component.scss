@@ -1,0 +1,23 @@
+ion-button {
+  --padding-start: 0px;
+  --padding-end: 0px;
+  --color: white;
+  text-transform: initial;
+  margin-inline-start: 0px;
+  font-size: 20px;
+  ion-icon {
+    padding-right: 0.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--green-primary);
+  }
+}
+
+/* Transparent standard */
+ion-header {
+  --background: var(--black-primary);
+}
+ion-toolbar {
+  --background: var(--black-primary);
+  padding-left: 1rem;
+}

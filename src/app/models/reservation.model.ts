@@ -1,4 +1,4 @@
-import { OrderItem } from "./order.model";
+import { Dish } from './category.model';
 
 export interface Reservation {
   reservationId: string;
@@ -6,10 +6,10 @@ export interface Reservation {
   tableId: string;
   reservationTime: string;
   numberOfPeople: number;
-  preOrderedItems: OrderItem[];
+  preOrderedItems: Dish[];
   status: string;
   depositAmount: number;
   confirmationEmailSent: boolean;
   confirmationSMS: boolean;
-  note:string;
+  note: string;
 }

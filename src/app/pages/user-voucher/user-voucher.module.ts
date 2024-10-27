@@ -6,6 +6,7 @@ import { UserVoucherPageRoutingModule } from './user-voucher-routing.module';
 import { UserVoucherPage } from './user-voucher.page';
 import { VoucherComponent } from 'src/app/components/voucher/voucher.component';
 import { NavBarModule } from 'src/app/components/navbar/navbar.module';
+import { HeaderModule } from '../../components/header/header.module';
 
 @NgModule({
   imports: [
@@ -13,13 +14,14 @@ import { NavBarModule } from 'src/app/components/navbar/navbar.module';
     FormsModule,
     IonicModule,
     UserVoucherPageRoutingModule,
-    NavBarModule
+    NavBarModule,
     // Không cần thêm VoucherComponent vào imports
+    HeaderModule,
   ],
   declarations: [
     UserVoucherPage,
-    VoucherComponent // Thêm VoucherComponent vào đây
+    VoucherComponent, // Thêm VoucherComponent vào đây
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class UserVoucherPageModule {}

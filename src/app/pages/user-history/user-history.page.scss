@@ -1,194 +1,126 @@
-.order-history-content {
-  background-color: #2b2b2b; /* Màu nền giống như trang chi tiết đơn hàng */
-  color: white; /* Màu chữ trắng */
-}
-
-.order-history-list {
-  background-color: transparent; /* Danh sách không có màu nền */
-}
-
-.order-item {
-  background-color: #2b2b2b; /* Màu nền cho từng item */
-  --ion-item-background: #2b2b2b; /* Màu nền của item */
-  --ion-item-border-color: transparent; /* Không có viền */
-}
-.order-item-content {
+.tab {
   display: flex;
-  align-items: center; /* Căn giữa theo chiều dọc */
-  justify-content: space-between; /* Căn đều giữa các thành phần */
-}
-
-.view-details {
-  cursor: pointer; /* Chỉ thị rằng có thể nhấp vào đây */
-  font-size: 0.8rem; /* Đặt font nhỏ hơn */
-}
-
-
-
-
-ion-toolbar {
-  --background-color: #2B2B2B;
-}
-
-ion-content {
-  background-color: #2B2B2B;
-}
-
-.personal-content {
-  --background: #2B2B2B;
-  /* Ghi đè màu nền */
-}
-
-.personal-container {
-  text-align: center;
-  padding: 0 20px;
-}
-
-.avatar-container {
-  position: relative;
-  /* Để định vị biểu tượng máy ảnh */
-  display: inline-block;
-  /* Để avatar không bị kéo dài */
-}
-
-.avatar {
-  width: 100px;
-  border-radius: 50%;
-  margin-top: 16px;
-  border: 4px solid #14C458;
-  /* Viền xanh lá cho avatar */
-}
-
-.camera-icon {
-  position: absolute;
-  /* Để biểu tượng máy ảnh được định vị */
-  bottom: 0;
-  /* Đặt nó ở dưới cùng */
-  right: 0;
-  /* Đặt nó bên phải */
-  background-color: #616161cf;
-  /* Nền trắng cho biểu tượng máy ảnh */
-  border-radius: 50%;
-  /* Bo tròn nền */
-  padding: 4px;
-  /* Khoảng cách giữa biểu tượng và viền */
-  font-size: 24px;
-  /* Kích thước biểu tượng */
-  color: #14C458;
-  /* Màu biểu tượng */
-
-}
-
-.buttons-container ion-button {
-  display: flex;
-  /* Sử dụng flex để căn giữa */
-  justify-content: space-between;
-  /* Căn giữa nội dung */
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  /* Căn giữa theo chiều dọc */
-  padding-top: 12px;
-  /* Điều chỉnh padding để tránh căng giữa */
+
+  ion-tab-button {
+    background-color: transparent;
+  }
+}
+.active-icon,
+.active-label {
+  color: var(--green-primary); /* Active color */
+}
+
+.inactive-icon,
+.inactive-label {
+  color: var(--white-primary); /* Active color */
+}
+
+.tab {
+  display: flex;
+  flex-direction: row;
+}
+.main-container {
+  background-color: var(--second-color);
+  // width: 100%;
+  height: 1000px;
+  margin: 1rem;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+hr {
+  border-top: 1px solid var(--green-primary);
+}
+
+ion-list {
+  background-color: transparent;
+  h2 {
+    margin-top: 0;
+  }
+}
+
+ion-item {
+  --background: var(--third-color);
+  --color: var(--white-primary);
+  --border-radius: 0.5rem;
+  padding: 1rem 0;
+  div {
+    padding-top: 0.5rem;
+    width: 100%;
+  }
+}
+
+.date-time {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   width: 100%;
-  /* Đảm bảo chiều dài của nút là 100% */
-  --activated-opacity: 1;
-  /* Đặt độ mờ về 1 để không có hiệu ứng nhấn */
+  span {
+    display: flex;
+    align-items: center;
+    ion-icon {
+      padding-right: 0.5rem;
+      color: var(--green-primary);
+    }
+  }
 }
-
-.buttons-container ion-button:active,
-.buttons-container ion-button:focus {
-  --background: #616161;
-  /* Đặt màu nền khi nhấn */
-  --color: white;
-  /* Đặt màu chữ khi nhấn */
-  --highlighted-opacity: 0;
-  /* Đặt độ mờ của hiệu ứng nhấn về 0 để không hiển thị */
-  --border-color: transparent;
-  /* Loại bỏ màu border khi nhấn */
-  opacity: 1;
-  /* Đảm bảo không có hiệu ứng mờ */
+.status {
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
+  align-items: center;
+  // font-size: 14px;
+  margin-bottom: 1rem;
+  div {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    p {
+      margin: 0px;
+    }
+  }
+  .pending-text {
+    font-weight: normal;
+    color: var(--white-primary);
+    font-size: 14px;
+  }
+  .confirmed-text {
+    font-weight: normal;
+    color: var(--green-primary);
+    font-size: 14px;
+  }
+  .cancel-text {
+    font-weight: normal;
+    color: var(--red-primary);
+    font-size: 14px;
+  }
+  ion-button {
+    --color: var(--red-primary);
+    text-transform: initial;
+    font-size: 10px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: end;
+    --padding-end: 0;
+    --padding-bottom: 0;
+  }
 }
-
-.buttons-container ion-button::-webkit-focus-ring-color {
-  color: transparent;
-  /* Để ẩn màu nhấn */
+.total-dish {
+  p {
+    ion-icon {
+      color: var(--green-primary);
+      padding-right: 0.5re;
+    }
+    margin-bottom: 0px;
+  }
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  p {
+    height: 1rem;
+  }
 }
-
-.custom-button {
-  position: relative;
-  /* Để định vị nội dung bên trong */
-  justify-content: flex-start;
-  /* Căn trái để chữ nằm đầu */
-}
-
-.button-text {
-  margin-right: 8px;
-  /* Khoảng cách giữa chữ và biểu tượng */
-}
-
-span {
-  text-transform: none;
-}
-
-ion-icon[name="chevron-forward"] {
-  margin-left: auto;
-  /* Đẩy biểu tượng sang bên phải */
-}
-
-/* Ghi đè lớp translucent của iOS */
-.header-translucent-ios ion-toolbar {
-  --opacity: 1 !important;
-  /* Ghi đè giá trị opacity */
-  --background: #2B2B2B !important;
-  /* Ghi đè màu nền */
-  backdrop-filter: none !important;
-  /* Vô hiệu hóa backdrop-filter */
-  -webkit-backdrop-filter: none !important;
-  /* Vô hiệu hóa -webkit-backdrop-filter */
-}
-
-/* Ghi đè màu cho biểu tượng mũi tên */
-ion-icon {
-  color: #14C458;
-  /* Màu xanh lá */
-}
-
-/* Ghi đè màu nền của toolbar */
-.custom-toolbar {
-  --background: #2B2B2B;
-  /* Đổi màu nền toolbar */
-  --color: white;
-  /* Đổi màu chữ */
-  padding: 0;
-  /* Đặt padding về 0 để không làm ảnh hưởng đến chiều cao */
-  position: relative;
-  /* Để định vị phần tử con */
-}
-
-/* Thêm viền dưới cho toolbar */
-.toolbar-border {
-  height: 2px;
-  /* Chiều cao của viền */
-  width: 90%;
-  /* Chiều dài 80% */
-  background-color: #14C458;
-  /* Màu viền */
-  position: absolute;
-  /* Định vị tuyệt đối */
-  left: 50%;
-  /* Căn giữa */
-  transform: translateX(-50%);
-  /* Đưa phần tử về giữa */
-  bottom: 0;
-  /* Đặt nó ở dưới cùng của toolbar */
-}
-
-
-.personal-container {
-  text-align: center;
-}
-
-.divider {
-  border-top: 3px solid #14C458;
-  margin: 0;
-}
-

@@ -1,76 +1,69 @@
 .form {
-    margin-right: 5%;
-    margin-left: 5%;
+  margin-right: 5%;
+  margin-left: 5%;
 }
 
 .title-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .title {
-    font-size: var(--heading-font-size);
-
+  font-size: var(--heading-font-size);
 }
 
 .fastLogIn {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 .fastLogIn {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
 .login-option {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 5px;
-
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
 }
 
 .login-option ion-img {
-    width: 35px;
-    height: auto;
+  width: 35px;
+  height: auto;
 }
 
 .login-option ion-label {
-    font-size: 16px;
-    padding-top: 9px;
-
+  font-size: 16px;
+  padding-top: 9px;
 }
 
 ion-content.background-image {
-    --background: linear-gradient(rgba(62, 36, 31, 0.5), rgba(62, 36, 31, 0.5)), url(../../../assets/images/bg.png) 0 0/100% 100% no-repeat;
+  --background: linear-gradient(rgba(62, 36, 31, 0.5), rgba(62, 36, 31, 0.5)),
+    url(../../../assets/images/bg.png) 0 0/100% 100% no-repeat;
 }
 
-
-
 ion-item {
-    margin-bottom: 10px;
-    border-radius: 5px;
+  margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 ion-label {
-    display: block;
-    margin-bottom: 10px;
+  display: block;
+  margin-bottom: 10px;
 }
 
-
-
 ion-button {
-    --background: var(--red-primary);
-    border-radius: 5px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+  --background: var(--green-primary);
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }

@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AlertController, NavController } from '@ionic/angular';
 import { Category, Dish } from 'src/app/models/category.model';
+import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { CategoryService } from 'src/app/services/categories/categories.service';
 import { OrderService } from 'src/app/services/order/order.service';
+import { UserService } from 'src/app/services/users/user.service';
 @Component({
   selector: 'app-order-main',
   templateUrl: './order-main.page.html',
@@ -14,15 +18,20 @@ export class OrderMainPage implements OnInit {
   basketPrice = 0;
   selectedCategory: Category | null = null;
   allDishes: Dish[] = [];
+  userId: string | null = null;
+  user: User | null = null;
+
   constructor(
     private categoryService: CategoryService,
     private orderService: OrderService,
-    private navController: NavController
+    private navController: NavController,
+    private authenticationService: AuthService,
+    private userService: UserService,
+    private alertController: AlertController,
+    private router: Router
   ) {}
   ngOnInit() {
-    this.loadCategories();
-    console.log(this.categoryList);
-    console.log('category list', this.categoryList);
+    this.LoadCategoryList();
     this.orderService.dishes$.subscribe((dishes: Dish[]) => {
       this.dishInCart = this.calculateDishInCart(dishes);
       this.basketPrice = this.calculateBasketPrice(dishes);
@@ -30,32 +39,19 @@ export class OrderMainPage implements OnInit {
     // this.dishInCart = this.calculateDishInCart();
     // this.basketPrice = this.calculateBasketPrice();
   }
-  // ionViewWillEnter() {
-  //   this.loadCategories();
-  //   console.log(this.categoryList);
-  //   console.log('category list', this.categoryList);
-  //   this.orderService.dishes$.subscribe((dishes: Dish[]) => {
-  //     this.dishInCart = this.calculateDishInCart(dishes);
-  //     this.basketPrice = this.calculateBasketPrice(dishes);
-  //   });
-  // }
-  // getCategoriesAndDishes() {
-  //   this.categoryService.getAllCategories().then((categories) => {
-  //     this.categoryList = categories;
-  //     // Process categories if needed
-  //     console.log('Categories:', categories);
+  async LoadCategoryList() {
+    try {
+      const categories = await this.categoryService.getCategories();
+      this.categoryList = categories;
+      console.log('Categories with Dishes:', categories);
+      if (this.categoryList.length > 0) {
+        this.selectedCategory = this.categoryList[0];
+      }
+    } catch (error) {
+      console.error('Error fetching categories and dishes:', error);
+    }
+  }
 
-  //     // Optionally set a selected category
-  //     if (categories.length > 0) {
-  //       this.selectedCategory = categories[0]; // Set the first category as selected
-  //     }
-  //   });
-
-  //   this.categoryService.getAllDishes().then((dishes) => {
-  //     this.allDishes = dishes;
-  //     console.log('All Dishes:', this.allDishes);
-  //   });
-  // }
   async loadCategories() {
     try {
       const categories = await this.categoryService.getCategoriesWithDishes();
@@ -100,7 +96,50 @@ export class OrderMainPage implements OnInit {
     console.log(this.selectedCategory);
     console.log(this.selectedCategory?.dishes);
   }
+  async loadUser() {
+    this.userId = this.authenticationService.getLoggedInUserId();
+
+    if (this.userId) {
+      this.userService.getUserById(this.userId).subscribe(
+        (userData: User | undefined) => {
+          if (userData) {
+            this.user = userData;
+          } else {
+            console.log('No user data found');
+          }
+        },
+        (error) => {
+          console.error('Error loading user:', error);
+        }
+      );
+    } else {
+      await this.presentAlert();
+    }
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Vui lòng đăng nhập',
+      message: "Nhấn 'Đăng nhập' để chuyển hướng đến trang đăng nhập",
+      buttons: [
+        {
+          text: 'Đăng nhập',
+          handler: () => {
+            this.router.navigate(['/login']);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
   gotoOrderBillDetails() {
-    this.navController.navigateForward('/order-bill-details');
+    if (this.user) this.navController.navigateForward('/order-bill-details');
+    else {
+      this.loadUser();
+      if (this.user) {
+        this.navController.navigateForward('/order-bill-details');
+      }
+    }
   }
 }

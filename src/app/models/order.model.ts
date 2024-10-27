@@ -1,19 +1,15 @@
-export interface OrderItem {
-  dishId: string;
-  quantity: number;
-  price: number;
-  specialRequest?: string;
-}
+import { Dish } from './category.model';
 
 export interface Order {
+  address: string;
   orderId: string;
   userId: string;
   restaurantId: string;
-  orderItems: OrderItem[];
+  orderItems: Dish[];
   totalPrice: number;
   orderTime: string;
   pickupTime: string;
   status: string;
   paymentMethod: string;
-  reservationId?: string;  
+  reservationId?: string;
 }

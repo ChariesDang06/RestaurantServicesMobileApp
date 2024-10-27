@@ -1,7 +1,4 @@
-<ion-header [translucent]="true">
-  <app-navbar></app-navbar>
-</ion-header>
-
+<app-header [route]="'home'"></app-header>
 <ion-content [fullscreen]="true" class="background-image">
   <div class="title-container">
     <ion-label class="title">Xin chào!</ion-label>
@@ -28,11 +25,15 @@
 
           <ion-button expand="block" (click)="onLogin()">Đăng nhập</ion-button>
         </form>
-        <div class="label-container"><ion-label>Quên mật khẩu?</ion-label></div>
+        <div class="label-container">
+          <ion-label (click)="onLogin()">Quên mật khẩu?</ion-label>
+        </div>
 
         <ion-label style="display: block; text-align: center"
           >Chưa có tài khoản?
-          <span style="text-decoration: underline; color: red"
+          <span
+            style="text-decoration: underline; color: red"
+            (click)="gotoSigin()"
             >Đăng ký</span
           ></ion-label
         >

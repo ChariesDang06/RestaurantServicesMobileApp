@@ -18,7 +18,7 @@ export class OrderDishDetailsPage implements OnInit {
   dishDefault: Dish | null = null;
   selectedOptions: Options[] = [];
   note: string = '';
-
+  previousRoute: string = '';
   constructor(
     private navController: NavController,
     private orderService: OrderService,
@@ -28,13 +28,15 @@ export class OrderDishDetailsPage implements OnInit {
   ngOnInit() {
     const state = history.state;
     if (state && state.previousPage === 'order-main') {
+      this.previousRoute = state.previousPage;
       this.dishDetails = state.dish;
       console.log('dish details', state.dish);
       console.log('this is order main page ');
       // this.getDishById('1');
     }
 
-    if (state && state.previousPage === 'order-bill') {
+    if (state && state.previousPage === 'order-bill-details') {
+      this.previousRoute = state.previousPage;
       const dish = state.dish;
       this.getDishbyId(dish.categoryId, dish.dishId);
       for (let i = 0; i < dish.options.length; i++) {

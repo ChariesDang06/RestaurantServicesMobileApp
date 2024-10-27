@@ -5,10 +5,10 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { RestaurantService } from 'src/app/services/restaurants/restaurant.service';
 import { ReservationService } from 'src/app/services/reservations/reservation.service';
 import { Restaurant, Floor, Table } from 'src/app/models/restaurant.model';
-import { OrderItem } from 'src/app/models/order.model';
 import { Reservation } from 'src/app/models/reservation.model';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/users/user.service';
+import { Dish } from 'src/app/models/category.model';
 
 @Component({
   selector: 'app-reservation',
@@ -31,7 +31,7 @@ export class ReservationPage implements OnInit {
   availableTimes: string[] = [];
   availableDates: string[] = [];
   isDateTimeOpen: boolean = false;
-  preOrderedItems: OrderItem[] = [];
+  preOrderedItems: Dish[] = [];
   customerName: string = '';
   customerPhone: string = '';
   customerEmail: string = '';
@@ -81,7 +81,7 @@ export class ReservationPage implements OnInit {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Vui lòng đăng nhập',
-      message: 'Nhấn \'Đăng nhập\' để chuyển hướng đến trang đăng nhập',
+      message: "Nhấn 'Đăng nhập' để chuyển hướng đến trang đăng nhập",
       buttons: [
         {
           text: 'Đăng nhập',
@@ -128,8 +128,13 @@ export class ReservationPage implements OnInit {
       const todayDateString = today.toISOString().split('T')[0];
 
       this.selectedTable.availableTime.forEach((timeData) => {
-        const dateTimestamp = new Date(timeData.date.seconds * 1000).toISOString().split('T')[0];
-        if (!this.availableDates.includes(dateTimestamp) && dateTimestamp >= todayDateString) {
+        const dateTimestamp = new Date(timeData.date.seconds * 1000)
+          .toISOString()
+          .split('T')[0];
+        if (
+          !this.availableDates.includes(dateTimestamp) &&
+          dateTimestamp >= todayDateString
+        ) {
           this.availableDates.push(dateTimestamp);
         }
       });
@@ -141,7 +146,9 @@ export class ReservationPage implements OnInit {
     const selectedFloorName = event.detail.value;
 
     if (this.floors && this.floors.length > 0) {
-      const selectedFloor = this.floors.find((floor) => floor.floor === selectedFloorName);
+      const selectedFloor = this.floors.find(
+        (floor) => floor.floor === selectedFloorName
+      );
 
       if (selectedFloor) {
         this.setSelectedFloor(selectedFloor);
@@ -164,7 +171,9 @@ export class ReservationPage implements OnInit {
     this.availableTimes = []; // Clear previous available times
     if (this.selectedDate && this.selectedTable?.availableTime) {
       this.selectedTable.availableTime.forEach((timeData) => {
-        const dateTimestamp = new Date(timeData.date.seconds * 1000).toISOString().split('T')[0];
+        const dateTimestamp = new Date(timeData.date.seconds * 1000)
+          .toISOString()
+          .split('T')[0];
         if (this.selectedDate === dateTimestamp) {
           this.availableTimes = timeData.time;
         }
@@ -180,7 +189,9 @@ export class ReservationPage implements OnInit {
     const selectedTableName = event.detail.value;
 
     if (this.tables && this.tables.length > 0) {
-      const selectedTable = this.tables.find((table) => table.tableId === selectedTableName);
+      const selectedTable = this.tables.find(
+        (table) => table.tableId === selectedTableName
+      );
 
       if (selectedTable) {
         this.setSelectedTable(selectedTable);
@@ -249,7 +260,7 @@ export class ReservationPage implements OnInit {
       reservationTime: `${this.selectedDate || ''}T${this.selectedTime || ''}`,
       numberOfPeople: this.selectedTable?.availableSeats || 0,
       tableId: this.selectedTable?.tableId,
-      note: this.note || ''
+      note: this.note || '',
     };
 
     localStorage.setItem('orderMode', 'reservation');

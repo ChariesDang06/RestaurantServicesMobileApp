@@ -1,73 +1,143 @@
-<ion-header>
-  <ion-toolbar style="--background: #2b2b2b;">
-    <ion-title style="color: #14C458;">Chi tiết đơn hàng</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="closeModal()" class="close-button">Đóng</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="order-details-content">
-  <div class="order-details-container">
-    <ion-list class="order-details-list">
+<ion-content>
+  <div class="container">
+    <ion-title class="title">Chi tiết hóa đơn</ion-title>
+    <ion-list *ngIf="order" class="order-details-list">
       <!-- Đơn hàng -->
-      <ion-item class="order-item">
+      <div class="status">
+        <div>
+          <p>Trạng thái:&emsp;</p>
+          <p class="pending-text" *ngIf="order.status === 'Pending'">
+            Đang xử lý
+          </p>
+          <p class="confirmed-text" *ngIf="order.status === 'preparing'">
+            Đang chuẩn bị đơn
+          </p>
+          <p class="confirmed-text" *ngIf="order.status === 'shipping'">
+            Đang giao hàng
+          </p>
+          <p class="confirmed-text" *ngIf="order.status === 'confirmed'">
+            Đã hoàn thành
+          </p>
+          <p class="cancel-text" *ngIf="order.status === 'cancelled'">Đã hủy</p>
+        </div>
+      </div>
+      <ion-item>
         <ion-label>
-          <h2>Địa chỉ:</h2>
-          <p>{{ address }}</p>
+          <h2>
+            Địa chỉ: <span>{{ order?.address }}</span>
+          </h2>
+        </ion-label>
+      </ion-item>
+      <ion-label>
+        <h2>Thông tin đặt món:</h2>
+      </ion-label>
+      <ion-item *ngFor="let dish of order?.orderItems">
+        <app-order-bill [dish]="dish" [enableEdit]="false"></app-order-bill>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>
+            Thời gian đặt: <span>{{ formatDate(order?.orderTime ?? "") }}</span>
+          </h2>
         </ion-label>
       </ion-item>
 
-      <ion-item *ngFor="let item of orderItems" class="order-item">
+      <ion-item>
+        <ion-label>
+          <h2>
+            Phương thức thanh toán: <span>{{ order?.paymentMethod }}</span>
+          </h2>
+          <!-- <p>{{ paymentMethod }}</p> -->
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>
+            Thời gian nhận hàng:
+            <span>{{ formatDate(order?.pickupTime ?? "") }}</span>
+          </h2>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
         <ion-label>
           <div class="order-item-content">
-            <div class="quantity-box">{{ item.quantity }}x</div>
-            <h3 style="margin-left: 0.5rem;">{{ item.dishID }}</h3>
-            <div class="total-price">{{ item.total | number : '1.0-0' }}đ</div>
-          </div>
-        </ion-label>
-      </ion-item>
-
-      <ion-item class="order-item">
-        <ion-label>
-          <h2>Thời gian đặt:</h2>
-          <p>{{ orderTime | date: 'short' }}</p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item class="order-item">
-        <ion-label>
-          <h2>Phương thức thanh toán:</h2>
-          <p>{{ paymentMethod }}</p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item class="order-item">
-        <ion-label>
-          <h2>Thời gian nhận hàng:</h2>
-          <p>{{ pickupTime | date: 'short' }}</p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item class="order-item">
-        <ion-label>
-          <div class="order-item-content">
-            <h2>Tổng hóa đơn:</h2>
-            <div class="total-price">{{ totalBill | number : '1.0-0' }}đ</div>
+            <h2>
+              Tổng hóa đơn:
+              <span> {{ order?.totalPrice | number : "1.0-0" }}đ</span>
+            </h2>
+            <!-- <div class="total-price"></div> -->
           </div>
         </ion-label>
       </ion-item>
       <!-- Đặt bàn (Reservation) -->
-      <ion-item *ngIf="reservation" class="reservation-item">
+      <ion-item *ngIf="reservation">
         <ion-label>
           <h2>Thông tin đặt bàn:</h2>
           <p>Bàn số: {{ reservation.tableId }}</p>
-          <p>Thời gian đặt bàn: {{ reservation.reservationTime  }}</p>
+          <p>Thời gian đặt bàn: {{ reservation.reservationTime }}</p>
           <p>Số người: {{ reservation.numberOfPeople }}</p>
           <p>Trạng thái: {{ reservation.status }}</p>
         </ion-label>
       </ion-item>
-      
+    </ion-list>
+    <ion-list *ngIf="reservation" class="order-details-list">
+      <div class="status">
+        <div>
+          <p>Trạng thái:&emsp;</p>
+          <p class="pending-text" *ngIf="reservation.status === 'Pending'">
+            Đang xử lý
+          </p>
+
+          <p class="confirmed-text" *ngIf="reservation.status === 'confirmed'">
+            Đã hoàn thành
+          </p>
+          <p class="cancel-text" *ngIf="reservation.status === 'cancelled'">
+            Đã hủy
+          </p>
+        </div>
+      </div>
+      <div class="total-dish">
+        <p>
+          <ion-icon src="./assets/icon/desk.svg"></ion-icon>
+          Bàn {{ reservation.tableId }}
+        </p>
+        <p>
+          <ion-icon name="people-circle-outline"></ion-icon>
+          {{ reservation.numberOfPeople }} người
+        </p>
+      </div>
+      <!-- Đơn hàng -->
+      <ion-item>
+        <ion-label>
+          <h2>
+            Thời gian đặt:
+            <span>{{ formatDate(reservation.reservationTime) }}</span>
+          </h2>
+        </ion-label>
+      </ion-item>
+      <ion-label>
+        <h2>Thông tin đặt món:</h2>
+      </ion-label>
+      <ion-item *ngFor="let dish of reservation.preOrderedItems">
+        <app-order-bill [dish]="dish" [enableEdit]="false"></app-order-bill>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <div class="order-item-content">
+            <h2>
+              Đã cọc trước:
+              <span> {{ reservation.depositAmount | number : "1.0-0" }}đ</span>
+            </h2>
+            <!-- <div class="total-price"></div> -->
+          </div>
+        </ion-label>
+      </ion-item>
     </ion-list>
   </div>
+  <ion-button (click)="closeModal()" class="close-button" expand="block">
+    Xác nhận
+  </ion-button>
 </ion-content>

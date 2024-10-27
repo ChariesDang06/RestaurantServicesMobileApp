@@ -10,6 +10,7 @@ import { UserHistoryPage } from './user-history.page';
 import { OrderBillModule } from '../../components/order-bill/order-bill.module';
 import { OrderDetailsModalModule } from 'src/app/components/order-details-modal/order-details-modal.module';
 import { NavBarModule } from 'src/app/components/navbar/navbar.module';
+import { HeaderModule } from 'src/app/components/header/header.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -19,6 +20,7 @@ import { NavBarModule } from 'src/app/components/navbar/navbar.module';
     OrderBillModule,
     OrderDetailsModalModule,
     NavBarModule,
+    HeaderModule,
   ],
   declarations: [UserHistoryPage],
 })

@@ -1,37 +1,48 @@
 ion-card-title {
-    font-size: 12px;
-    text-transform: uppercase;
-    color: var(--white-primary);
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--white-primary);
 }
 
 ion-card {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 ion-card-subtitle p {
-    margin: 0 1rem;
-    color: var(--white-primary);
+  margin: 0 1rem;
+  color: var(--white-primary);
 }
 
 ion-card-content {
-    font-size: 10px;
+  font-size: 10px;
 }
 
 .sub-container {
-    padding-top: 5rem;
-    // background-color: red;
+  padding-top: 5rem;
+  // background-color: red;
 }
 
 .custom-image {
-    position: absolute;
-    top: 0%;
-    z-index: 1;
+  position: absolute;
+  top: 10%;
+  z-index: 1;
+  width: 80%;
+  // aspect-ratio: 1 / 1;
+  object-fit: cover;
+  height: auto;
+  // left: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .main-container {
-    padding-top: 4rem;
-    background-color: var(--second-color);
-    border-radius: 1.5rem;
+  padding-top: 4rem;
+  background-color: var(--second-color);
+  border-radius: 1.5rem;
+}
+.description {
+  height: 150px;
+  overflow: hidden;
 }
 
 // ion-card-subtitle .positive-order {
@@ -61,41 +72,41 @@ ion-card-content {
 // }
 
 .positive-order {
-    color: var(--green-primary) ;
-    margin-right: 0;
-    text-align: left;
+  color: var(--green-primary);
+  margin-right: 0;
+  text-align: left;
 }
 
 .transparent-order {
-    color: var(--white-primary) ;
-    margin-right: 0;
-      text-align: left;
+  color: var(--white-primary);
+  margin-right: 0;
+  text-align: left;
 }
 
 .add-btn {
-    --background: var(--green-primary);
-    margin-right: 1rem;
-    margin-bottom: 0;
-    /* Remove margin-bottom to prevent unnecessary spacing */
+  --background: var(--green-primary);
+  margin-right: 1rem;
+  margin-bottom: 0;
+  /* Remove margin-bottom to prevent unnecessary spacing */
 }
 
 .margin-row {
-    text-transform: initial;
-    align-items: center;
-    /* Ensure items in the row are vertically centered */
-    display: flex;
-    /* Ensure the row behaves like a flex container */
+  text-transform: initial;
+  align-items: center;
+  /* Ensure items in the row are vertically centered */
+  display: flex;
+  /* Ensure the row behaves like a flex container */
 }
 
 .col-button {
-    width: 20%;
-    display: flex;
-    justify-content: flex-end;
-    /* Ensures the button is on the right */
-    align-items: center;
-    /* Ensures the button is vertically aligned */
+  width: 20%;
+  display: flex;
+  justify-content: flex-end;
+  /* Ensures the button is on the right */
+  align-items: center;
+  /* Ensures the button is vertically aligned */
 }
 
 .ion-align-self-center {
-    width: 80%;
+  width: 80%;
 }

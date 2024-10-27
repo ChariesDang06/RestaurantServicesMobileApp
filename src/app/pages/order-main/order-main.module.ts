@@ -10,6 +10,7 @@ import { NavBarModule } from '../../components/navbar/navbar.module';
 import { orderDishModule } from '../../components/order-dish/order-dish.module';
 import { OrderMainPage } from './order-main.page';
 import { OrderCustomerInfoModule } from 'src/app/components/order-customer-info/order-customer-info.module';
+import { HeaderModule } from '../../components/header/header.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { OrderCustomerInfoModule } from 'src/app/components/order-customer-info/
     OrderMainPageRoutingModule,
     NavBarModule,
     orderDishModule,
-    OrderCustomerInfoModule
+    OrderCustomerInfoModule,
+    HeaderModule,
   ],
   declarations: [OrderMainPage],
   exports: [OrderMainPage],

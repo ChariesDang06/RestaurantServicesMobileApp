@@ -9,6 +9,7 @@ import { ReservationPage } from './reservation.page';
 
 import { NavBarModule } from 'src/app/components/navbar/navbar.module';
 import { BannerPromoModule } from 'src/app/components/banner-promo/banner-promo.module';
+import { HeaderModule } from '../../components/header/header.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { BannerPromoModule } from 'src/app/components/banner-promo/banner-promo.
     ReservationPageRoutingModule,
     NavBarModule,
     BannerPromoModule,
+    HeaderModule,
   ],
   declarations: [ReservationPage],
 })
