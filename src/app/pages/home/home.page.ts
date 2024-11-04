@@ -6,6 +6,8 @@ import { User } from '../../models/user.model';     // Model user
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { AlertController } from '@ionic/angular';  // Import AlertController
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -17,19 +19,28 @@ export class HomePage implements OnInit {
   newReview: Review = { userId: '', rating: 0, comment: '' };
   stars = [1, 2, 3, 4, 5]; // Mảng 5 sao
 
-
-  constructor(private authService: AuthService,private router: Router,private userService: UserService, private firestore: AngularFirestore,private navCtrl: NavController) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private userService: UserService,
+    private firestore: AngularFirestore,
+    private navCtrl: NavController,
+    private alertController: AlertController  // Inject AlertController
+  ) {}
 
   ngOnInit() {
     this.getUserInfo();
     this.loadReviews();
   }
-goToReservation(){
-  this.navCtrl.navigateForward('/reservation');
-}
-goToOrder(){
-  this.navCtrl.navigateForward('/order-main');
-}
+
+  goToReservation() {
+    this.navCtrl.navigateForward('/reservation');
+  }
+
+  goToOrder() {
+    this.navCtrl.navigateForward('/order-main');
+  }
+
   // Lấy thông tin người dùng
   getUserInfo() {
     const userId = localStorage.getItem('userId');
@@ -55,14 +66,24 @@ goToOrder(){
   }
 
   // Gửi review
-  submitReview() {
+  async submitReview() {
     if (this.newReview.rating < 1 || this.newReview.rating > 5) {
-      alert('Vui lòng nhập số sao hợp lệ (1-5).');
+      const alert = await this.alertController.create({
+        header: 'Lỗi',
+        message: 'Vui lòng nhập số sao hợp lệ (1-5).',
+        buttons: ['OK']
+      });
+      await alert.present();
       return;
     }
     
     if (!this.newReview.comment.trim()) {
-      alert('Vui lòng nhập bình luận.');
+      const alert = await this.alertController.create({
+        header: 'Lỗi',
+        message: 'Vui lòng nhập bình luận.',
+        buttons: ['OK']
+      });
+      await alert.present();
       return;
     }
 
@@ -73,8 +94,14 @@ goToOrder(){
     };
 
     // Đẩy review lên Firestore
-    this.firestore.collection('reviews').add(review).then(() => {
-      alert('Cảm ơn bạn đã đánh giá!');
+    this.firestore.collection('reviews').add(review).then(async () => {
+      const alert = await this.alertController.create({
+        header: 'Thành công',
+        message: 'Cảm ơn bạn đã đánh giá!',
+        buttons: ['OK']
+      });
+      await alert.present();
+
       // Xóa bình luận sau khi gửi thành công
       this.newReview = { userId: '', rating: 0, comment: '' }; // Đặt lại giá trị bình luận
       this.loadReviews();  // Tải lại review sau khi gửi
@@ -94,15 +121,14 @@ goToOrder(){
   setRating(rating: number) {
     this.newReview.rating = rating; // Cập nhật rating khi nhấn vào sao
   }
-  
-  async placeOrderFromHome() {
-  const userId = this.authService.getLoggedInUserId();
-  
-  // Store in local storage
-  localStorage.setItem('orderMode', 'delivery');
 
-  // Navigate to OrderCustomerInfo component
-  this.router.navigate(['/order-customer-info']);
-}
-  
+  async placeOrderFromHome() {
+    const userId = this.authService.getLoggedInUserId();
+
+    // Store in local storage
+    localStorage.setItem('orderMode', 'delivery');
+
+    // Navigate to OrderCustomerInfo component
+    this.router.navigate(['/order-customer-info']);
+  }
 }
