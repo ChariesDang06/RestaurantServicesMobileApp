@@ -1,4 +1,12 @@
 <ion-content>
+  <div class="login-notification" *ngIf="showLoginNotification">
+    <div class="notification-content">
+        <h4 style="margin-bottom: 15px;">Hãy đăng nhập đễ nhận ưu đãi</h4>
+        <div (click)="goToLogin()" class="login-button">Đăng nhập</div>
+        <ion-icon name="close" class="close-icon" (click)="closeNotification()"></ion-icon>
+    </div>
+</div>
+
   <ion-grid>
     <ion-row class="ion-align-items-center">
       <!-- Cột chứa hình ảnh -->
@@ -25,6 +33,7 @@
         Ăn no gòy ngủ!
       </h1>
       <h4>Giòn tan, thơm lừng, ngon tuyệt!</h4>
+   
     </div>
     <div class="button-container" (click)="goToOrder()">
       <div class="ship-icon-container">
