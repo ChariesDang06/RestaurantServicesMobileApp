@@ -15,8 +15,8 @@ import { HeaderModule } from '../../components/header/header.module';
     FormsModule,
     IonicModule,
     UserInfoMainPageRoutingModule,
-    NavBarModule,
     HeaderModule,
+    NavBarModule
   ],
   declarations: [UserInfoMainPage],
 })

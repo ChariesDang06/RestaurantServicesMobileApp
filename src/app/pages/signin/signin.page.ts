@@ -15,7 +15,9 @@ import * as bcrypt from 'bcryptjs';
 })
 export class SigninPage implements OnInit {
 
+
   signInForm: FormGroup;
+  previousRoute:string='home';
 
   constructor(
     public formBuilder: FormBuilder,
@@ -35,7 +37,12 @@ export class SigninPage implements OnInit {
 
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    const state = history.state;
+    if (state && state.previousRoute ) {
+      this.previousRoute = state.previousRoute;
+    }
+  }
 
   // Custom validator for password matching
  passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -46,7 +53,9 @@ export class SigninPage implements OnInit {
   return password === confirmPassword ? null : { passwordsDoNotMatch: true };
 }
 
-
+gotoLoginpage() {
+  this.navCtrl.back();
+}
 // Async validator function
 checkUsernameTaken(): AsyncValidatorFn {
   return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
@@ -88,7 +97,7 @@ checkUsernameTaken(): AsyncValidatorFn {
       });
       await alert.present();
       this.signInForm.reset();
-      this.navCtrl.navigateForward('/home'); // Navigate after success
+      this.navCtrl.navigateForward(`/${this.previousRoute}`); // Navigate after success
     } else {
       const alert = await this.alertController.create({
         header: 'Error',
