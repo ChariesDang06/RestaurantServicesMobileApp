@@ -26,6 +26,10 @@ ngOnDestroy() {
   localStorage.removeItem('reservationInfo');
   //localStorage.removeItem('userId'); // Optional, if you want to clear it
 }
+convertDateFormat(dateStr: string): string
+{ const date = new Date(dateStr); const day = ('0' + date.getDate()).slice(-2); 
+const month = ('0' + (date.getMonth() + 1)).slice(-2); const year = date.getFullYear(); 
+return `${day}/${month}/${year}`; }
   ngOnInit() {
     // Retrieve the mode from local storage
     this.mode = localStorage.getItem('orderMode') === 'reservation' ? 'reservation' : 'delivery';

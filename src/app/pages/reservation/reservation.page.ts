@@ -177,7 +177,10 @@ ionViewWillEnter(){
       console.error('Invalid selected date');
     }
   }
-   convertDateFormat(dateStr: string): string { const date = new Date(dateStr); const day = ('0' + date.getDate()).slice(-2); const month = ('0' + (date.getMonth() + 1)).slice(-2); const year = date.getFullYear(); return `${day}/${month}/${year}`; }
+   convertDateFormat(dateStr: string): 
+   string { const date = new Date(dateStr); const day = ('0' + date.getDate()).slice(-2); 
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); const year = date.getFullYear(); 
+    return `${day}/${month}/${year}`; }
 
   updateAvailableTimes() {
     this.availableTimes = []; // Clear previous available times
@@ -253,7 +256,6 @@ this.setSelectedTable(selectedTable);
       confirmationSMS: this.confirmationSMSSent,
       note: this.note,
     };
-
     try {
       await this.reservationService.createReservation(reservation);
       const alert = await this.alertController.create({
@@ -275,6 +277,7 @@ this.setSelectedTable(selectedTable);
       tableId: this.selectedTable?.tableId,
       note: this.note || '',
     };
+    console.log(reservationInfo.reservationTime)
 
     localStorage.setItem('orderMode', 'reservation');
     localStorage.setItem('reservationInfo', JSON.stringify(reservationInfo));

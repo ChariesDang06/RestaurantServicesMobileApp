@@ -176,7 +176,11 @@ ion-select::part(icon) {
   }
 }
 .selectionItem {
+  color: white;
   border: 1px solid var(--white-primary);
+  --placeholder-color: var(--white-primary);
+  --background:transparent;
+  
 }
 .noteField {
   margin: 10px; // Ensure the note field has space around it
@@ -226,14 +230,20 @@ ion-datetime {
   }
 
   .inforInput {
+    --padding-bottom:.5rem;
+    --padding-end:.5rem;
+    --padding-start:.5rem;
+    --padding-top:.5rem;
     margin: 5px 0px;
     height: 4vh;
     border-radius: 5px;
     border: 1px solid var(--sub-color);
+    --box-shadow: none;
+    // --highlight-color-focused:transparent;
+    /* Border color when focused (Tomato color) */ 
+
   }
 }
-
-
 .policyCheck {
   margin: 10px;
   width: 100%;

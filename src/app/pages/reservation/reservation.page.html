@@ -14,6 +14,7 @@
         <ion-select
           class="map-button"
           label="Sảnh"
+          interface="action-sheet"
           [placeholder]="selectedFloor?.floorName"
           (ionChange)="onFloorChange($event)"
         >
@@ -34,6 +35,7 @@
             <ion-col size="6">
               <ion-item class="selectionItem">
                 <ion-select
+                interface="action-sheet"
                   label="Mã bàn"
                   (ionChange)="onTableChange($event)"
                 >
@@ -59,7 +61,8 @@
             <ion-col size="6">
               <ion-item class="selectionItem">
                 <ion-select
-                  label="Chọn ngày"
+                interface="action-sheet"
+                  placeholder="Chọn ngày"
                   (ionChange)="onDateChange($event)"
                   [disabled]="availableDates.length === 0"
                 >
@@ -74,9 +77,10 @@
             <ion-col size="6">
               <ion-item class="selectionItem">
                 <ion-select
+                interface="action-sheet"
                   (ionChange)="onTimeChange($event)"
                   [disabled]="availableTimes.length === 0"
-                  label="Chọn giờ"
+                  placeholder="Chọn giờ"
                   [(ngModel)]="selectedTime"
                 >
                   <ion-select-option
