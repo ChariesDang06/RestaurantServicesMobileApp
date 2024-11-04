@@ -1,11 +1,15 @@
 <ion-content>
   <div class="login-notification" *ngIf="showLoginNotification">
     <div class="notification-content">
-        <h4 style="margin-bottom: 15px;">Hãy đăng nhập đễ nhận ưu đãi</h4>
-        <div (click)="goToLogin()" class="login-button">Đăng nhập</div>
-        <ion-icon name="close" class="close-icon" (click)="closeNotification()"></ion-icon>
+      <h4 style="margin-bottom: 15px">Hãy đăng nhập để nhận ưu đãi</h4>
+      <div (click)="goToLogin()" class="login-button">Đăng nhập</div>
+      <ion-icon
+        name="close"
+        class="close-icon"
+        (click)="closeNotification()"
+      ></ion-icon>
     </div>
-</div>
+  </div>
 
   <ion-grid>
     <ion-row class="ion-align-items-center">
@@ -33,7 +37,6 @@
         Ăn no gòy ngủ!
       </h1>
       <h4>Giòn tan, thơm lừng, ngon tuyệt!</h4>
-   
     </div>
     <div class="button-container" (click)="goToOrder()">
       <div class="ship-icon-container">
@@ -63,9 +66,7 @@
   </div>
   <app-banner-promo></app-banner-promo>
   <div class="spectial-content">
-    <h5>
-      - NHỮNG MÓN ĂN ĐẶC BIỆT -
-    </h5>
+    <h5>- NHỮNG MÓN ĂN ĐẶC BIỆT -</h5>
     <p>
       Mỗi món ăn tại quán chúng tôi đều được chế biến từ những nguyên liệu tươi
       ngon nhất.
@@ -133,13 +134,13 @@
     </swiper-container>
   </div>
   <div class="spectial-content">
-    <h5 style="margin-top: 20px;">- VỀ CHÚNG TÔI -</h5>
+    <h5 style="margin-top: 20px">- VỀ CHÚNG TÔI -</h5>
   </div>
   <div class="chefbanner">
     <img src="/assets/homepageimg/asiachef.png" alt="Image 1" />
   </div>
   <div class="aboutus-content">
-    <p class="bold-text" style="margin-bottom: 5px;margin-top: 10px;">
+    <p class="bold-text" style="margin-bottom: 5px; margin-top: 10px">
       Những nghệ nhân của sự đam mê sáng tạo.
     </p>
     <p>
@@ -150,12 +151,12 @@
     <!-- Đường phân cách -->
     <div class="divider"></div>
 
-    <p class="bold-text"style="margin-bottom: 5px;">
+    <p class="bold-text" style="margin-bottom: 5px">
       Thương hiệu tuyệt vời khẳng định đẳng cấp.
     </p>
     <p>
       Sự sáng tạo không ngừng và chú trọng đến từng chi tiết nhỏ đã giúp thương
-      hiệu này xây dựng lòng tin và sự yêu mến từ khách hàng. 
+      hiệu này xây dựng lòng tin và sự yêu mến từ khách hàng.
     </p>
   </div>
 
@@ -271,7 +272,7 @@
 
   <!-- Nếu không có quyền review -->
   <div *ngIf="!canReview()">
-    <p style="text-align: center ;    margin-bottom: 5%;">
+    <p style="text-align: center; margin-bottom: 5%">
       Hãy trải nghiệm dịch vụ rùi góp ý cho chúng mình nhé
       <ion-icon name="heart-outline"></ion-icon>
     </p>
