@@ -18,7 +18,7 @@ export class HomePage implements OnInit {
   reviews: Review[] = [];
   newReview: Review = { userId: '', rating: 0, comment: '' };
   stars = [1, 2, 3, 4, 5]; // Mảng 5 sao
-
+  showLoginNotification: boolean = true;
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -32,7 +32,16 @@ export class HomePage implements OnInit {
     this.getUserInfo();
     this.loadReviews();
   }
+  goToLogin() {
+    this.showLoginNotification = false; // Đóng thông báo
+    // Chuyển hướng đến trang đăng nhập
+    this.navCtrl.navigateForward('/login');
+  }
 
+  // Phương thức để đóng thông báo
+  closeNotification() {
+    this.showLoginNotification = false;
+  }
   goToReservation() {
     this.navCtrl.navigateForward('/reservation');
   }
