@@ -298,8 +298,8 @@ export class OrderBillDetailsPage implements OnInit {
       try {
         await this.reservationService.createReservation(reservation);
         const alert = await this.alertController.create({
-          header: 'Success',
-          message: 'Đặt bàn thành công',
+          header: 'Đặt bàn thành công',
+          message: 'Vui lòng kiểm tra đơn hàng trong lịch sử',
           buttons: ['OK'],
         });
         await alert.present();
@@ -326,8 +326,8 @@ export class OrderBillDetailsPage implements OnInit {
       try {
         await this.orderService.createOrder(order); // Use OrderService to create order
         const alert = await this.alertController.create({
-          header: 'Success',
-          message: 'Đặt món thành công',
+          header: 'Đặt món thành công',
+          message: 'Vui lòng kiểm tra đơn hàng trong lịch sử',
           buttons: ['OK'],
         });
         await alert.present();

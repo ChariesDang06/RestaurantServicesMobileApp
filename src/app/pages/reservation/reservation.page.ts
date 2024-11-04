@@ -54,7 +54,9 @@ export class ReservationPage implements OnInit {
     this.setCurrentDateTime();
      this.loadUser();
   }
-
+ionViewWillEnter(){
+  this.loadUser();
+}
   async loadUser() {
     this.userId = this.authenticationService.getLoggedInUserId();
 
