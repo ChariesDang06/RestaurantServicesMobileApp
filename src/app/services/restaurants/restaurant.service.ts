@@ -27,12 +27,13 @@ getAllRestaurants(): Promise<Restaurant[]> {
           }));
 
           return {
-            floor: floorData.floor,
+            floorId: floorData.floorId,
+            floorName: floorData.floorName,
             floorDiagram: floorData.floorDiagram || '',  // Default to an empty string if missing
             tables: tables
           };
         });
-
+        console.log('fetch floor');
         return {
           restaurantId,  // Assign the document ID as the restaurantId
           address: restaurantData.address,

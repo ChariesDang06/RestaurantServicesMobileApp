@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
 import { Category, Dish } from 'src/app/models/category.model';
@@ -20,7 +20,7 @@ export class OrderMainPage implements OnInit {
   allDishes: Dish[] = [];
   userId: string | null = null;
   user: User | null = null;
-
+  previousPage: string|null='';
   constructor(
     private categoryService: CategoryService,
     private orderService: OrderService,
@@ -38,6 +38,7 @@ export class OrderMainPage implements OnInit {
     });
     // this.dishInCart = this.calculateDishInCart();
     // this.basketPrice = this.calculateBasketPrice();
+    this.loadUser();
   }
   async LoadCategoryList() {
     try {
@@ -125,7 +126,11 @@ export class OrderMainPage implements OnInit {
         {
           text: 'Đăng nhập',
           handler: () => {
-            this.router.navigate(['/login']);
+            this.navController.navigateForward('/login', {
+              state: {
+                previousRoute: '',
+              },
+            });
           },
         },
       ],

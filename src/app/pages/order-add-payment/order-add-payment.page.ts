@@ -13,6 +13,11 @@ import { UserService } from 'src/app/services/users/user.service';
   styleUrls: ['./order-add-payment.page.scss'],
 })
 export class OrderAddPaymentPage implements OnInit {
+  user: User | null = null;
+  previousRoute: string='';
+  creditNumber: string = '';
+  Vcc: string = '';
+  monthYear: string = '';
   linkMomo() {
     this.showAlet(
       'Liên kết Momo',
@@ -20,17 +25,19 @@ export class OrderAddPaymentPage implements OnInit {
       'Vì lý do bảo mật nên chức năng này tụi em chưa hoàn thiện'
     );
   }
-  user: User | null = null;
   constructor(
     private navController: NavController,
     private userService: UserService,
     private alertController: AlertController
   ) {}
-  creditNumber: string = '';
-  Vcc: string = '';
-  monthYear: string = '';
+
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
+    const state = history.state;
+    if (state && state.previousRoute ) {
+      this.previousRoute = state.previousRoute;
+      console.log(this.previousRoute)
+    }
     this.getUserInfo();
   }
   gotoPreviousPage() {

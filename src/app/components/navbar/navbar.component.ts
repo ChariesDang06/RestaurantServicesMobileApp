@@ -22,11 +22,11 @@ export class NavbarComponent implements OnInit {
   gotoNextPage(route: string) {
     this.router.navigate([`/${route}`]);
   }
-  login() {
-    this.authService.signInWithGoogle();
-  }
+  // login() {
+  //   this.authService.signInWithGoogle();
+  // }
 
-  logout() {
-    this.authService.signOut();
-  }
+  // logout() {
+  //   this.authService.signOut();
+  // }
 }

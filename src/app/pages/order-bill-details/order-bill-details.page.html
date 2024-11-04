@@ -1,11 +1,8 @@
-<app-header route="'order-main'"></app-header>
+<app-header [route]="'order-main'"></app-header>
 
 <ion-content>
   <div class="container">
-    <ion-button fill="clear" class="back-button" (click)="gotoPreviousPage()">
-      <ion-icon name="arrow-back-outline"></ion-icon> Quay lại
-    </ion-button>
-    <hr />
+  
     <h2>Giao đến</h2>
     <ion-button
       class="user-address"
@@ -15,7 +12,7 @@
     >
       <div>
         <ion-icon name="location"></ion-icon>
-        <p>{{ userAddress}}</p>
+        <p>{{ userAddress===''? 'Vui lòng nhập địa chỉ giao hàng':userAddress}}</p>
         <ion-icon name="arrow-forward-outline"></ion-icon>
       </div>
     </ion-button>
@@ -134,7 +131,7 @@
     (click)="submit()"
     class="submit-button"
     expand="block"
-    [disabled]="listOrderDish.length===0 && user?.address===''"
+    [disabled]="listOrderDish.length===0 || user?.address===''"
     >{{(listOrderDish.length > 0)?'Xác nhận':'Vui lòng chọn món để thanh\
     toán'}}
   </ion-button>

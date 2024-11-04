@@ -124,21 +124,49 @@
   border-radius: 1px;
   flex-direction: row-reverse;
   align-items: flex-end;
-
+font-weight: bold;
   .map-image {
     height: 100%;
     object-fit: cover;
   }
 
   .map-button {
+    width: fit-content;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // width: 100%;
     position: absolute;
-    border: 1px solid var(--white-primary);
+    // border: 1px solid var(--white-primary);
     background-color: var(--green-primary);
     border-radius: 5px;
     margin: 8px;
-    width: 120px;
+    --padding-bottom: .5rem;
+    --padding-end: .5rem;
+    --padding-start: .5rem;
+    --padding-top: .5rem;
+    // width: 120px;
   }
 }
+/* Style the selected item */
+ion-select::part(text) {
+  color: var(--white-primary); /* Tomato color */
+  font-weight: bold;
+}
+
+/* Style the placeholder */
+ion-select::part(placeholder) {
+  color: var(--white-primary); /* Tomato color */
+  font-weight: bold;
+  font-size: 1rem;
+
+}
+
+/* Style the dropdown icon */
+ion-select::part(icon) {
+  color: var(--white-primary); /* Tomato color */
+}
+
 
 .selectionContainer {
   background-color: transparent; // Ensure it doesn't have a background color that might interfere
@@ -205,6 +233,22 @@ ion-datetime {
   }
 }
 
+
+.policyCheck {
+  margin: 10px;
+  width: 100%;
+  ion-checkbox {
+    --checkbox-background-checked: var(--green-primary);
+    --checkmark-color: transparent;
+    --border-color-checked: transparent;
+  }
+  
+  ion-checkbox::part(container) {
+    border-radius: 6px;
+    border: 2px solid var(--white-primary);
+    --border-color-checked: var(--green-primary);
+  } 
+}
 // Policy section
 .policy-section {
   display: flex;
@@ -214,22 +258,8 @@ ion-datetime {
   font-size: 10px;
   color: #5e5e5e;
 
-  .policyCheck {
-    margin: 10px;
-    width: 100%;
-    font-size: 5px;
-  }
 
-  ion-checkbox {
-    --size: 32px;
-    --checkbox-background-checked: #ffffff;
-  }
-
-  ion-checkbox::part(container) {
-    border-radius: 6px;
-    border: 2px solid;
-  }
-
+ 
   .policy-title {
     font-weight: 600;
   }
@@ -369,7 +399,9 @@ textarea.text-input {
   outline: 2px solid var(--white-primary);
   outline-offset: 2px;
 }
+ion-select-option{
 
+}
 // Reduce motion preference
 @media (prefers-reduced-motion: reduce) {
   * {
