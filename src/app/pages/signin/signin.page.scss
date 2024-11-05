@@ -45,7 +45,9 @@
   font-size: 16px;
   padding-top: 9px;
 }
-
+.login-page{
+  color: var(--green-primary);
+}
 ion-content.background-image {
   --background: linear-gradient(rgba(62, 36, 31, 0.5), rgba(62, 36, 31, 0.5)),
     url(../../../assets/images/bg.png) 0 0/100% 100% no-repeat;

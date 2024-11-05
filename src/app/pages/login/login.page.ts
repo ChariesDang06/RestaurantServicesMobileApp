@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { AuthService } from '../../services/auth/auth.service';
 import firebase from 'firebase/compat/app';
 import { User } from '../../models/user.model'; // Import the User model
@@ -19,13 +19,15 @@ import * as bcrypt from 'bcryptjs';
 })
 export class LoginPage implements OnInit {
   signInForm: FormGroup;
+  previousRoute: string='home';
 
   constructor(
     public formBuilder: FormBuilder,
     private alertController: AlertController,
     private router: Router,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private navController:NavController
   ) {
     this.signInForm = this.formBuilder.group({
       userName: new FormControl('', Validators.required),
@@ -34,6 +36,11 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
+    const state = history.state;
+    if (state && state.previousRoute ) {
+      this.previousRoute = state.previousRoute;
+      console.log('prev route'+this.previousRoute)
+    }
     this.signInForm = this.formBuilder.group({
       userName: ['', Validators.required],
       password: ['', Validators.required],
@@ -41,7 +48,11 @@ export class LoginPage implements OnInit {
   }
   // Handle login on button click
   gotoSigin() {
-    this.router.navigate(['/signin']);
+    this.navController.navigateForward('/login', {
+      state: {
+        previousRoute: this.previousRoute,
+      },
+    });
   }
   async onLogin() {
     const userNameOrPhone = this.signInForm.value.userName; // This will be either the username or phone
@@ -59,9 +70,10 @@ export class LoginPage implements OnInit {
             // If the password matches, store the user ID in local storage using AuthService
             this.authService.storeUserId(user.userId);
             console.log(user.userId);
+            this.signInForm.reset();
 
             // Navigate to the home page after successful login
-            this.router.navigate(['/home']);
+            this.router.navigate([`/${this.previousRoute}`]);
           } else {
             // Show an error message if the password does not match
             this.showAlert('Mật khẩu không đúng. Vui lòng thử lại.');
@@ -98,7 +110,7 @@ export class LoginPage implements OnInit {
 
           if (success) {
             console.log('User data stored in Firestore');
-            this.router.navigate(['/home']);
+            this.router.navigate([`/${this.previousRoute}`]);
           } else {
             this.showAlert('Error storing user data. Please try again later.');
           }
@@ -136,7 +148,7 @@ export class LoginPage implements OnInit {
 
           if (success) {
             console.log('User data stored in Firestore');
-            this.router.navigate(['/home']);
+            this.router.navigate([`/${this.previousRoute}`]);
           } else {
             this.showAlert('Error storing user data. Please try again later.');
           }

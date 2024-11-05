@@ -1,12 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit,  } from '@angular/core';
 import { OrderService } from 'src/app/services/order/order.service';
-import { Observable } from 'rxjs';
-import { IonTabs, ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { OrderDetailsModalComponent } from 'src/app/components/order-details-modal/order-details-modal.component';
 import { NavController } from '@ionic/angular';
 import { Order } from 'src/app/models/order.model';
 import { Reservation } from 'src/app/models/reservation.model';
 import { ReservationService } from 'src/app/services/reservations/reservation.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/services/users/user.service';
+import { User } from 'src/app/models/user.model';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-user-history',
@@ -16,11 +19,18 @@ import { ReservationService } from 'src/app/services/reservations/reservation.se
 export class UserHistoryPage implements OnInit {
   orderHistory: Order[] | null = null;
   reservationHistory: Reservation[] | null = null;
+  userId:string|null=null;
+  user:User|null=null;
   constructor(
     private orderService: OrderService,
     private modalController: ModalController,
     private navCtrl: NavController,
-    private reservationService: ReservationService
+    private reservationService: ReservationService,
+  private alertController :AlertController,
+  private authenticationService:AuthService,
+  private userService:UserService,
+  private navController: NavController
+
   ) {}
   selectedTab: string = 'order';
 
@@ -32,23 +42,68 @@ export class UserHistoryPage implements OnInit {
   }
 
   ngOnInit() {
-    localStorage.setItem('userId', 'jhYgPWxRwOHvNd3bfacF');
-    const userId = localStorage.getItem('userId');
-    this.getUserOrder();
+    this.loadUser();
+    this.loadOrdersByUserId();
     this.loadReservations();
-    if (userId) {
+    
+  }
+  ionViewWillEnter(){
+    this.userId = this.authenticationService.getLoggedInUserId();
+    
+    this.loadOrdersByUserId();
+    this.loadReservations();
+  }
+  async loadUser() {
+    this.userId = this.authenticationService.getLoggedInUserId();
+
+    if (this.userId) {
+      this.userService.getUserById(this.userId).subscribe(
+        (userData: User | undefined) => {
+          if (userData) {
+            this.user = userData;
+            this.loadOrdersByUserId();
+            this.loadReservations();
+          } else {
+            console.log('No user data found');
+          }
+        },
+        (error) => {
+          console.error('Error loading user:', error);
+        }
+      );
     } else {
-      console.error('User ID not found in localStorage');
+      await this.presentAlert();
     }
   }
-  async getUserOrder() {
-    localStorage.setItem('userId', 'jhYgPWxRwOHvNd3bfacF');
 
-    const userId = localStorage.getItem('userId');
-    console.log('userid', userId);
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Vui lòng đăng nhập',
+      message: "Nhấn 'Đăng nhập' để chuyển hướng đến trang đăng nhập",
+      buttons: [
+        {
+          text: 'Đăng nhập',
+          handler: () => {
+            this.navController.navigateForward('/login', {
+              state: {
+                previousRoute: 'user-history',
+              },
+            });
+          },
+        },
+      ],
+
+    });
+
+    await alert.present();
+  }
+  async loadOrdersByUserId() {
+console.log('user id'+this.userId)
     try {
-      this.orderHistory = await this.orderService.getOrdersByUserId(userId!);
-    } catch (error) {
+      if(this.userId)
+        {
+      this.orderHistory = await this.orderService.getOrdersByUserId(this.userId);
+   } } catch (error) {
       console.error('Error fetching orders:', error);
     }
   }
@@ -66,11 +121,14 @@ export class UserHistoryPage implements OnInit {
     return `${day}/${month}/${year}-${hours}:${minutes}`;
   }
   async loadReservations() {
-    const userId = 'jhYgPWxRwOHvNd3bfacF'; // Replace with the actual userId you want to filter by
+    console.log('user id'+this.userId)
+
     try {
+    if(this.userId)
+{
       this.reservationHistory =
-        await this.reservationService.getReservationsByUserId(userId); // Call the async method with userId
-      console.log('reservationHistory', this.reservationHistory);
+        await this.reservationService.getReservationsByUserId(this.userId); // Call the async method with userId
+      console.log('reservationHistory', this.reservationHistory);}
     } catch (err) {
       // this.error = 'Error fetching reservations'; // Handle error
       console.error(err);

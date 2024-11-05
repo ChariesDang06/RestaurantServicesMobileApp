@@ -1,16 +1,4 @@
-<app-header [route]="'home'">
-  <ion-header [translucent]="true" style="background-color: black">
-    <ion-toolbar class="custom-toolbar">
-      <ion-buttons slot="start">
-        <ion-button (click)="goBack()">
-          <ion-icon name="arrow-back"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-      <ion-title>Trang cá nhân</ion-title>
-      <div class="toolbar-border"></div>
-    </ion-toolbar>
-  </ion-header>
-
+<app-header [route]="'home'"></app-header>
   <ion-content
     [fullscreen]="true"
     class="personal-content"
@@ -23,8 +11,7 @@
           alt="Avatar"
           class="avatar"
         />
-        <ion-icon name="camera" class="camera-icon"></ion-icon>
-      </div>
+        </div>
 
       <h2 class="text-white">{{ user?.name || 'Tên người dùng' }}</h2>
       <h4 [ngClass]="getRankClass(user?.score)">
@@ -45,8 +32,14 @@
           <span>Chỉnh sửa thông tin cá nhân</span>
           <ion-icon name="chevron-forward"></ion-icon>
         </ion-button>
+        <ion-button class="custom-button" (click)="goToOrderPayments()">
+          <span>Chỉnh sửa phương thức thanh toán</span>
+          <ion-icon name="chevron-forward"></ion-icon>
+        </ion-button>
       </div>
-      <ion-button class="logout-button" (click)="logout()">Thoát</ion-button>
+      <div class="logout-container">
+      <ion-button class="logout-button" (click)="logout()">Đăng xuất</ion-button>
+    </div>
     </div>
   </ion-content>
-</app-header>
+<app-navbar [selectedIndex]= 4></app-navbar>

@@ -13,17 +13,19 @@
         ></ion-img>
         <ion-select
           class="map-button"
-          [placeholder]="selectedFloor?.floor"
+          label="Sảnh"
+          interface="action-sheet"
+          [placeholder]="selectedFloor?.floorName"
           (ionChange)="onFloorChange($event)"
         >
-          <ion-select-option *ngFor="let map of floors" [value]="map.floor">
-            {{ map.floor }}
+          <ion-select-option *ngFor="let map of floors" [value]="map.floorId">
+            {{ map.floorName }}
           </ion-select-option>
         </ion-select>
       </ion-card>
 
       <ion-row>
-        <p class="description">{{selectedTable?.description}}</p>
+        <p *ngIf="selectedTable?.description" class="description">{{selectedTable?.description}}</p>
       </ion-row>
 
       <ion-row class="selectionContainer">
@@ -33,7 +35,8 @@
             <ion-col size="6">
               <ion-item class="selectionItem">
                 <ion-select
-                  placeholder="Mã bàn"
+                interface="action-sheet"
+                  label="Mã bàn"
                   (ionChange)="onTableChange($event)"
                 >
                   <ion-select-option
@@ -47,8 +50,8 @@
             </ion-col>
 
             <ion-col size="6">
-              <ion-item class="selectionItem">
-                {{ selectedTable?.availableSeats }}
+              <ion-item class="selectionItem" >
+              <span *ngIf="selectedTable?.availableSeats">Số người: {{( selectedTable?.availableSeats) }}</span> 
               </ion-item>
             </ion-col>
           </ion-row>
@@ -58,6 +61,7 @@
             <ion-col size="6">
               <ion-item class="selectionItem">
                 <ion-select
+                interface="action-sheet"
                   placeholder="Chọn ngày"
                   (ionChange)="onDateChange($event)"
                   [disabled]="availableDates.length === 0"
@@ -65,7 +69,7 @@
                   <ion-select-option
                     *ngFor="let date of availableDates"
                     [value]="date"
-                    >{{ date }}</ion-select-option
+                    >{{ convertDateFormat(date) }}</ion-select-option
                   >
                 </ion-select>
               </ion-item>
@@ -73,6 +77,7 @@
             <ion-col size="6">
               <ion-item class="selectionItem">
                 <ion-select
+                interface="action-sheet"
                   (ionChange)="onTimeChange($event)"
                   [disabled]="availableTimes.length === 0"
                   placeholder="Chọn giờ"
@@ -127,7 +132,7 @@
       <ion-row class="divider"></ion-row>
       <ion-row class="policyCheck">
         <ion-checkbox [(ngModel)]="confirmationEmailSent" labelPlacement="end">
-          Nhận mail thông báo về các ưu đãi của chúng tôi
+        <ion-label>thông báo về các ưu đãi của chúng tôi</ion-label> 
         </ion-checkbox>
       </ion-row>
       <ion-row class="policy-section">

@@ -6,7 +6,7 @@ import {
 import { firstValueFrom, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Reservation } from '../../models/reservation.model';
-import { Table } from 'src/app/models/table.model';
+import { Table } from 'src/app/models/restaurant.model';
 
 @Injectable({
   providedIn: 'root',

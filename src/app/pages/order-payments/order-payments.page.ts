@@ -47,7 +47,11 @@ export class OrderPaymentsPage implements OnInit {
     this.navController.navigateBack('/order-bill-details');
   }
   gotoOrderAddPaymentPage() {
-    this.navController.navigateForward('/order-add-payment');
+    this.navController.navigateForward('/order-add-payment', {
+      state: {
+        previousRoute: 'order-payments',
+      },
+    });
   }
   getUserInfo() {
     const userId = localStorage.getItem('userId'); // Lấy userId từ localStorage
@@ -89,4 +93,5 @@ export class OrderPaymentsPage implements OnInit {
       state: { creditText: paymentMethod },
     });
   }
+
 }

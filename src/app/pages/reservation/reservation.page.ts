@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { RestaurantService } from 'src/app/services/restaurants/restaurant.service';
 import { ReservationService } from 'src/app/services/reservations/reservation.service';
@@ -45,15 +45,18 @@ export class ReservationPage implements OnInit {
     private authenticationService: AuthService,
     private userService: UserService,
     private alertController: AlertController,
-    private router: Router
+    private router: Router,
+    private navController:NavController
   ) {}
 
   ngOnInit() {
     this.loadAllRestaurants();
     this.setCurrentDateTime();
-    this.loadUser();
+     this.loadUser();
   }
-
+ionViewWillEnter(){
+  this.loadUser();
+}
   async loadUser() {
     this.userId = this.authenticationService.getLoggedInUserId();
 
@@ -86,7 +89,11 @@ export class ReservationPage implements OnInit {
         {
           text: 'Đăng nhập',
           handler: () => {
-            this.router.navigate(['/login']);
+            this.navController.navigateForward('/login', {
+              state: {
+                previousRoute: 'reservation',
+              },
+            });
           },
         },
       ],
@@ -100,7 +107,10 @@ export class ReservationPage implements OnInit {
       this.restaurants = restaurants;
 
       if (this.restaurants.length > 0) {
-        this.floors = this.restaurants[0].floors;
+      console.log('restaurants'); 
+
+      console.log(this.restaurants); 
+      this.floors = this.restaurants[0].floors;
         if (this.floors.length > 0) {
           this.setSelectedFloor(this.floors[0]);
         }
@@ -116,8 +126,9 @@ export class ReservationPage implements OnInit {
   setSelectedFloor(floor: Floor) {
     this.selectedFloor = floor;
     this.tables = this.selectedFloor.tables;
-    this.selectedTable = this.tables[0]; // Reset selected table
-    this.setSelectedTable(this.selectedTable);
+    // this.selectedTable = this.tables[0]; // Reset selected table
+    // console.log("avaliable time"+this.selectedTable.availableTime)
+    // this.setSelectedTable(this.selectedTable);
     this.updateAvailableDays(); // Update available days when floor is selected
   }
 
@@ -147,7 +158,7 @@ export class ReservationPage implements OnInit {
 
     if (this.floors && this.floors.length > 0) {
       const selectedFloor = this.floors.find(
-        (floor) => floor.floor === selectedFloorName
+        (floor) => floor.floorId === selectedFloorName
       );
 
       if (selectedFloor) {
@@ -166,6 +177,10 @@ export class ReservationPage implements OnInit {
       console.error('Invalid selected date');
     }
   }
+   convertDateFormat(dateStr: string): 
+   string { const date = new Date(dateStr); const day = ('0' + date.getDate()).slice(-2); 
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); const year = date.getFullYear(); 
+    return `${day}/${month}/${year}`; }
 
   updateAvailableTimes() {
     this.availableTimes = []; // Clear previous available times
@@ -187,14 +202,15 @@ export class ReservationPage implements OnInit {
 
   onTableChange(event: any) {
     const selectedTableName = event.detail.value;
-
     if (this.tables && this.tables.length > 0) {
-      const selectedTable = this.tables.find(
+console.log('change table '+selectedTableName)
+const selectedTable = this.tables.find(
         (table) => table.tableId === selectedTableName
       );
 
       if (selectedTable) {
-        this.setSelectedTable(selectedTable);
+console.log('change table '+selectedTableName)
+this.setSelectedTable(selectedTable);
         this.updateAvailableDays(); // Update available days when table changes
 
         // Reset available times and selected time
@@ -240,7 +256,6 @@ export class ReservationPage implements OnInit {
       confirmationSMS: this.confirmationSMSSent,
       note: this.note,
     };
-
     try {
       await this.reservationService.createReservation(reservation);
       const alert = await this.alertController.create({
@@ -262,6 +277,7 @@ export class ReservationPage implements OnInit {
       tableId: this.selectedTable?.tableId,
       note: this.note || '',
     };
+    console.log(reservationInfo.reservationTime)
 
     localStorage.setItem('orderMode', 'reservation');
     localStorage.setItem('reservationInfo', JSON.stringify(reservationInfo));

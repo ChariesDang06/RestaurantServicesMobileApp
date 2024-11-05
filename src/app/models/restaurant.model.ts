@@ -14,7 +14,9 @@ export interface Table {
 }
 
 export interface Floor {
-  floor: string;
+  floorId: string;
+  // floor: string;
+  floorName: string;
   floorDiagram: string;
   tables: Table[];
 }
