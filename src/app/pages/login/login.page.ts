@@ -70,6 +70,7 @@ export class LoginPage implements OnInit {
             // If the password matches, store the user ID in local storage using AuthService
             this.authService.storeUserId(user.userId);
             console.log(user.userId);
+            this.signInForm.reset();
 
             // Navigate to the home page after successful login
             this.router.navigate([`/${this.previousRoute}`]);

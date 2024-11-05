@@ -19,6 +19,9 @@ export class OrderService {
     currentDishes.push(dish); // Add new dish
     this.dishesSubject.next(currentDishes); // Emit updated dish list
   }
+  clearDishes(){
+   this.dishesSubject.next([]);
+  }
   changeDish(oldDish: Dish, newDish: Dish) {
     const currentDishes = this.dishesSubject.getValue(); // Get current dishes
     // Filter out the dish with the matching dishId

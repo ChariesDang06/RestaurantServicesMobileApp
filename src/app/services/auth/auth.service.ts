@@ -49,10 +49,11 @@ export class AuthService {
     return this.afAuth.signOut().then(() => {
       this.isLoggedInSubject.next(false);
       // Clear userId from localStorage
-      localStorage.removeItem('userId');
+      localStorage.clear();
+
     });
   }
-
+  
   // Check if user is logged in by checking localStorage and BehaviorSubject
   isLoggedIn(): boolean {
     return this.isLoggedInSubject.value || !!localStorage.getItem('userId');
