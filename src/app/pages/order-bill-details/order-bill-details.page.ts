@@ -332,7 +332,7 @@ export class OrderBillDetailsPage implements OnInit {
         orderTime: currentTime,
         paymentMethod: 'Credit Card', // Set appropriate payment method
         status: 'Pending', // Default status or user-defined
-        restaurantId: 'restaurant123', // Replace with actual restaurant ID
+        restaurantId: 'location001', // Replace with actual restaurant ID
         orderItems,
         totalPrice: totalAmount,
         pickupTime: '',

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Router } from '@angular/router';
 import firebase from 'firebase/compat/app';
 import { BehaviorSubject } from 'rxjs';
 import { User } from 'src/app/models/user.model';
@@ -12,10 +13,12 @@ import { User } from 'src/app/models/user.model';
 export class AuthService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
+ 
 
   constructor(
     private afAuth: AngularFireAuth,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private router: Router
   ) {}
 
   // Sign in with Google
@@ -45,18 +48,51 @@ export class AuthService {
   }
 
   // Sign out
-  signOut() {
-    return this.afAuth.signOut().then(() => {
-      this.isLoggedInSubject.next(false);
-      // Clear userId from localStorage
-      localStorage.clear();
+//  signOut() {
+//   return this.afAuth.signOut().then(() => {
+//     // Remove specific user data from localStorage
+//     localStorage.removeItem('userId');
 
+//     // Clear all remaining local storage data
+//     localStorage.clear();
+
+//     // Emit the login status to update any observers
+//     this.isLoggedInSubject.next(false);
+
+//     console.log('User has been signed out, and local storage data cleared.');
+//   }).catch((error) => {
+//     console.error('Error signing out: ', error);
+    
+//   });
+// }
+signOut() {
+  return this.afAuth.signOut().then(() => {
+    // Remove userId specifically from localStorage
+    localStorage.removeItem('userId');
+
+    // Force clear any remaining local storage data and reset the cache
+    localStorage.clear();
+    sessionStorage.clear(); // Optional, in case any session storage is used
+
+    // Reset the isLoggedInSubject to update all subscribers
+    this.isLoggedInSubject.next(false);
+
+    // Force navigate to the login page (or landing page)
+    this.router.navigate(['/login']).then(() => {
+      console.log('User has been signed out, and local storage data cleared.');
     });
-  }
+  }).catch((error) => {
+    console.error('Error signing out: ', error);
+    
+  });
+}
+
+
   
   // Check if user is logged in by checking localStorage and BehaviorSubject
   isLoggedIn(): boolean {
     return this.isLoggedInSubject.value || !!localStorage.getItem('userId');
+ 
   }
 
   // Submit the user data to Firestore

@@ -13,14 +13,14 @@
       <ion-row class="margin-row">
         <ion-col class="ion-align-self-center">
           <p>{{ dish?.price | number : "1.0-0" }}đ</p>
-          <p
+          <!-- <p
             [ngClass]="{
               'positive-order': dish?.total ?? 0 > 0,
               'transparent-order': dish?.total ?? 0 === 0
             }"
           >
             Đã chọn {{ dish?.total ?? 0 }}
-          </p>
+          </p> -->
         </ion-col>
 
         <ion-col class="col-button">

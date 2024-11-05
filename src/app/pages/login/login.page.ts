@@ -19,7 +19,7 @@ import * as bcrypt from 'bcryptjs';
 })
 export class LoginPage implements OnInit {
   signInForm: FormGroup;
-  previousRoute: string='home';
+  // previousRoute: string='home';
 
   constructor(
     public formBuilder: FormBuilder,
@@ -36,11 +36,11 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    const state = history.state;
-    if (state && state.previousRoute ) {
-      this.previousRoute = state.previousRoute;
-      console.log('prev route'+this.previousRoute)
-    }
+    // const state = history.state;
+    // if (state && state.previousRoute ) {
+    //   this.previousRoute = state.previousRoute;
+    //   console.log('prev route'+this.previousRoute)
+    // }
     this.signInForm = this.formBuilder.group({
       userName: ['', Validators.required],
       password: ['', Validators.required],
@@ -48,10 +48,10 @@ export class LoginPage implements OnInit {
   }
   // Handle login on button click
   gotoSigin() {
-    this.navController.navigateForward('/login', {
-      state: {
-        previousRoute: this.previousRoute,
-      },
+    this.navController.navigateForward('/signin', {
+      // state: {
+      //   previousRoute: this.previousRoute,
+      // },
     });
   }
   async onLogin() {
@@ -73,7 +73,8 @@ export class LoginPage implements OnInit {
             this.signInForm.reset();
 
             // Navigate to the home page after successful login
-            this.router.navigate([`/${this.previousRoute}`]);
+            //this.navController.navigateForward([`/${this.previousRoute}`]);
+            this.navController.navigateForward('/home');
           } else {
             // Show an error message if the password does not match
             this.showAlert('Mật khẩu không đúng. Vui lòng thử lại.');
@@ -110,7 +111,8 @@ export class LoginPage implements OnInit {
 
           if (success) {
             console.log('User data stored in Firestore');
-            this.router.navigate([`/${this.previousRoute}`]);
+            //this.navController.navigateForward([`/${this.previousRoute}`]);
+            this.navController.navigateForward('/home');
           } else {
             this.showAlert('Error storing user data. Please try again later.');
           }
@@ -148,7 +150,7 @@ export class LoginPage implements OnInit {
 
           if (success) {
             console.log('User data stored in Firestore');
-            this.router.navigate([`/${this.previousRoute}`]);
+            this.navController.navigateForward('/home');
           } else {
             this.showAlert('Error storing user data. Please try again later.');
           }

@@ -34,12 +34,13 @@ export class UserInfoMainPage implements OnInit {
   }
 
   logout() {
-    this.authService.signOut().then(() => {
-      this.navCtrl.navigateRoot('/login'); // Điều hướng về trang đăng nhập
-    }).catch(error => {
-      console.error('Logout error:', error);
-    });
+    localStorage.removeItem('userId');
+    localStorage.clear();
+    this.authService.signOut()
+       // Điều hướng về trang đăng nhập
+   
   }
+
   goToOrderPayments() {
     this.navCtrl.navigateForward('/order-add-payment', {
       state: {
@@ -114,9 +115,9 @@ export class UserInfoMainPage implements OnInit {
           text: 'Đăng nhập',
           handler: () => {
             this.navCtrl.navigateForward('/login', {
-              state: {
-                previousRoute: 'user-info-main',
-              },
+              // state: {
+              //   previousRoute: 'home',
+              // },
             });
           },
         },
