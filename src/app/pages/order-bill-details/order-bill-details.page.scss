@@ -180,3 +180,39 @@ input {
 .note-address-input {
   width: 100%;
 }
+.coupon-container .couponInput.selected {
+  /* Base styles for the selected voucher display */
+  color: #fff; /* Set the text color to the desired color */
+  background-color: var(--third-color);/* Optional: Set the background color for contrast */
+  padding: 10px; /* Adjust padding as needed */
+  border-radius:  5px 5px 0 0;
+  cursor: pointer; /* Show a hand cursor on hover */
+}
+.voucher-list-active div {
+  background-color: var(--third-color);
+  color: #fff;
+  padding: 10px;
+  
+}
+/* Optional: Style the voucher list items */
+.voucher-list {
+  /* Assuming the voucher list has this class */
+  background-color: #2b2b2b; /* Background color for the list */
+  border: 1px solid #ddd; /* Border for the list */
+
+
+  padding: 10px;
+  max-height: 200px; /* Adjust the maximum height as needed */
+  overflow-y: auto; /* Enable scrolling if the list is too long */
+}
+
+.voucher-list li {
+  list-style-type: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  color: #2b2b2b; /* Text color for list items */
+}
+
+.voucher-list li:hover {
+  background-color: #e0e0e0; /* Highlight on hover */
+}

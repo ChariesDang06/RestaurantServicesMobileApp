@@ -30,7 +30,9 @@ export class OrderBillDetailsPage implements OnInit {
   user: User | null = null;
   userAddress: string = '';
   voucherDiscount: number = 0;
-
+  showVoucherList = false;
+  vouchers: Voucher[] = []; // Array to store available vouchers
+  selectedVoucher: Voucher | null = null;
   depositAmount: number | undefined;
   confirmationEmailSent: boolean = false;
   confirmationSMSSent: boolean = false;
@@ -94,6 +96,18 @@ export class OrderBillDetailsPage implements OnInit {
     this.basketPrice = this.calculateBasketPrice(this.listOrderDish);
     this.getUserInfo();
     this.getNewestOrder();
+    this.voucherService.getAllVouchers() // Fetch vouchers on initialization
+    .then((data) => (this.vouchers = data));
+  }
+
+  openVoucherList() {
+    this.showVoucherList = !this.showVoucherList;
+  }
+
+  selectVoucher(voucher: Voucher) {
+    this.selectedVoucher = voucher;
+    this.voucherCode = voucher.description; // Pre-fill input with voucher description
+    this.showVoucherList = false;
   }
   calculateBasketPrice(dishes: Dish[]): number {
     return dishes.reduce((total, dish) => {

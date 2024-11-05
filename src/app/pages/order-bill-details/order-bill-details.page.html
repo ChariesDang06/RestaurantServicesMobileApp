@@ -35,17 +35,24 @@
       ></app-order-bill>
     </ion-list>
     <hr />
-    <h2>Mã giảm giá</h2>
+    <h2>Mã giảm giá</h2>
     <div class="coupon-container">
-      <div>
-        <input class="couponInput" type="text" [(ngModel)]="voucherCode" />
-        <ion-button
-          (click)="checkVoucher()"
-          [disabled]="voucherCode.trim()===''"
-          >Áp mã
-        </ion-button>
+      <div (click)="openVoucherList()">
+        <input class="couponInput" type="text" *ngIf="!showVoucherList" [(ngModel)]="voucherCode" placeholder="Chọn voucher" />
+        <ion-button 
+        *ngIf="!showVoucherList" 
+        (click)="checkVoucher(); $event.stopPropagation()" 
+        [disabled]="voucherCode.trim()===''"
+        style="color: white; border-radius: 5px; padding: 0px 10px;">Áp mã</ion-button>
+        <p class="couponInput selected" *ngIf="showVoucherList">{{ selectedVoucher?.description || 'Chọn voucher' }}</p>
       </div>
-      <p class="voucher">{{voucher?.description}}</p>
+
+      <ion-list *ngIf="showVoucherList" [ngClass]="{'voucher-list-active': showVoucherList}">
+        <div *ngFor="let voucher of vouchers" (click)="selectVoucher(voucher)">
+          {{ voucher.couponID }} - {{ voucher.description }}
+        </div>
+      </ion-list>
+      <p class="voucher">{{ voucher?.description }}</p>
     </div>
     <div class="total-price">
       <p>Tổng tạm tính</p>
