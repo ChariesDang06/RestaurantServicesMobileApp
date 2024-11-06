@@ -38,7 +38,7 @@ export class UserHistoryPage implements OnInit {
     this.selectedTab = tab; // Update the selected tab
   }
   goBack() {
-    this.navCtrl.navigateForward('/user-info-main');
+    this.navCtrl.navigateBack('/user-info-main');
   }
 
   ngOnInit() {

@@ -29,9 +29,23 @@ export class HomePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getUserInfo();
+    //this.getUserInfo();
+     this.checkUserLoggedIn();
     this.loadReviews();
   }
+ checkUserLoggedIn() {
+  // Check if userId exists in localStorage
+  const userId = localStorage.getItem('userId');
+  console.log('Checking userId in localStorage:', userId); // Debugging: Check if userId is found
+
+  if (userId) {
+    this.showLoginNotification = false; // Hide the login notification if userId exists
+    this.getUserInfo();  // Fetch user information only if logged in
+  } else {
+    this.showLoginNotification = true;   // Show login notification if userId is not found
+  }
+}
+
   goToLogin() {
     this.showLoginNotification = false; // Đóng thông báo
     // Chuyển hướng đến trang đăng nhập

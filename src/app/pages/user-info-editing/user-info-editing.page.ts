@@ -82,6 +82,7 @@ export class UserInfoEditingPage implements OnInit {
       await this.userService.updateUser(this.tempUser);
       console.log('User info updated:', this.tempUser);
       this.user = { ...this.tempUser };
+      this.navCtrl.navigateBack('user-info-main')
     }
   }
 }
