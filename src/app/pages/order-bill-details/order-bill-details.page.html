@@ -2,7 +2,6 @@
 
 <ion-content>
   <div class="container">
-  
     <h2>Giao đến</h2>
     <ion-button
       class="user-address"
@@ -12,7 +11,9 @@
     >
       <div>
         <ion-icon name="location"></ion-icon>
-        <p>{{ userAddress===''? 'Vui lòng nhập địa chỉ giao hàng':userAddress}}</p>
+        <p>
+          {{ userAddress===''? 'Vui lòng nhập địa chỉ giao hàng':userAddress}}
+        </p>
         <ion-icon name="arrow-forward-outline"></ion-icon>
       </div>
     </ion-button>
@@ -38,18 +39,30 @@
     <h2>Mã giảm giá</h2>
     <div class="coupon-container">
       <div (click)="openVoucherList()">
-        <input class="couponInput" type="text" *ngIf="!showVoucherList" [(ngModel)]="voucherCode" placeholder="Chọn voucher" />
-        <ion-button 
-        *ngIf="!showVoucherList" 
-        (click)="checkVoucher(); $event.stopPropagation()" 
-        [disabled]="voucherCode.trim()===''"
-        style="color: white; border-radius: 5px; padding: 0px 10px;">Áp mã</ion-button>
-        <p class="couponInput selected" *ngIf="showVoucherList">{{ selectedVoucher?.description || 'Chọn voucher' }}</p>
+        <input
+          class="couponInput"
+          type="text"
+          *ngIf="!showVoucherList"
+          [(ngModel)]="voucherDes"
+          placeholder="Chọn voucher"
+        />
+        <ion-button
+          *ngIf="!showVoucherList"
+          (click)="checkVoucher(); $event.stopPropagation()"
+          style="color: white; border-radius: 5px; padding: 0px 10px"
+          >Áp mã</ion-button
+        >
+        <p class="couponInput selected" *ngIf="showVoucherList">
+          {{ selectedVoucher?.description || 'Chọn voucher' }}
+        </p>
       </div>
 
-      <ion-list *ngIf="showVoucherList" [ngClass]="{'voucher-list-active': showVoucherList}">
+      <ion-list
+        *ngIf="showVoucherList"
+        [ngClass]="{'voucher-list-active': showVoucherList}"
+      >
         <div *ngFor="let voucher of vouchers" (click)="selectVoucher(voucher)">
-          {{ voucher.couponID }} - {{ voucher.description }}
+          {{ voucher.couponId }} - {{ voucher.description }}
         </div>
       </ion-list>
       <p class="voucher">{{ voucher?.description }}</p>

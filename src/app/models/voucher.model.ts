@@ -1,6 +1,6 @@
 export interface Voucher {
   condition: number;
-  couponID: string;
+  couponId: string;
   minPrice: number;
   maxPrice: number;
   Type: string;

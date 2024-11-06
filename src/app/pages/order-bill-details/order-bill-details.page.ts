@@ -24,6 +24,7 @@ export class OrderBillDetailsPage implements OnInit {
   shipCost: number = 0;
   basketPrice: number = 0;
   voucherCode: string = '';
+  voucherDes: string = '';
   voucher: Voucher | null = null;
   orders: Order[] | null = null;
   creditText: string = '';
@@ -106,7 +107,8 @@ export class OrderBillDetailsPage implements OnInit {
 
   selectVoucher(voucher: Voucher) {
     this.selectedVoucher = voucher;
-    this.voucherCode = voucher.description; // Pre-fill input with voucher description
+    this.voucherCode = voucher.couponId; // Pre-fill input with voucher description
+    this.voucherDes = voucher.description;
     this.showVoucherList = false;
   }
   calculateBasketPrice(dishes: Dish[]): number {
@@ -193,51 +195,57 @@ export class OrderBillDetailsPage implements OnInit {
 
     await alert.present();
   }
+  // Method to validate and apply the voucher
+   // Method to check and apply the selected voucher
   async checkVoucher() {
+    if (!this.voucherCode) {
+      this.showAlet('Thất bại', '', 'Mã voucher không hợp lệ');
+      return;
+    }
+
     try {
-      const voucher: Voucher | undefined =
-        await this.voucherService.getCouponById(this.voucherCode);
+      // Fetch voucher details using the selected voucher code
+      const voucher: Voucher | undefined = await this.voucherService.getCouponById(this.voucherCode);
+
       if (voucher) {
         if (this.basketPrice >= voucher.condition) {
           this.voucher = voucher;
-          if (this.voucher.Type === 'percent') {
+
+          // Calculate the discount based on voucher type
+          if (voucher.Type === 'percent') {
             this.voucherDiscount = Math.min(
-              (this.basketPrice / 100) * this.voucher.value,
-              this.voucher.maxPrice
+              (this.basketPrice * voucher.value) / 100,
+              voucher.maxPrice
             );
-            // this.basketPrice -= this.voucherDiscount;
-            this.showAlet(
-              'Thành công',
-              `Giảm ${this.voucherDiscount}`,
-              voucher.description
-            );
-          } else if (this.voucher.Type === 'fixed') {
-            this.voucherDiscount = this.voucher.maxPrice;
-            console.log('voucher', this.voucher);
-            console.log('voucher discount', this.voucherDiscount);
-            // this.basketPrice -= this.voucherDiscount;
-            this.showAlet(
-              'Thành công',
-              `Giảm ${this.voucherDiscount}`,
-              voucher.description
-            );
+          } else if (voucher.Type === 'fixed') {
+            this.voucherDiscount = voucher.maxPrice;
           }
+
+          // Update basket price by applying the discount
+          this.basketPrice = Math.max(this.basketPrice - this.voucherDiscount, 0);
+
+          // Display success message with discount details
+          this.showAlet(
+            'Thành công',
+            `Giảm ${this.voucherDiscount} VND`,
+            voucher.description
+          );
         } else {
           this.showAlet(
             'Thất bại',
             '',
-            'không đủ điều kiện áp dụng voucher này'
+            'Không đủ điều kiện áp dụng voucher này'
           );
         }
-
-        // Proceed with your logic using the voucher
       } else {
-        this.showAlet('Thất bại', '', 'không tìm thấy voucher');
+        this.showAlet('Thất bại', '', 'Không tìm thấy voucher');
       }
     } catch (error) {
       console.error('Error fetching voucher:', error);
+      this.showAlet('Lỗi', '', 'Có lỗi xảy ra khi kiểm tra voucher');
     }
   }
+
   gotoOrderPayments() {
     this.navController.navigateForward('/order-payments', {
       state: {

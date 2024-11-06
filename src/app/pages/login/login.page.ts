@@ -12,6 +12,8 @@ import firebase from 'firebase/compat/app';
 import { User } from '../../models/user.model'; // Import the User model
 import { UserService } from 'src/app/services/users/user.service';
 import * as bcrypt from 'bcryptjs';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-signin',
@@ -20,6 +22,7 @@ import * as bcrypt from 'bcryptjs';
 })
 export class LoginPage implements OnInit {
   signInForm: FormGroup;
+  
   // previousRoute: string='home';
 
   constructor(
@@ -28,7 +31,9 @@ export class LoginPage implements OnInit {
     private router: Router,
     private authService: AuthService,
     private userService: UserService,
-    private navController: NavController
+    private navController: NavController,
+    private afAuth: AngularFireAuth,
+    private firestore: AngularFirestore
   ) {
     this.signInForm = this.formBuilder.group({
       userName: new FormControl('', Validators.required),
@@ -113,43 +118,49 @@ export class LoginPage implements OnInit {
   //     });
   // }
 
-  // Handle Google sign-in
-  signInWithGoogle() {
-    this.authService.signInWithGoogle().then(
-      async (result: firebase.auth.UserCredential) => {
-        const user = result.user;
-        if (user) {
-          const userId = user.uid;
-          const name = user.displayName || 'Anonymous';
-          const email = user.email || '';
+// signInWithGoogle method in your component
+async signInWithGoogle() {
+  try {
+    // Sign in with Google
+    const result = await this.authService.signInWithGoogle();
+    const user = result.user;
+    
+    if (user) {
+      const userId = user.uid;
+      const name = user.displayName || 'Anonymous';
+      const email = user.email || '';
 
-          // Create a User object based on the sign-in result
-          const userData: User = {
-            userId,
-            name,
-            email,
-            phone: '', // No phone from Google sign-in, leave empty or fetch separately
-            address: '', // Optionally add the address if available
-            password: '',
-          };
+      // Check if the user already exists in Firestore
+      const userDoc = await this.firestore.collection('users').doc(userId).get().toPromise();
 
-          // Call the onSubmit function from AuthService
-          const success = await this.authService.onSubmit(userData);
-
-          if (success) {
-            console.log('User data stored in Firestore');
-            //this.navController.navigateForward([`/${this.previousRoute}`]);
-            this.navController.navigateForward('/home');
-          } else {
-            this.showAlert('Error storing user data. Please try again later.');
-          }
-        }
-      },
-      (error: any) => {
-        console.error('Google sign-in error', error);
+      if (userDoc && userDoc.exists) {
+        // User exists, just log them in
+        console.log('User exists, logging in without creating a new user');
+      } else {
+        // User does not exist, create a new user
+        const userData: User = {
+          userId,
+          name,
+          email,
+          phone: '', // No phone from Google sign-in, leave empty or fetch separately
+          address: '', // Optionally add the address if available
+          password: '', // Since this is Google, password field remains empty
+        };
+        await this.firestore.collection('users').doc(userId).set(userData);
+        console.log('New user created in Firestore');
       }
-    );
+
+      // Store userId in localStorage
+      localStorage.setItem('userId', userId);
+      // Redirect to the desired page
+      this.navController.navigateForward('/home');
+    }
+  } catch (error) {
+    console.error('Google sign-in error', error);
+    this.showAlert('Error during Google sign-in. Please try again.');
   }
+}
+
 
   // Handle Facebook sign-in
   signInWithFacebook() {

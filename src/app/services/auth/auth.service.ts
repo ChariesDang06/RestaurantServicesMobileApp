@@ -94,6 +94,28 @@ signOut() {
     return this.isLoggedInSubject.value || !!localStorage.getItem('userId');
  
   }
+  // AuthService
+async onSubmitThirdParty(userData: User): Promise<boolean> {
+  try {
+    // Get the user document from Firestore
+    const userDoc = await this.firestore.collection('users').doc(userData.userId).get().toPromise();
+
+    // Check if the user document exists
+    if (userDoc && userDoc.exists) {
+      console.log('User already exists in Firestore');
+      return true; // User already exists, no need to add
+    }
+
+    // If user doesn't exist, add them to Firestore
+    await this.firestore.collection('users').doc(userData.userId).set(userData);
+    console.log('User added to Firestore');
+    return true;
+  } catch (error) {
+    console.error('Error adding user to Firestore:', error);
+    return false;
+  }
+}
+
 
   // Submit the user data to Firestore
   async onSubmit(user: Partial<User>): Promise<boolean> {
