@@ -95,6 +95,7 @@ export class HomePage implements OnInit {
 
   // Gửi review
   async submitReview() {
+
     if (this.newReview.rating < 1 || this.newReview.rating > 5) {
       const alert = await this.alertController.create({
         header: 'Lỗi',
@@ -116,7 +117,7 @@ export class HomePage implements OnInit {
     }
 
     const review: Review = {
-      userId: this.user!.userId,
+      userId: this.userId!,
       rating: this.newReview.rating,
       comment: this.newReview.comment,
     };
