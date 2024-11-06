@@ -14,6 +14,7 @@ import { AlertController } from '@ionic/angular';  // Import AlertController
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  userId: string | null = null;
   user: User | null = null;
   reviews: Review[] = [];
   newReview: Review = { userId: '', rating: 0, comment: '' };
@@ -26,25 +27,31 @@ export class HomePage implements OnInit {
     private firestore: AngularFirestore,
     private navCtrl: NavController,
     private alertController: AlertController  // Inject AlertController
-  ) {}
+  ) { }
 
   ngOnInit() {
     //this.getUserInfo();
-     this.checkUserLoggedIn();
+    this.checkUserLoggedIn();
     this.loadReviews();
+    this.userId = this.authService.getLoggedInUserId();
+    console.log('user id log to home' + this.userId)
   }
- checkUserLoggedIn() {
-  // Check if userId exists in localStorage
-  const userId = localStorage.getItem('userId');
-  console.log('Checking userId in localStorage:', userId); // Debugging: Check if userId is found
+  ionViewWillEnter() {
 
-  if (userId) {
-    this.showLoginNotification = false; // Hide the login notification if userId exists
-    this.getUserInfo();  // Fetch user information only if logged in
-  } else {
-    this.showLoginNotification = true;   // Show login notification if userId is not found
+    this.userId = this.authService.getLoggedInUserId();
   }
-}
+  checkUserLoggedIn() {
+    // Check if userId exists in localStorage
+    const userId = localStorage.getItem('userId');
+    console.log('Checking userId in localStorage:', userId); // Debugging: Check if userId is found
+
+    if (userId) {
+      this.showLoginNotification = false; // Hide the login notification if userId exists
+      this.getUserInfo();  // Fetch user information only if logged in
+    } else {
+      this.showLoginNotification = true;   // Show login notification if userId is not found
+    }
+  }
 
   goToLogin() {
     this.showLoginNotification = false; // Đóng thông báo
@@ -84,9 +91,7 @@ export class HomePage implements OnInit {
   }
 
   // Kiểm tra xem người dùng có thể review không (dựa vào orderHistory)
-  canReview(): boolean {
-    return !!(this.user && this.user.orderHistory && this.user.orderHistory.length > 0);
-  }
+
 
   // Gửi review
   async submitReview() {
@@ -99,7 +104,7 @@ export class HomePage implements OnInit {
       await alert.present();
       return;
     }
-    
+
     if (!this.newReview.comment.trim()) {
       const alert = await this.alertController.create({
         header: 'Lỗi',

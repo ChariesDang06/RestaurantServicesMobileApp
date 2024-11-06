@@ -202,7 +202,7 @@
   </swiper-container>
 
   <!-- Phần bình luận của người dùng -->
-  <div *ngIf="canReview()">
+  <div *ngIf="userId">
     <ion-card
       style="margin: 0; height: 100%; padding: 10px; background-color: #2b2b2b"
     >
@@ -271,7 +271,7 @@
   </div>
 
   <!-- Nếu không có quyền review -->
-  <div *ngIf="!canReview()">
+  <div *ngIf="!userId">
     <p style="text-align: center; margin-bottom: 5%">
       Hãy trải nghiệm dịch vụ rùi góp ý cho chúng mình nhé
       <ion-icon name="heart-outline"></ion-icon>
