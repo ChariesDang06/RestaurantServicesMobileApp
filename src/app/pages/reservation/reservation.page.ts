@@ -260,9 +260,10 @@ this.setSelectedTable(selectedTable);
       await this.reservationService.createReservation(reservation);
       const alert = await this.alertController.create({
         header: 'Success',
-        message: 'Reservation successfully created.',
+        message: 'Đặt bàn thành công',
         buttons: ['OK'],
       });
+      this.navController.navigateForward('/user-history')
       await alert.present();
     } catch (error) {
       console.error('Error creating reservation:', error);
